@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { CloseButton, Dialog, DialogPanel } from "@headlessui/react";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 type NavigationLink = {
   name: string;
@@ -16,6 +17,7 @@ const navigationLinks: readonly NavigationLink[] = [
   { name: "Sponsors", link: "#sponsors" },
   { name: "Team", link: "#team" },
   { name: "About", link: "/about" },
+  { name: "Register", link: "/register" },
   { name: "Contact", link: "/contact" },
 ] as const;
 
@@ -32,7 +34,7 @@ function DesktopNav() {
   const path = usePathname();
 
   const determineActiveClass = (link: string): string => {
-    return path === link ? "text-text-primary" : "text-gray-500";
+    return path === link ? "text-[#084750]" : "text-gray-500";
   };
 
   return (
@@ -41,7 +43,7 @@ function DesktopNav() {
       className="hidden h-16 w-full items-center justify-between border-b border-border-primary/50 px-4 md:flex"
     >
       <div className="w-[104px]">
-        <Link href="/" aria-label="Home" className="text-xl font-bold text-blue-600 whitespace-nowrap">
+        <Link href="/" aria-label="Home" className="text-xl font-bold text-[#084750] whitespace-nowrap">
           Hack Sushma
         </Link>
       </div>
@@ -62,7 +64,7 @@ function DesktopNav() {
                   link.link,
                 )} font-medium hover:text-text-primary cursor-pointer`}
               >
-                {link.name}
+                ~/{link.name}
               </a>
             ) : (
               <Link
@@ -138,7 +140,7 @@ function MobileNav() {
                   className={`rounded-lg px-3 py-2 text-xl/9 font-medium ${path === link ? "text-text-primary" : "text-text-secondary"
                     } data-active:bg-gray-950/5`}
                 >
-                  {name}
+                  ~/{name}
                 </a>
               ) : (
                 <Link
@@ -165,7 +167,7 @@ interface NavLogoProps {
 
 const NavLogo: React.FC<NavLogoProps> = ({ onClickCallback }) => {
   return (
-    <Link href="/" onClick={() => onClickCallback(false)} aria-label="Home" className="text-xl font-bold text-blue-600">
+    <Link href="/" onClick={() => onClickCallback(false)} aria-label="Home" className="text-xl font-bold text-[#084750]">
       Hack Sushma
     </Link>
   );
