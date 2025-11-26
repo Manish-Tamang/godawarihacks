@@ -1,17 +1,18 @@
 import { BgGradient } from "./components/BgGradient";
 import { GridWrapper } from "./components/GridWrapper";
 import { AnimatedText } from "./components/AnimatedText";
-import { HackathonStats } from "./components/HackathonStats";
-import { HackathonSchedule } from "./components/HackathonSchedule";
-import { HackathonSponsors } from "./components/HackathonSponsors";
-import { HackathonTeam } from "./components/HackathonTeam";
-import { HackathonAbout } from "./components/HackathonAbout";
-import { HackathonPhotoGrid } from "./components/HackathonPhotoGrid";
-import { HackathonRegister } from "./components/HackathonRegister";
-import { HackathonCommitment } from "./components/HackathonCommitment";
-import { HackathonPrizePool } from "./components/HackathonPrizePool";
-import { HackathonVenue } from "./components/HackathonVenue";
+import { Stats } from "./components/Stats";
+import { Schedule } from "./components/Schedule";
+import { Sponsors } from "./components/Sponsors";
+import { Team } from "./components/Team";
+import { About } from "./components/About";
+import { PhotoGrid } from "./components/PhotoGrid";
+import { RegisterSection } from "./components/RegisterSection";
+import { Commitment } from "./components/Commitment";
+import { PrizePool } from "./components/PrizePool";
+import { Venue } from "./components/Venue";
 import { EncryptedText } from "./components/ui/encrypted-text";
+import Image from "next/image";
 
 export default async function Home() {
   const PROFILE_DELAY = 0;
@@ -21,7 +22,6 @@ export default async function Home() {
 
   return (
     <section className="mt-6 space-y-10 md:mt-0 md:space-y-16 pb-0">
-      {/* Hero Section */}
       <section className="relative py-12 md:py-16">
         <div className="absolute inset-0 bg-gradient-to-b from-blue-50 via-blue-50/30 to-transparent -z-10"></div>
         <div
@@ -35,12 +35,12 @@ export default async function Home() {
           <AnimatedText
             as="h1"
             delay={HEADING_DELAY}
-            className="mx-auto max-w-2xl text-center text-6xl font-bold leading-tight tracking-tighter text-blue-600 md:text-8xl md:leading-[78px]"
+            className="mx-auto max-w-2xl text-center text-6xl font-bold leading-tight tracking-tighter text-[#084750] md:text-8xl md:leading-[78px]"
           >
             <EncryptedText
               text="Hack Sushma"
               encryptedClassName="text-neutral-500"
-              revealedClassName="text-blue-600"
+              revealedClassName="text-[#084750]"
               revealDelayMs={50}
             />
           </AnimatedText>
@@ -64,66 +64,43 @@ export default async function Home() {
             </AnimatedText>
           </div>
           <div className="mt-6 text-center">
-            <div className="inline-block bg-blue-600 text-white px-6 py-3 rounded-square text-sm md:text-base font-medium">
+            <div className="inline-block bg-[#084750] text-white px-6 py-3 rounded-square text-sm md:text-base font-medium">
               Tickets are 100% free. All we ask is you make a commitment to show up and code!
             </div>
           </div>
         </div>
       </section>
-
-      {/* Photo Grid Section */}
       <section className="relative space-y-10 md:space-y-16">
-        <HackathonPhotoGrid />
+        <PhotoGrid />
       </section>
-
-      {/* Stats Section */}
       <section className="relative space-y-10 md:space-y-16">
-        <HackathonStats delay={STATS_DELAY} />
+        <Stats delay={STATS_DELAY} />
       </section>
-
-      {/* Register Section */}
       <section className="relative space-y-10 md:space-y-16">
-        <HackathonRegister />
+        <RegisterSection />
       </section>
-
-      {/* Commitment Section */}
       <section className="relative space-y-10 md:space-y-16">
-        <HackathonCommitment />
+        <Commitment />
       </section>
-
-      {/* Prize Pool Section */}
       <section className="relative space-y-10 md:space-y-16">
-        <HackathonPrizePool />
+        <PrizePool />
       </section>
-
-      {/* Venue Section */}
       <section className="relative space-y-10 md:space-y-16">
-        <HackathonVenue />
+        <Venue />
       </section>
-
-      {/* About Section */}
       <section id="about" className="relative space-y-10 md:space-y-16">
-        <HackathonAbout />
+        <About />
       </section>
-
-      {/* Schedule Section */}
       <section id="schedule" className="relative space-y-10 md:space-y-16">
-        <HackathonSchedule />
+        <Schedule />
       </section>
-
-      {/* Sponsors Section */}
       <section id="sponsors" className="relative space-y-10 md:space-y-16">
-        <HackathonSponsors />
+        <Sponsors />
       </section>
-
-      {/* Team Section */}
       <section id="team" className="relative space-y-10 md:space-y-16">
-        <HackathonTeam />
+        <Team />
       </section>
-
-      {/* CTA Section */}
       <section id="contact" className="relative space-y-10 md:space-y-16">
-
         <div className="text-center space-y-6 -mt-8">
           <h2 className="text-3xl -mb-4 md:text-4xl font-bold text-text-primary">
             Ready to Code?
@@ -133,8 +110,8 @@ export default async function Home() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <a
-              href="#register"
-              className="px-8 py-4 mb-4 bg-blue-600 text-white font-semibold rounded-square hover:bg-blue-700 transition-colors"
+              href="/register"
+              className="px-8 py-4 mb-4 bg-[#084750] text-white font-semibold rounded-square hover:bg-[#084750]/80 transition-colors"
             >
               Register Now
             </a>
@@ -146,6 +123,40 @@ export default async function Home() {
             </a>
           </div>
         </div>
+      </section>
+      <section className="relative space-y-8 md:space-y-16">
+        <GridWrapper>
+          <div className="py-8 md:py-12">
+            <div className="flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-8 px-4">
+              <div className="flex-1 space-y-3">
+                <p className="text-sm md:text-base text-text-secondary">
+                  If you are wondering who made this site, it is made by{" "}
+                  <a
+                    href="https://manishtamang.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#084750] hover:text-[#084750]/80 underline font-medium"
+                  >
+                    golecodes
+                  </a>
+                </p>
+                <p className="text-sm md:text-base text-text-tertiary leading-relaxed">
+                  He is an +2 science student of Sushma godawari college passionate about full stack web app development.
+                </p>
+              </div>
+              <div className="flex-shrink-0 mr-2">
+                <Image
+                  src="/profile.png"
+                  alt="golecodes"
+                  width={120}
+                  height={120}
+                  className="rounded-square object-cover border border-primary/50 select-none"
+                  draggable={false}
+                />
+              </div>
+            </div>
+          </div>
+        </GridWrapper>
       </section>
     </section>
   );
