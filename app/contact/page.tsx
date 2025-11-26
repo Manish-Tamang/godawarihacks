@@ -5,8 +5,6 @@ import { GridWrapper } from "../components/GridWrapper";
 import { AnimatedText } from "../components/AnimatedText";
 import { useState } from "react";
 
-// Note: Metadata cannot be exported from client components
-// If you need metadata, convert this to a server component with a client component for the form
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -31,7 +29,7 @@ export default function ContactPage() {
       setIsSubmitting(false);
       setSubmitStatus("success");
       setFormData({ name: "", email: "", subject: "", message: "" });
-      
+
       // Reset success message after 5 seconds
       setTimeout(() => setSubmitStatus("idle"), 5000);
     }, 1000);
@@ -48,7 +46,7 @@ export default function ContactPage() {
     <section className="mt-6 space-y-10 md:mt-0 md:space-y-16 pb-0">
       {/* Hero Section */}
       <section className="relative py-12 md:py-16">
-        <div className="absolute inset-0 bg-gradient-to-b from-blue-50 via-blue-50/30 to-transparent -z-10"></div>
+        <BgGradient />
         <div
           className="absolute inset-0 opacity-[0.03] -z-10"
           style={{
@@ -59,7 +57,7 @@ export default function ContactPage() {
           <AnimatedText
             as="h1"
             delay={HEADING_DELAY}
-            className="mx-auto max-w-2xl text-center text-6xl font-bold leading-tight tracking-tighter text-blue-600 md:text-8xl md:leading-[78px]"
+            className="mx-auto max-w-2xl text-center text-6xl font-bold leading-tight tracking-tighter text-[#084750] md:text-8xl md:leading-[78px]"
           >
             Get in Touch
           </AnimatedText>
@@ -79,7 +77,7 @@ export default function ContactPage() {
       <section className="relative space-y-10 md:space-y-16">
         <GridWrapper>
           <div className="space-y-6 py-8 md:py-12">
-            <h2 className="text-blue-600 ml-4 text-balance text-left text-3xl font-medium leading-10 tracking-tight md:text-4xl">
+            <h2 className="text-[#084750] ml-4 text-balance text-left text-3xl font-medium leading-10 tracking-tight md:text-4xl">
               Send us a Message
             </h2>
             <div className="px-4">
@@ -96,7 +94,7 @@ export default function ContactPage() {
                       required
                       value={formData.name}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 border border-border-primary rounded-square bg-bg-primary text-text-primary focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-colors"
+                      className="w-full px-4 py-3 border border-border-primary rounded-square bg-bg-primary text-text-primary focus:outline-none focus:ring-2 focus:ring-[#084750] focus:border-transparent transition-colors"
                       placeholder="Your name"
                     />
                   </div>
@@ -111,7 +109,7 @@ export default function ContactPage() {
                       required
                       value={formData.email}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 border border-border-primary rounded-square bg-bg-primary text-text-primary focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-colors"
+                      className="w-full px-4 py-3 border border-border-primary rounded-square bg-bg-primary text-text-primary focus:outline-none focus:ring-2 focus:ring-[#084750] focus:border-transparent transition-colors"
                       placeholder="your.email@example.com"
                     />
                   </div>
@@ -126,7 +124,7 @@ export default function ContactPage() {
                     required
                     value={formData.subject}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-border-primary rounded-square bg-bg-primary text-text-primary focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-colors"
+                    className="w-full px-4 py-3 border border-border-primary rounded-square bg-bg-primary text-text-primary focus:outline-none focus:ring-2 focus:ring-[#084750] focus:border-transparent transition-colors"
                   >
                     <option value="">Select a subject</option>
                     <option value="general">General Inquiry</option>
@@ -147,7 +145,7 @@ export default function ContactPage() {
                     rows={6}
                     value={formData.message}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-border-primary rounded-square bg-bg-primary text-text-primary focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-colors resize-none"
+                    className="w-full px-4 py-3 border border-border-primary rounded-square bg-bg-primary text-text-primary focus:outline-none focus:ring-2 focus:ring-[#084750] focus:border-transparent transition-colors resize-none"
                     placeholder="Tell us what's on your mind..."
                   />
                 </div>
@@ -164,7 +162,7 @@ export default function ContactPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full md:w-auto px-8 py-4 bg-blue-600 text-white font-semibold rounded-square hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full md:w-auto px-8 py-4 bg-[#084750] text-white font-semibold rounded-square hover:bg-[#084750]/80 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? "Sending..." : "Send Message"}
                 </button>
@@ -182,7 +180,7 @@ export default function ContactPage() {
               <div className="text-4xl mb-4">📧</div>
               <h3 className="text-lg font-semibold text-text-primary">Email</h3>
               <p className="text-text-secondary">
-                <a href="mailto:info@hacksushma.xyz" className="text-blue-600 hover:underline">
+                <a href="mailto:info@hacksushma.xyz" className="text-[#084750] hover:text-[#084750]/80 underline">
                   info@hacksushma.xyz
                 </a>
               </p>
@@ -199,13 +197,13 @@ export default function ContactPage() {
               <div className="text-4xl mb-4">🌐</div>
               <h3 className="text-lg font-semibold text-text-primary">Social Media</h3>
               <div className="flex flex-col space-y-2">
-                <a href="#" className="text-blue-600 hover:underline text-text-secondary">
+                <a href="#" className="text-[#084750] hover:text-[#084750]/80 underline text-text-secondary">
                   Twitter / X
                 </a>
-                <a href="#" className="text-blue-600 hover:underline text-text-secondary">
+                <a href="#" className="text-[#084750] hover:text-[#084750]/80 underline text-text-secondary">
                   LinkedIn
                 </a>
-                <a href="#" className="text-blue-600 hover:underline text-text-secondary">
+                <a href="#" className="text-[#084750] hover:text-[#084750]/80 underline text-text-secondary">
                   GitHub
                 </a>
               </div>
@@ -218,7 +216,7 @@ export default function ContactPage() {
       <section className="relative space-y-10 md:space-y-16">
         <GridWrapper>
           <div className="space-y-6 py-8 md:py-12">
-            <h2 className="text-blue-600 ml-4 text-balance text-left text-3xl font-medium leading-10 tracking-tight md:text-4xl">
+            <h2 className="text-[#084750] ml-4 text-balance text-left text-3xl font-medium leading-10 tracking-tight md:text-4xl">
               Frequently Asked Questions
             </h2>
             <div className="space-y-6 px-4 max-w-4xl">

@@ -33,7 +33,7 @@ export function Timeline({ logoUrl }: TimelineProps) {
       </motion.div>
       <div className="bg-opacity-24 absolute bottom-0 left-1/2 top-0 w-2 -translate-x-1/2 rounded-full bg-[#E8ECEF] shadow-[inset_0_2px_1.5px_rgba(165,174,184,0.32)]">
         <motion.div
-          className="absolute inset-0 w-full origin-bottom rounded-full bg-gradient-to-b from-indigo-300 to-transparent"
+          className="absolute inset-0 w-full origin-bottom rounded-full bg-gradient-to-b from-[#084750] to-transparent"
           style={{ scaleY: scrollYProgress }}
         />
       </div>

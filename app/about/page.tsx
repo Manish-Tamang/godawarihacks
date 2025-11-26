@@ -16,7 +16,7 @@ export default async function AboutPage() {
     return (
         <section className="mt-6 space-y-10 md:mt-0 md:space-y-16 pb-0">
             <section className="relative py-12 md:py-16">
-                <div className="absolute inset-0 bg-gradient-to-b from-blue-50 via-blue-50/30 to-transparent -z-10"></div>
+                <BgGradient />
                 <div
                     className="absolute inset-0 opacity-[0.10] -z-10"
                     style={{
@@ -27,7 +27,7 @@ export default async function AboutPage() {
                     <AnimatedText
                         as="h1"
                         delay={HEADING_DELAY}
-                        className="mx-auto max-w-2xl text-center text-6xl font-bold leading-tight tracking-tighter text-blue-600 md:text-8xl md:leading-[78px]"
+                        className="mx-auto max-w-2xl text-center text-6xl font-bold leading-tight tracking-tighter text-[#084750] md:text-8xl md:leading-[78px]"
                     >
                         About Hack Sushma
                     </AnimatedText>
@@ -47,7 +47,7 @@ export default async function AboutPage() {
             <section className="relative space-y-10 md:space-y-16">
                 <GridWrapper className="before:hidden">
                     <div className="space-y-6 py-8 md:py-12 -mt-16">
-                        <h2 className="text-blue-600 ml-4 text-balance text-left text-3xl font-medium leading-10 tracking-tight md:text-4xl">
+                        <h2 className="text-[#084750] ml-4 text-balance text-left text-3xl font-medium leading-10 tracking-tight md:text-4xl">
                             Our Mission
                         </h2>
                         <div className="space-y-6 px-4">
@@ -100,12 +100,10 @@ export default async function AboutPage() {
                     </div>
                 </GridWrapper>
             </section>
-
-            {/* What to Expect Section */}
             <section className="relative space-y-10 md:space-y-16">
                 <GridWrapper>
                     <div className="space-y-6 py-8 md:py-12">
-                        <h2 className="text-blue-600 ml-4 text-balance text-left text-3xl font-medium leading-10 tracking-tight md:text-4xl">
+                        <h2 className="text-[#084750] ml-4 text-balance text-left text-3xl font-medium leading-10 tracking-tight md:text-4xl">
                             What to Expect
                         </h2>
                         <div className="space-y-6 px-4">
