@@ -129,7 +129,7 @@ export function Schedule() {
                     <div ref={containerRef} className="relative">
 
 
-                        <div className="space-y-8">
+                        <div className="space-y-8 md:space-y-8">
                             {schedule.map((event, index) => {
                                 const isEven = index % 2 === 0;
                                 return (
@@ -144,12 +144,48 @@ export function Schedule() {
                                         }}
                                         className="relative"
                                     >
-                                        <div className="flex flex-col md:flex-row gap-6 md:gap-4 items-center relative">
+                                        {/* Mobile Layout - Vertical Card */}
+                                        <div className="md:hidden space-y-3 bg-bg-primary dark:bg-neutral-900 rounded-square border border-border-primary p-4">
+                                            <div className="flex items-center gap-2 text-sm mb-2">
+                                                <span className="font-medium text-[#084750]">{event.day}</span>
+                                                <span className="text-text-tertiary">•</span>
+                                                <span className="text-text-tertiary">{event.time}</span>
+                                            </div>
+
+                                            <div className="relative w-full h-48 rounded-square overflow-hidden mb-3">
+                                                <Image
+                                                    src={event.image}
+                                                    alt={event.title}
+                                                    fill
+                                                    placeholder="blur"
+                                                    blurDataURL={blurDataURL}
+                                                    loading="lazy"
+                                                    className="object-cover"
+                                                    sizes="100vw"
+                                                />
+                                            </div>
+
+                                            <h3 className="text-xl font-semibold text-text-primary">
+                                                {event.title}
+                                            </h3>
+                                            <p className="text-text-secondary leading-relaxed text-sm">
+                                                {event.description}
+                                            </p>
+                                            {event.location && (
+                                                <p className="text-sm text-text-tertiary flex items-center gap-2">
+                                                    <span>📍</span>
+                                                    <span>{event.location}</span>
+                                                </p>
+                                            )}
+                                        </div>
+
+                                        {/* Desktop Layout - Timeline Layout */}
+                                        <div className="hidden md:flex flex-row gap-4 items-center relative">
                                             <div
-                                                className={`flex-1 ${isEven ? "md:pr-4 md:text-right" : "md:pl-4 md:text-left"} md:max-w-[calc(50%-1rem)]`}
+                                                className={`flex-1 ${isEven ? "pr-4 text-right" : "pl-4 text-left"} max-w-[calc(50%-1rem)]`}
                                             >
                                                 {isEven ? (
-                                                    <div className="relative w-full h-64 md:h-96 rounded-square overflow-hidden">
+                                                    <div className="relative w-full h-96 rounded-square overflow-hidden">
                                                         <Image
                                                             src={event.image}
                                                             alt={event.title}
@@ -158,19 +194,19 @@ export function Schedule() {
                                                             blurDataURL={blurDataURL}
                                                             loading="lazy"
                                                             className="object-cover transition-transform duration-300 hover:scale-105"
-                                                            sizes="(max-width: 768px) 100vw, calc(50% - 1rem)"
+                                                            sizes="calc(50% - 1rem)"
                                                         />
                                                     </div>
                                                 ) : (
                                                     <div className="space-y-3">
-                                                        <div className="hidden md:flex items-center gap-3 justify-start">
+                                                        <div className="flex items-center gap-3 justify-start">
                                                             <span className="text-sm font-medium text-[#084750]">
                                                                 {event.day}
                                                             </span>
                                                             <span className="text-sm text-text-tertiary">•</span>
                                                             <span className="text-sm text-text-tertiary">{event.time}</span>
                                                         </div>
-                                                        <h3 className="text-xl md:text-2xl font-semibold text-text-primary">
+                                                        <h3 className="text-2xl font-semibold text-text-primary">
                                                             {event.title}
                                                         </h3>
                                                         <p className="text-text-secondary leading-relaxed">
@@ -186,29 +222,22 @@ export function Schedule() {
                                                 )}
                                             </div>
 
-                                            <div className="hidden md:flex items-center justify-center w-8 h-8 flex-shrink-0 z-10">
+                                            <div className="flex items-center justify-center w-8 h-8 flex-shrink-0 z-10">
                                             </div>
 
-                                            <div className="md:hidden flex items-center gap-3 mb-2 w-full">
-                                                <div className="flex items-center gap-2 text-sm">
-                                                    <span className="font-medium text-[#084750]">{event.day}</span>
-                                                    <span className="text-text-tertiary">•</span>
-                                                    <span className="text-text-tertiary">{event.time}</span>
-                                                </div>
-                                            </div>
                                             <div
-                                                className={`flex-1 ${isEven ? "md:pl-4 md:text-left" : "md:pr-4 md:text-right"} md:max-w-[calc(50%-1rem)]`}
+                                                className={`flex-1 ${isEven ? "pl-4 text-left" : "pr-4 text-right"} max-w-[calc(50%-1rem)]`}
                                             >
                                                 {isEven ? (
                                                     <div className="space-y-3">
-                                                        <div className="hidden md:flex items-center gap-3 justify-start">
+                                                        <div className="flex items-center gap-3 justify-start">
                                                             <span className="text-sm font-medium text-[#084750]">
                                                                 {event.day}
                                                             </span>
                                                             <span className="text-sm text-text-tertiary">•</span>
                                                             <span className="text-sm text-text-tertiary">{event.time}</span>
                                                         </div>
-                                                        <h3 className="text-xl md:text-2xl font-semibold text-text-primary">
+                                                        <h3 className="text-2xl font-semibold text-text-primary">
                                                             {event.title}
                                                         </h3>
                                                         <p className="text-text-secondary leading-relaxed">
@@ -222,7 +251,7 @@ export function Schedule() {
                                                         )}
                                                     </div>
                                                 ) : (
-                                                    <div className="relative w-full h-64 md:h-96 rounded-square overflow-hidden">
+                                                    <div className="relative w-full h-96 rounded-square overflow-hidden">
                                                         <Image
                                                             src={event.image}
                                                             alt={event.title}
@@ -231,7 +260,7 @@ export function Schedule() {
                                                             blurDataURL={blurDataURL}
                                                             loading="lazy"
                                                             className="object-cover transition-transform duration-300 hover:scale-105"
-                                                            sizes="(max-width: 768px) 100vw, calc(50% - 1rem)"
+                                                            sizes="calc(50% - 1rem)"
                                                         />
                                                     </div>
                                                 )}
@@ -241,7 +270,8 @@ export function Schedule() {
                                 );
                             })}
                         </div>
-                        <div className=" absolute top-0 h-[5200px] left-1/2 -translate-x-1/2 w-8 pointer-events-none">
+                        {/* Timeline - Hidden on Mobile, Visible on Desktop */}
+                        <div className="hidden md:block absolute top-0 h-[5200px] left-1/2 -translate-x-1/2 w-8 pointer-events-none">
                             <Timeline logoUrl="/sushma-logo.jpg" />
                         </div>
                     </div>
