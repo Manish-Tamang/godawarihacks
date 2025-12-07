@@ -2,6 +2,7 @@ import type { Config } from "tailwindcss";
 import colors from "tailwindcss/colors";
 
 export default {
+  darkMode: "class",
   content: ["./app/**/*.{ts,tsx}", "./content/**/*.mdx", "./public/**/*.svg"],
   theme: {
     extend: {
@@ -15,6 +16,7 @@ export default {
       },
       colors: {
         "bg-primary": "#F7F7F8",
+        "bg-secondary": "#FFFFFF",
         "border-primary": "#D6DADE",
         "dark-primary": "#3C3C3F",
         "purple-primary": "#6C47FF",
