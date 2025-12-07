@@ -13,6 +13,7 @@ import { PrizePool } from "./components/PrizePool";
 import { Venue } from "./components/Venue";
 import { EncryptedText } from "./components/ui/encrypted-text";
 import Image from "next/image";
+import Link from "next/link";
 
 export default async function Home() {
   const PROFILE_DELAY = 0;
@@ -63,11 +64,13 @@ export default async function Home() {
               Godawari Hack is a 24 hours highschool hackathon where 30+ teams competes each other
             </AnimatedText>
           </div>
-          <div className="mt-6 text-center">
-            <div className="inline-block bg-[#084750] text-white px-6 py-3 rounded-square text-sm md:text-base font-medium">
-              Register Your Team Now!
+          <Link href="/register">
+            <div className="mt-6 text-center">
+              <div className="inline-block bg-[#084750] text-white px-6 py-3 rounded-square text-sm md:text-base font-medium">
+                Register Your Team Now!
+              </div>
             </div>
-          </div>
+          </Link>
         </div>
       </section>
       <section className="relative space-y-10 md:space-y-16 bg-bg-primary dark:bg-neutral-900">
@@ -116,7 +119,7 @@ export default async function Home() {
               Register Now
             </a>
             <a
-              href="#learn-more"
+              href="/about"
               className="px-8 py-4 mb-4 border-2 border-border-primary text-text-primary font-semibold rounded-square hover:bg-gray-50 transition-colors"
             >
               Learn More
