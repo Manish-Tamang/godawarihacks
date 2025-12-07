@@ -21,9 +21,9 @@ export default async function Home() {
   const STATS_DELAY = PARAGRAPH_DELAY + 0.1;
 
   return (
-    <section className="mt-6 space-y-10 md:mt-0 md:space-y-16 pb-0">
-      <section className="relative py-12 md:py-16">
-        <div className="absolute inset-0 bg-gradient-to-b from-blue-50 via-blue-50/30 to-transparent -z-10"></div>
+    <section className="mt-6 space-y-10 md:mt-0 md:space-y-16 pb-0 bg-bg-primary dark:bg-neutral-900">
+      <section className="relative py-12 md:py-16 bg-bg-primary dark:bg-neutral-900">
+        <div className="absolute inset-0 bg-gradient-to-b from-blue-50 via-blue-50/30 to-transparent dark:from-neutral-800 dark:via-neutral-800/30 dark:to-transparent -z-10"></div>
         <div
           className="absolute inset-0 opacity-[0.03] -z-10"
           style={{
@@ -35,10 +35,10 @@ export default async function Home() {
           <AnimatedText
             as="h1"
             delay={HEADING_DELAY}
-            className="mx-auto max-w-2xl text-center text-6xl font-bold leading-tight tracking-tighter text-[#084750] md:text-8xl md:leading-[78px]"
+            className="mx-auto max-w-2xl text-center text-5xl font-bold leading-tight tracking-tighter text-[#084750] md:text-7xl md:leading-[78px]"
           >
             <EncryptedText
-              text="Hack Sushma"
+              text="Godawari Hack"
               encryptedClassName="text-neutral-500"
               revealedClassName="text-[#084750]"
               revealDelayMs={50}
@@ -50,7 +50,7 @@ export default async function Home() {
               delay={PARAGRAPH_DELAY}
               className="leading-8 text-text-secondary text-base md:text-lg max-w-3xl mx-auto"
             >
-              Join 20+ teams of passionate developers for an epic 12-hour coding marathon at Sushma Code fest on December 3, 2024!
+              Join 30+ teams of passionate developers for an epic 24-hour coding hackathon at Sushma Godawari College.
             </AnimatedText>
           </div>
 
@@ -60,47 +60,47 @@ export default async function Home() {
               delay={PARAGRAPH_DELAY + 0.1}
               className="text-sm md:text-base text-text-tertiary leading-relaxed max-w-2xl mx-auto"
             >
-              Sushma Code fest was founded to be a hackathon that gives back to the community, all while fostering innovation and collaboration among developers.
+              Godawari Hack is a 24 hours highschool hackathon where 30+ teams competes each other
             </AnimatedText>
           </div>
           <div className="mt-6 text-center">
             <div className="inline-block bg-[#084750] text-white px-6 py-3 rounded-square text-sm md:text-base font-medium">
-              Tickets are 100% free. All we ask is you make a commitment to show up and code!
+              Register Your Team Now!
             </div>
           </div>
         </div>
       </section>
-      <section className="relative space-y-10 md:space-y-16">
+      <section className="relative space-y-10 md:space-y-16 bg-bg-primary dark:bg-neutral-900">
         <PhotoGrid />
       </section>
-      <section className="relative space-y-10 md:space-y-16">
+      <section className="relative space-y-10 md:space-y-16 bg-bg-primary dark:bg-neutral-900">
         <Stats delay={STATS_DELAY} />
       </section>
-      <section className="relative space-y-10 md:space-y-16">
+      <section className="relative space-y-10 md:space-y-16 bg-bg-primary dark:bg-neutral-900">
         <RegisterSection />
       </section>
-      <section className="relative space-y-10 md:space-y-16">
+      <section className="relative space-y-10 md:space-y-16 bg-bg-primary dark:bg-neutral-900">
         <Commitment />
       </section>
-      <section className="relative space-y-10 md:space-y-16">
+      <section className="relative space-y-10 md:space-y-16 bg-bg-primary dark:bg-neutral-900">
         <PrizePool />
       </section>
-      <section className="relative space-y-10 md:space-y-16">
+      <section className="relative space-y-10 md:space-y-16 bg-bg-primary dark:bg-neutral-900">
         <Venue />
       </section>
-      <section id="about" className="relative space-y-10 md:space-y-16">
+      <section id="about" className="relative space-y-10 md:space-y-16 bg-bg-primary dark:bg-neutral-900">
         <About />
       </section>
-      <section id="schedule" className="relative space-y-10 md:space-y-16">
+      <section id="schedule" className="relative space-y-10 md:space-y-16 bg-bg-primary dark:bg-neutral-900">
         <Schedule />
       </section>
-      <section id="sponsors" className="relative space-y-10 md:space-y-16">
+      <section id="sponsors" className="relative space-y-10 md:space-y-16 bg-bg-primary dark:bg-neutral-900">
         <Sponsors />
       </section>
-      <section id="team" className="relative space-y-10 md:space-y-16">
+      <section id="team" className="relative space-y-10 md:space-y-16 bg-bg-primary dark:bg-neutral-900">
         <Team />
       </section>
-      <section id="contact" className="relative space-y-10 md:space-y-16">
+      <section id="contact" className="relative space-y-10 md:space-y-16 bg-bg-primary dark:bg-neutral-900">
         <div className="text-center space-y-6 -mt-8">
           <h2 className="text-3xl -mb-4 md:text-4xl font-bold text-text-primary">
             Ready to Code?
@@ -124,7 +124,7 @@ export default async function Home() {
           </div>
         </div>
       </section>
-      <section className="relative space-y-8 md:space-y-16">
+      <section className="relative space-y-8 md:space-y-16 bg-bg-primary dark:bg-neutral-900">
         <GridWrapper>
           <div className="py-8 md:py-12">
             <div className="flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-8 px-4">
@@ -144,7 +144,7 @@ export default async function Home() {
                   He is an +2 science student of Sushma godawari college passionate about full stack web app development.
                 </p>
               </div>
-              <div className="flex-shrink-0 mr-2">
+              <div className="flex-shrink-0 bg-gray-100 mr-2">
                 <Image
                   src="/profile.png"
                   alt="golecodes"
