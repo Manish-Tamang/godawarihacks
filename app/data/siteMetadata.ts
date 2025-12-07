@@ -1,8 +1,8 @@
 export const siteMetadata = {
-  title: "Hack Sushma",
+  title: "Godawari Hack",
   description:
-    "Join 20+ teams of passionate developers for an epic 12-hour coding marathon! December 3, 2024 • 3-day session of innovation, collaboration, and code.",
+    "Join 30+ teams of passionate developers for an epic 24-hour coding marathon!",
   language: "en-us",
-  siteUrl: "https://hacksushma.xyz",
+  siteUrl: "https://hack.godawari.edu.np",
   locale: "en-US",
 };
