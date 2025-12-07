@@ -43,8 +43,9 @@ function DesktopNav() {
       className="hidden h-16 w-full items-center justify-between border-b border-border-primary/50 dark:border-neutral-700/50 px-4 md:flex bg-bg-primary dark:bg-neutral-900"
     >
       <div className="w-[104px]">
-        <Link href="/" aria-label="Home" className="text-xl font-bold text-[#084750] whitespace-nowrap">
-          Godawari Hack
+        <Link href="/" aria-label="Home" className="text-xl font-bold text-[#084750] whitespace-nowrap flex items-center gap-2">
+          <Image src="/sushma-logo.jpg" alt="Godawari Hack Logo" className="rounded-full" width={40} height={40} />
+          Hack
         </Link>
       </div>
       <ul className="flex place-items-center space-x-4 rounded-full border border-border-primary px-5 py-2 text-sm text-gray-500">
