@@ -11,13 +11,13 @@ export function Commitment() {
             Our commitment
           </h2>
           <p className="text-lg md:text-xl text-[#084750] leading-relaxed text-left">
-            Our mission is to host the best web development conference in Texas, provide value for engineers of all experience levels, and donate everything to charity. That&apos;s our commitment.
+            Our mission is to host the best ever highschool hackathon in Koshi Province, Nepal. With the help of our sponsors, we will be able to provide a platform for the students to showcase their skills and to learn from each other.
           </p>
           <a
-            href="#"
+            href="#sponsors"
             className="inline-flex items-center gap-2 text-base font-medium text-text-primary hover:text-[#084750]/80 transition-colors"
           >
-            View 2024 financial report
+            View Our Sponsors
             <svg
               className="w-4 h-4"
               fill="none"
@@ -45,15 +45,20 @@ export function Commitment() {
 
           <div className="p-6 pl-8 md:pl-12 border-b border-border-primary/50 flex items-center justify-center gap-4 min-h-[120px]">
             <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden">
+              <Image src="/sushma-leaders.jpg" alt="Sushma Leaders Alliance" width={64} height={64} className="object-cover" />
+            </div>
+            <div>
+              <p className="text-base font-bold text-text-primary tracking-wide">Sushma Leaders Alliance</p>
+            </div>
+          </div>
+
+          <div className="p-6 pl-8 md:pl-12 flex items-center justify-center gap-4 min-h-[120px]">
+            <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden">
               <Image src="/connect-club.jpg" alt="Connect Club Sushma Godawari College" width={64} height={64} className="object-cover" />
             </div>
             <div>
               <p className="text-base font-bold text-text-primary tracking-wide">Connect Club (Sushma Godawari College)</p>
             </div>
-          </div>
-
-          <div className="p-6 pl-8 md:pl-12 flex items-center justify-center gap-4 min-h-[120px]">
-
           </div>
         </div>
       </div>
