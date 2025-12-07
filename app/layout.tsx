@@ -8,11 +8,11 @@ import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
 
 export const metadata: Metadata = {
-  title: "Hack Sushma - December 3, 2024",
-  description: "Join 20+ teams of passionate developers for an epic 12-hour coding marathon! December 3, 2024 • 3-day session of innovation, collaboration, and code.",
+  title: "Godawari Hack",
+  description: "Join 30+ teams of passionate developers for an epic 24-hour coding marathon!",
   openGraph: {
-    title: "Hack Sushma - December 3, 2024",
-    description: "Join 20+ teams of passionate developers for an epic 12-hour coding marathon! December 3, 2024 • 3-day session of innovation, collaboration, and code.",
+    title: "Godawari Hack",
+    description: "Join 30+ teams of passionate developers for an epic 24-hour coding marathon!.",
     images: [
       {
         url: "/sushma-logo.jpg",
@@ -24,8 +24,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Hack Sushma - December 3, 2024",
-    description: "Join 20+ teams of passionate developers for an epic 12-hour coding marathon! December 3, 2024 • 3-day session of innovation, collaboration, and code.",
+    title: "Godawari Hack",
+    description: "Join 30+ teams of passionate developers for an epic 24-hour coding marathon!.",
     images: ["/sushma-logo.jpg"],
   },
 };
