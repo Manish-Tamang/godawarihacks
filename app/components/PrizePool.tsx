@@ -72,6 +72,8 @@ export function PrizePool() {
                                             width={100}
                                             height={100}
                                             className="object-contain"
+                                            draggable={false}
+                                            style={{ userSelect: 'none' }}
                                         />
                                     ) : null}
                                 </div>
