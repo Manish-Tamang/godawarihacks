@@ -12,8 +12,8 @@ export function PhotoGrid() {
             <div className="grid grid-cols-3 grid-rows-3 gap-[2px] w-full h-full">
                 <div className="col-span-2 row-span-2 relative overflow-hidden">
                     <Image
-                        src="/hackathon/sushm-1.jpg"
-                        alt="Group photo at Sushma Code fest"
+                        src="/hackathon/team-godawari.jpg"
+                        alt="Group photo of Team Godawari"
                         fill
                         placeholder="blur"
                         blurDataURL={blurDataURL}
@@ -25,8 +25,8 @@ export function PhotoGrid() {
 
                 <div className="col-span-1 row-span-1 relative overflow-hidden">
                     <Image
-                        src="/hackathon/sushma-2.jpg"
-                        alt="Speaker presentation"
+                        src="/hackathon/team-sushma.jpg"
+                        alt="Team Sushma"
                         fill
                         placeholder="blur"
                         blurDataURL={blurDataURL}
