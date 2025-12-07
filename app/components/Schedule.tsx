@@ -109,7 +109,7 @@ const schedule: ScheduleEvent[] = [
         time: "4:30 PM – 5:30 PM",
         title: "Winner and Price Distribution",
         description: "The moment we've all been waiting for! Winners are announced and prizes are distributed. Celebrate the amazing work!",
-        image: "/hackathon/sushm-1.jpg",
+        image: "/prize.jpg",
     },
 ];
 
