@@ -5,8 +5,8 @@ import Image from "next/image";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "About - Hack Sushma",
-    description: "Learn about Hack Sushma, our mission, values, and what makes our hackathon special. Join a community-driven event that brings together passionate developers.",
+    title: "About - Godawari Hack",
+    description: "Learn about Godawari Hack, our mission, values, and what makes our hackathon special. Join a community-driven event that brings together passionate developers.",
 };
 
 export default async function AboutPage() {
@@ -29,7 +29,7 @@ export default async function AboutPage() {
                         delay={HEADING_DELAY}
                         className="mx-auto max-w-2xl text-center text-6xl font-bold leading-tight tracking-tighter text-[#084750] md:text-8xl md:leading-[78px]"
                     >
-                        About Hack Sushma
+                        About Godawari Hack
                     </AnimatedText>
                     <div className="mt-4 text-center md:mt-8">
                         <AnimatedText
@@ -37,7 +37,7 @@ export default async function AboutPage() {
                             delay={PARAGRAPH_DELAY}
                             className="leading-8 text-text-secondary text-base md:text-lg max-w-3xl mx-auto"
                         >
-                            A community-driven hackathon that brings together passionate developers to build, learn, and innovate together.
+                            A student organized hackathon that brings together passionate students to build, learn, and innovate together.
                         </AnimatedText>
                     </div>
                 </div>
@@ -52,10 +52,10 @@ export default async function AboutPage() {
                         </h2>
                         <div className="space-y-6 px-4">
                             <p className="text-left text-text-secondary leading-relaxed max-w-4xl">
-                                Hack Sushma was founded with a simple yet powerful mission: to create a hackathon that gives back to the community while fostering innovation and collaboration among developers. We believe that technology should be accessible to everyone, and that the best solutions come from diverse teams working together.
+                                Godawari Hack was founded with a simple yet powerful mission: to create a hackathon that gives back to the community while fostering innovation and collaboration among developers. We believe that technology should be accessible to everyone, and that the best solutions come from diverse teams working together.
                             </p>
                             <p className="text-left text-text-secondary leading-relaxed max-w-4xl">
-                                Our event is designed to be inclusive, educational, and fun. Whether you&apos;re a beginner taking your first steps in coding or an experienced developer looking to build something amazing, there&apos;s a place for you at Hack Sushma.
+                                Our event is designed to be inclusive, educational, and fun. Whether you&apos;re a beginner taking your first steps in coding or an experienced developer looking to build something amazing, there&apos;s a place for you at Godawari Hack.
                             </p>
                         </div>
                     </div>
@@ -109,7 +109,7 @@ export default async function AboutPage() {
                         <div className="space-y-6 px-4">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl">
                                 <div className="space-y-2">
-                                    <h3 className="text-lg font-semibold text-text-primary">12 Hours of Coding</h3>
+                                    <h3 className="text-lg font-semibold text-text-primary">24 Hours of Coding</h3>
                                     <p className="text-text-secondary leading-relaxed">
                                         Intense coding sessions where you&apos;ll build, debug, and deploy your project alongside your team.
                                     </p>
