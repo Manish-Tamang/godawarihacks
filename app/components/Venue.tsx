@@ -41,9 +41,7 @@ export function Venue() {
                                         Dates
                                     </h3>
                                     <p className="text-gray-200 text-lg">
-                                        December 3, 2025 (Day 1)
-                                        December 4, 2025 (Day 2)
-                                        December 5, 2025 (Day 3)
+                                        Yet to be announced
                                     </p>
                                 </div>
                                 <div className="space-y-3">
