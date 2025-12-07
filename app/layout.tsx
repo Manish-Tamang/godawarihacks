@@ -52,7 +52,7 @@ export default function RootLayout({
             </div>
             <div className="hidden w-full border-l border-border-primary dark:border-neutral-700 opacity-75 lg:block bg-bg-primary dark:bg-neutral-900"></div>
           </div>
-          <ThemeToggle />
+          {/* <ThemeToggle /> */}
         </main>
       </body>
     </html>
