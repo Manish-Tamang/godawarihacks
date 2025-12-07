@@ -180,8 +180,8 @@ export default function ContactPage() {
               <div className="text-4xl mb-4">📧</div>
               <h3 className="text-lg font-semibold text-text-primary">Email</h3>
               <p className="text-text-secondary">
-                <a href="mailto:info@hacksushma.xyz" className="text-[#084750] hover:text-[#084750]/80 underline">
-                  info@hacksushma.xyz
+                <a href="mailto:hack@godawari.edu.np" className="text-[#084750] hover:text-[#084750]/80 underline">
+                  hack@godawari.edu.np
                 </a>
               </p>
             </div>
@@ -193,7 +193,7 @@ export default function ContactPage() {
                 Itahari-6, Sunsari, Nepal
               </p>
             </div>
-            <div className="space-y-4 text-center md:text-left">
+            {/* <div className="space-y-4 text-center md:text-left">
               <div className="text-4xl mb-4">🌐</div>
               <h3 className="text-lg font-semibold text-text-primary">Social Media</h3>
               <div className="flex flex-col space-y-2">
@@ -207,7 +207,7 @@ export default function ContactPage() {
                   GitHub
                 </a>
               </div>
-            </div>
+            </div> */}
           </div>
         </GridWrapper>
       </section>
@@ -223,7 +223,7 @@ export default function ContactPage() {
               <div className="space-y-2">
                 <h3 className="text-lg font-semibold text-text-primary">Is the hackathon free to attend?</h3>
                 <p className="text-text-secondary leading-relaxed">
-                  Yes! Hack Sushma is completely free to attend. All we ask is that you make a commitment to show up and code.
+                  NO! Godawari Hack is not free to attend. There is a nominal registration fee of NRs. 2500 per Team to cover event costs and provide meals and swag.
                 </p>
               </div>
               <div className="space-y-2">
