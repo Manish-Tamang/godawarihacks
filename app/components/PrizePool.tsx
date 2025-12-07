@@ -4,21 +4,21 @@ import Image from "next/image";
 const prizes = [
     {
         title: "Winner",
-        amount: "रु. 10,000",
+        amount: "रु. 60,000 Worth",
         gradient: "bg-gradient-to-t from-[#F7DF1E] to-[#FFF394]",
         image: "/icons/1st.png",
     },
     {
         title: "Second",
-        amount: "रु. 5,000",
+        amount: "रु. 30,000 Worth",
         gradient: "bg-gradient-to-t from-[#F8981D] to-[#FFD39B]",
         image: "/icons/2nd.png",
     },
     {
-        title: "Indie Hacker",
-        description: "Mechanical Keyboard",
+        title: "Third",
+        amount: "रु. 10,000 Worth",
         gradient: "bg-gradient-to-t from-blue-500 to-blue-300",
-        image: "/icons/indie-hacker.png",
+        image: "/icons/3rd.png",
     },
     {
         title: "All Participants",
