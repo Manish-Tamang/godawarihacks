@@ -13,8 +13,14 @@ interface TeamMember {
 
 const teamMembers: TeamMember[] = [
   {
+    name: "Raj Acharya",
+    role: "Event Organizer",
+    faculty: "Management (Computer)",
+    image: "/team/raj.jpg",
+  },
+  {
     name: "Manish Tamang",
-    role: "Event Director",
+    role: "Event Organizer",
     faculty: "Science",
     image: "/gole.jpg",
   },
@@ -23,12 +29,6 @@ const teamMembers: TeamMember[] = [
     role: "Technical Lead",
     faculty: "Science",
     image: "/team/bipan.png",
-  },
-  {
-    name: "Raj Acharya",
-    role: "Game Developer",
-    faculty: "Management (Computer)",
-    image: "/team/raj.jpg",
   },
   {
     name: "Ganesh Shah",
