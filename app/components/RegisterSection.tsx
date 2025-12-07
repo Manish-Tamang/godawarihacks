@@ -26,13 +26,13 @@ export function RegisterSection() {
                     Register your team now!
                 </h2>
 
-                <div className="flex justify-center items-center my-6">
+                {/* <div className="flex justify-center items-center my-6">
                     <div className="text-8xl md:text-9xl">🎉</div>
                 </div>
 
                 <p className="text-lg md:text-xl text-text-secondary font-medium">
-                    {daysUntil} {daysUntil === 1 ? "Day" : "Days"} until Sushma Code fest
-                </p>
+                    {daysUntil} {daysUntil === 1 ? "Day" : "Days"} until Godawari Hack
+                </p> */}
 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
                     <a
