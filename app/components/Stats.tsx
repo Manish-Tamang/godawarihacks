@@ -9,9 +9,9 @@ interface StatItem {
 }
 
 const stats: StatItem[] = [
-  { number: "20", label: "Plus Teams" },
-  { number: "12", label: "Hours of Grind" },
-  { number: "03", label: "Day Session" },
+  { number: "30", label: "Plus Teams" },
+  { number: "24", label: "Hours of Grind" },
+  { number: "02", label: "Days Session" },
 ];
 
 export function Stats({ delay = 0 }: { delay?: number }) {
