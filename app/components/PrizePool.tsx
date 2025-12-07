@@ -44,11 +44,11 @@ export function PrizePool() {
                 </div>
 
 
-                <div className="grid select-none grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px">
+                <div className="grid select-none grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-px">
                     {prizes.map((prize, index) => (
                         <div
                             key={prize.title}
-                            className={`${prize.gradient} p-8 rounded-square flex flex-col items-center justify-center gap-4 aspect-square cursor-pointer h-full`}
+                            className={`${prize.gradient} p-4 md:p-8 rounded-square flex flex-col items-center justify-center gap-2 md:gap-4 aspect-square cursor-pointer h-full`}
                         >
                             <div className="relative w-24 h-24 flex items-center justify-center">
                                 <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100">
