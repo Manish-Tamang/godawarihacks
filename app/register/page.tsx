@@ -210,7 +210,7 @@ export default function RegisterPage() {
       </section>
 
       {/* Registration Form Section */}
-      <section className="relative space-y-10 md:space-y-16">
+      {/* <section className="relative space-y-10 md:space-y-16">
         <GridWrapper>
           <div className="space-y-6 py-8 md:py-12">
             <h2 className="text-[#084750] ml-4 text-balance text-left text-3xl font-medium leading-10 tracking-tight md:text-4xl">
@@ -218,7 +218,6 @@ export default function RegisterPage() {
             </h2>
             <div className="px-4">
               <form onSubmit={handleSubmit} className="max-w-4xl space-y-8">
-                {/* Team Name */}
                 <div className="space-y-2">
                   <label htmlFor="teamName" className="block text-sm font-medium text-text-primary">
                     Team Name *
@@ -233,8 +232,6 @@ export default function RegisterPage() {
                     placeholder="Enter your team name"
                   />
                 </div>
-
-                {/* Team Members */}
                 <div className="space-y-8">
                   <h3 className="text-xl font-semibold text-text-primary">Team Members (3 required)</h3>
 
@@ -341,8 +338,6 @@ export default function RegisterPage() {
                     </div>
                   ))}
                 </div>
-
-                {/* Terms and Conditions */}
                 <div className="space-y-4 p-4 bg-blue-50/50 rounded-square border border-blue-200">
                   <div className="flex items-start gap-3">
                     <input
@@ -355,14 +350,10 @@ export default function RegisterPage() {
                       I agree to the terms and conditions of Hack Sushma. I confirm that all information provided is accurate and I have the right to participate in this hackathon.
                     </label>
                   </div>
-
-                  {/* Cloudflare Turnstile */}
                   <div className="flex justify-center pt-2">
                     <div ref={turnstileRef} id="cf-turnstile"></div>
                   </div>
                 </div>
-
-                {/* Submit Button */}
                 {submitStatus === "success" && (
                   <div className="p-4 bg-green-50 border border-green-200 rounded-square text-green-800">
                     Registration successful! We&apos;ve received your team registration. You&apos;ll receive a confirmation email shortly.
@@ -385,8 +376,10 @@ export default function RegisterPage() {
             </div>
           </div>
         </GridWrapper>
-      </section>
-
+      </section> */}
+      <div className="text-center underline decoration-wavy text-text-secondary">
+        <p>Registration Opens from 9AM Dec 8</p>
+      </div>
       {/* Information Section */}
       <section className="relative space-y-10 md:space-y-16">
         <GridWrapper className="before:hidden">
