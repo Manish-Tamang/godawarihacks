@@ -2,6 +2,9 @@ import { createAdminClient } from "@/app/lib/supabase/admin";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
+  return NextResponse.json({ message: "Hello, World" }, { status: 200 });
+
+  /* COMMENTED OUT - Admin creation logic
   try {
     const { email, password, fullName, role } = await request.json();
 
@@ -102,4 +105,5 @@ export async function POST(request: Request) {
       { status: 500 },
     );
   }
+  */
 }

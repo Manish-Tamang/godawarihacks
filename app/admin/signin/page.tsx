@@ -74,7 +74,7 @@ export default function AdminSignInPage() {
           <AnimatedText
             as="h1"
             delay={HEADING_DELAY}
-            className="mx-auto max-w-2xl text-center text-6xl font-bold leading-tight tracking-tighter text-blue-600 md:text-8xl md:leading-[78px]"
+            className="mx-auto max-w-2xl text-center text-6xl font-bold leading-tight tracking-tighter text-[#084750] md:text-8xl md:leading-[78px]"
           >
             Admin Panel
           </AnimatedText>
@@ -115,8 +115,8 @@ export default function AdminSignInPage() {
                       required
                       value={formData.email}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 border border-border-primary rounded-square bg-bg-primary text-text-primary focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-colors"
-                      placeholder="admin@hacksushma.xyz"
+                      className="w-full px-4 py-3 border border-border-primary rounded-square bg-bg-primary text-text-primary focus:outline-none focus:ring-2 focus:ring-[#084750] focus:border-transparent transition-colors"
+                      placeholder="lede@gula.com"
                       autoComplete="email"
                     />
                   </div>
@@ -132,7 +132,7 @@ export default function AdminSignInPage() {
                       required
                       value={formData.password}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 border border-border-primary rounded-square bg-bg-primary text-text-primary focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-colors"
+                      className="w-full px-4 py-3 border border-border-primary rounded-square bg-bg-primary text-text-primary focus:outline-none focus:ring-2 focus:ring-[#084750] focus:border-transparent transition-colors"
                       placeholder="Enter your password"
                       autoComplete="current-password"
                     />
@@ -144,14 +144,14 @@ export default function AdminSignInPage() {
                         id="remember-me"
                         name="remember-me"
                         type="checkbox"
-                        className="w-4 h-4 text-blue-600 border-border-primary rounded focus:ring-blue-600"
+                        className="w-4 h-4 text-[#084750] border-border-primary rounded focus:ring-[#084750]"
                       />
                       <label htmlFor="remember-me" className="ml-2 block text-sm text-text-secondary">
                         Remember me
                       </label>
                     </div>
                     <div className="text-sm">
-                      <a href="#" className="font-medium text-blue-600 hover:text-blue-700">
+                      <a href="#" className="font-medium text-[#084750] hover:text-[#06635a]">
                         Forgot password?
                       </a>
                     </div>
@@ -166,7 +166,7 @@ export default function AdminSignInPage() {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full px-8 py-4 bg-blue-600 text-white font-semibold rounded-square hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full px-8 py-4 bg-[#084750] text-white font-semibold rounded-square hover:bg-[#06635a] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {isSubmitting ? "Signing in..." : "Sign In"}
                   </button>
@@ -175,7 +175,7 @@ export default function AdminSignInPage() {
                 <div className="text-center">
                   <p className="text-sm text-text-secondary">
                     Need help?{" "}
-                    <a href="/contact" className="font-medium text-blue-600 hover:text-blue-700">
+                    <a href="https://manishtamang.com/contact" className="font-medium text-[#084750] hover:text-[#06635a]">
                       Contact Support
                     </a>
                   </p>

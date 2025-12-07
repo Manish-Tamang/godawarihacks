@@ -1,8 +1,8 @@
 "use client";
 
-import { BgGradient } from "../components/BgGradient";
 import { GridWrapper } from "../components/GridWrapper";
 import { AnimatedText } from "../components/AnimatedText";
+import { MainSiteLayout } from "../components/MainSiteLayout";
 import { useState, useEffect, useRef } from "react";
 
 interface TeamMember {
@@ -179,38 +179,38 @@ export default function RegisterPage() {
   };
 
   return (
-    <section className="mt-6 space-y-10 md:mt-0 md:space-y-16 pb-0">
-      {/* Hero Section */}
-      <section className="relative py-12 md:py-16">
-        <BgGradient />
-        <div
-          className="absolute inset-0 opacity-[0.03] -z-10"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='grid' width='60' height='60' patternUnits='userSpaceOnUse'%3E%3Cpath d='M 60 0 L 0 0 0 60' fill='none' stroke='%23007cff' stroke-width='1'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23grid)'/%3E%3C/svg%3E")`,
-          }}
-        ></div>
-        <div className="relative text-balance">
-          <AnimatedText
-            as="h1"
-            delay={HEADING_DELAY}
-            className="mx-auto max-w-2xl text-center text-6xl font-bold leading-tight tracking-tighter text-[#084750] md:text-8xl md:leading-[78px]"
-          >
-            Register Your Team
-          </AnimatedText>
-          <div className="mt-4 text-center md:mt-8">
+    <MainSiteLayout>
+      <section className="mt-6 space-y-10 md:mt-0 md:space-y-16 pb-0">
+        {/* Hero Section */}
+        <section className="relative py-12 md:py-16">
+          <div
+            className="absolute inset-0 opacity-[0.03] -z-10"
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='grid' width='60' height='60' patternUnits='userSpaceOnUse'%3E%3Cpath d='M 60 0 L 0 0 0 60' fill='none' stroke='%23007cff' stroke-width='1'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23grid)'/%3E%3C/svg%3E")`,
+            }}
+          ></div>
+          <div className="relative text-balance">
             <AnimatedText
-              as="p"
-              delay={PARAGRAPH_DELAY}
-              className="leading-8 text-text-secondary text-base md:text-lg max-w-3xl mx-auto"
+              as="h1"
+              delay={HEADING_DELAY}
+              className="mx-auto max-w-2xl text-center text-6xl font-bold leading-tight tracking-tighter text-[#084750] md:text-8xl md:leading-[78px]"
             >
-              Join Hack Sushma! Register your team of 3 members and get ready for an amazing coding experience.
+              Register Your Team
             </AnimatedText>
+            <div className="mt-4 text-center md:mt-8">
+              <AnimatedText
+                as="p"
+                delay={PARAGRAPH_DELAY}
+                className="leading-8 text-text-secondary text-base md:text-lg max-w-3xl mx-auto"
+              >
+                Join Hack Sushma! Register your team of 3 members and get ready for an amazing coding experience.
+              </AnimatedText>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Registration Form Section */}
-      {/* <section className="relative space-y-10 md:space-y-16">
+        {/* Registration Form Section */}
+        {/* <section className="relative space-y-10 md:space-y-16">
         <GridWrapper>
           <div className="space-y-6 py-8 md:py-12">
             <h2 className="text-[#084750] ml-4 text-balance text-left text-3xl font-medium leading-10 tracking-tight md:text-4xl">
@@ -377,48 +377,49 @@ export default function RegisterPage() {
           </div>
         </GridWrapper>
       </section> */}
-      <div className="text-center underline decoration-wavy text-text-secondary">
-        <p>Registration Opens from 9AM Dec 8</p>
-      </div>
-      {/* Information Section */}
-      <section className="relative space-y-10 md:space-y-16">
-        <GridWrapper className="before:hidden">
-          <div className="space-y-6 py-8 md:py-12">
-            <h2 className="text-[#084750] ml-4 text-balance text-left text-3xl font-medium leading-10 tracking-tight md:text-4xl">
-              Registration Guidelines
-            </h2>
-            <div className="space-y-4 px-4 max-w-4xl">
-              <div className="space-y-2">
-                <h3 className="text-lg font-semibold text-text-primary">Team Requirements</h3>
-                <ul className="space-y-1 text-text-secondary list-disc list-inside">
-                  <li>Each team must have exactly 3 members</li>
-                  <li>All team members must provide valid identification</li>
-                  <li>Each member must upload a valid document (ID Card, Citizenship, or Birth Certificate)</li>
-                </ul>
-              </div>
-              <div className="space-y-2">
-                <h3 className="text-lg font-semibold text-text-primary">Document Requirements</h3>
-                <ul className="space-y-1 text-text-secondary list-disc list-inside">
-                  <li>Accepted formats: PDF, JPG, JPEG, PNG</li>
-                  <li>Maximum file size: 5MB per document</li>
-                  <li>Documents must be clear and readable</li>
-                  <li>Documents must be valid and not expired</li>
-                </ul>
-              </div>
-              <div className="space-y-2">
-                <h3 className="text-lg font-semibold text-text-primary">Important Notes</h3>
-                <ul className="space-y-1 text-text-secondary list-disc list-inside">
-                  <li>Registration is free and open to all developers</li>
-                  <li>You will receive a confirmation email after successful registration</li>
-                  <li>Please ensure all information is accurate before submitting</li>
-                  <li>Contact us if you have any questions about the registration process</li>
-                </ul>
+        <div className="text-center underline decoration-wavy text-text-secondary">
+          <p>Registration Opens from 9AM Dec 8</p>
+        </div>
+        {/* Information Section */}
+        <section className="relative space-y-10 md:space-y-16">
+          <GridWrapper className="before:hidden">
+            <div className="space-y-6 py-8 md:py-12">
+              <h2 className="text-[#084750] ml-4 text-balance text-left text-3xl font-medium leading-10 tracking-tight md:text-4xl">
+                Registration Guidelines
+              </h2>
+              <div className="space-y-4 px-4 max-w-4xl">
+                <div className="space-y-2">
+                  <h3 className="text-lg font-semibold text-text-primary">Team Requirements</h3>
+                  <ul className="space-y-1 text-text-secondary list-disc list-inside">
+                    <li>Each team must have exactly 3 members</li>
+                    <li>All team members must provide valid identification</li>
+                    <li>Each member must upload a valid document (ID Card, Citizenship, or Birth Certificate)</li>
+                  </ul>
+                </div>
+                <div className="space-y-2">
+                  <h3 className="text-lg font-semibold text-text-primary">Document Requirements</h3>
+                  <ul className="space-y-1 text-text-secondary list-disc list-inside">
+                    <li>Accepted formats: PDF, JPG, JPEG, PNG</li>
+                    <li>Maximum file size: 5MB per document</li>
+                    <li>Documents must be clear and readable</li>
+                    <li>Documents must be valid and not expired</li>
+                  </ul>
+                </div>
+                <div className="space-y-2">
+                  <h3 className="text-lg font-semibold text-text-primary">Important Notes</h3>
+                  <ul className="space-y-1 text-text-secondary list-disc list-inside">
+                    <li>Registration is free and open to all developers</li>
+                    <li>You will receive a confirmation email after successful registration</li>
+                    <li>Please ensure all information is accurate before submitting</li>
+                    <li>Contact us if you have any questions about the registration process</li>
+                  </ul>
+                </div>
               </div>
             </div>
-          </div>
-        </GridWrapper>
+          </GridWrapper>
+        </section>
       </section>
-    </section>
+    </MainSiteLayout>
   );
 }
 

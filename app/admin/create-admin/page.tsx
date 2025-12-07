@@ -65,7 +65,6 @@ export default function CreateAdminPage() {
 
   return (
     <section className="mt-6 space-y-10 md:mt-0 md:space-y-16 pb-0">
-      {/* Hero Section */}
       <section className="relative py-12 md:py-16">
         <div className="absolute inset-0 bg-gradient-to-b from-blue-50 via-blue-50/30 to-transparent -z-10"></div>
         <div
@@ -78,7 +77,7 @@ export default function CreateAdminPage() {
           <AnimatedText
             as="h1"
             delay={HEADING_DELAY}
-            className="mx-auto max-w-2xl text-center text-6xl font-bold leading-tight tracking-tighter text-blue-600 md:text-8xl md:leading-[78px]"
+            className="mx-auto max-w-2xl text-center text-6xl font-bold leading-tight tracking-tighter text-[#084750] md:text-8xl md:leading-[78px]"
           >
             Create Admin User
           </AnimatedText>
@@ -88,14 +87,12 @@ export default function CreateAdminPage() {
               delay={PARAGRAPH_DELAY}
               className="leading-8 text-text-secondary text-base md:text-lg max-w-3xl mx-auto"
             >
-              ⚠️ Temporary page - Delete after creating your admin user
+              ⚠️ Temporary page - This Page No longer works!
             </AnimatedText>
           </div>
         </div>
       </section>
-
-      {/* Form Section */}
-      <section className="relative space-y-10 md:space-y-16">
+      {/* <section className="relative space-y-10 md:space-y-16">
         <GridWrapper>
           <div className="flex items-center justify-center py-8 md:py-12 min-h-[400px]">
             <div className="w-full max-w-md px-4">
@@ -191,7 +188,7 @@ export default function CreateAdminPage() {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full px-8 py-4 bg-blue-600 text-white font-semibold rounded-square hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full px-8 py-4 bg-[#084750] text-white font-semibold rounded-square hover:bg-[#06635a] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {isSubmitting ? "Creating..." : "Create Admin User"}
                   </button>
@@ -206,7 +203,7 @@ export default function CreateAdminPage() {
             </div>
           </div>
         </GridWrapper>
-      </section>
+      </section> */}
     </section>
   );
 }
