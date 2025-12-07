@@ -66,7 +66,7 @@ export function Team() {
         </GridWrapper>
         <GridWrapper className="before:hidden">
           <div className="relative py-12 md:py-16 -mt-16">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-px w-full">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-px w-full">
               {teamMembers.map((member) => (
                 <motion.div
                   key={member.name}
