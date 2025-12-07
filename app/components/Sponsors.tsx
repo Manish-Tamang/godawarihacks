@@ -10,15 +10,12 @@ interface Sponsor {
 }
 
 const sponsors: Sponsor[] = [
-    { name: "My Second Teacher" },
-    { name: "Code Academy" },
-    { name: "Dev Tools Inc" },
-    { name: "Startup Hub" },
-    { name: "Cloud Services" },
-    { name: "Design Studio" },
-    { name: "Local Business 1" },
-    { name: "Local Business 2" },
-    { name: "Local Business 3" },
+    { name: "Sponsor Spotlight Available1" },
+    { name: "Sponsor Spotlight Available2" },
+    { name: "Sponsor Spotlight Available3" },
+    { name: "Sponsor Spotlight Available4" },
+    { name: "Sponsor Spotlight Available5" },
+    { name: "Sponsor Spotlight Available6" },
 ];
 
 export function Sponsors() {
