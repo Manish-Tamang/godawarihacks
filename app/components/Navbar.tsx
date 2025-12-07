@@ -168,7 +168,7 @@ interface NavLogoProps {
 const NavLogo: React.FC<NavLogoProps> = ({ onClickCallback }) => {
   return (
     <Link href="/" onClick={() => onClickCallback(false)} aria-label="Home" className="text-xl font-bold text-[#084750]">
-      Hack Sushma
+      Godawari Hack
     </Link>
   );
 };
