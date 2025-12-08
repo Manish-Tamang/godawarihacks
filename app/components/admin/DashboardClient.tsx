@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { TeamTable } from "./TeamTable";
+import { TeamTable } from "./TeamTableNew";
 
 interface TeamMember {
     id: string;
@@ -21,6 +21,7 @@ interface Team {
     status: "pending" | "approved" | "rejected" | "cancelled";
     registration_date: string;
     created_at: string;
+    payment_verified: boolean | null;
     team_members: TeamMember[];
 }
 
