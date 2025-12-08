@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import Image from "next/image";
 
 interface DocumentViewerProps {
     url: string;
@@ -88,9 +89,11 @@ export function DocumentViewer({
                         />
                     ) : (
                         <div className="flex items-center justify-center">
-                            <img
+                            <Image
                                 src={url}
                                 alt={`Document for ${memberName}`}
+                                width={1200}
+                                height={900}
                                 className="max-w-full max-h-[calc(90vh-120px)] object-contain rounded-square"
                                 onError={(e) => {
                                     const target = e.target as HTMLImageElement;
