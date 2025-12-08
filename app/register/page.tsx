@@ -427,7 +427,7 @@ export default function RegisterPage() {
                         <div className="space-y-2">
                           <div className="flex gap-3">
                             <span className="flex-shrink-0 w-6 h-6 rounded-full bg-[#084750] text-white flex items-center justify-center text-xs font-bold">1</span>
-                            <p className="text-sm text-text-secondary">Scan the QR code using Esewa, Fonepay or any Other Banking App.</p>
+                            <p className="text-sm text-text-secondary">Scan the QR code using Esewa, Fonepay or any Other Banking App.(Make sure to send Fee to Di****** Sahau)</p>
                           </div>
                           <div className="flex gap-3">
                             <span className="flex-shrink-0 w-6 h-6 rounded-full bg-[#084750] text-white flex items-center justify-center text-xs font-bold">2</span>
