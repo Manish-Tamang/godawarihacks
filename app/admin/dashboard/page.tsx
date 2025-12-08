@@ -19,6 +19,7 @@ interface Team {
   status: "pending" | "approved" | "rejected" | "cancelled";
   registration_date: string;
   created_at: string;
+  payment_verified: boolean | null;
   team_members: TeamMember[];
 }
 
@@ -54,7 +55,7 @@ export default async function AdminDashboardPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-neutral-900">
+    <div className="min-h-screen bg-white dark:bg-neutral-900">
       {/* Header */}
       <header className="bg-white dark:bg-neutral-950 border-b border-gray-200 dark:border-neutral-800">
         <div className="px-4 sm:px-6 lg:px-8 py-6">
