@@ -237,7 +237,7 @@ export default function RegisterPage() {
                 delay={PARAGRAPH_DELAY}
                 className="leading-8 text-text-secondary text-base md:text-lg max-w-3xl mx-auto"
               >
-                Join Hack Sushma! Register your team of 3 members and get ready for an amazing coding experience.
+                Join Godawari Hack! Register your team of 4 members and get ready for an amazing coding experience.
               </AnimatedText>
             </div>
           </div>
