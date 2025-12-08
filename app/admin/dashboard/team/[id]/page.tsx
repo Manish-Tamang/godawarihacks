@@ -55,9 +55,14 @@ const statusStyles: Record<string, { bg: string; text: string; label: string }> 
     cancelled: { bg: "bg-gray-50 dark:bg-gray-900/20", text: "text-gray-700 dark:text-gray-400", label: "Cancelled" },
 };
 
-export default async function TeamDetailPage({ params }: { params: { id: string } }) {
+export default async function TeamDetailPage({
+    params
+}: {
+    params: Promise<{ id: string }>
+}) {
+    const resolvedParams = await params;
     await requireAdmin();
-    const team = await getTeamById(params.id);
+    const team = await getTeamById(resolvedParams.id);
 
     if (!team) {
         return (
