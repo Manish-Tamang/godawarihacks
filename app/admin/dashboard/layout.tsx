@@ -6,7 +6,7 @@ import { GeistSans } from "geist/font/sans";
 import "@/app/globals.css";
 
 export const metadata: Metadata = {
-  title: "Admin Dashboard | Hack Sushma",
+  title: "Admin Dashboard | Godawari Hack",
   description: "Admin dashboard for managing team registrations",
   robots: {
     index: false,
