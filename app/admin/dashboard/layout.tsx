@@ -20,7 +20,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`h-full bg-gray-50 dark:bg-neutral-900 ${GeistMono.variable} ${GeistSans.variable}`}>
+    <html lang="en" className={`h-full bg-white dark:bg-neutral-900 ${GeistMono.variable} ${GeistSans.variable}`}>
       <body className="h-full overflow-hidden font-sans">
         <div className="flex h-full">
           {/* Sidebar */}
