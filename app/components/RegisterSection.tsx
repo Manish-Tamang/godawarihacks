@@ -7,7 +7,7 @@ export function RegisterSection() {
     const [daysUntil, setDaysUntil] = useState<number>(0);
 
     useEffect(() => {
-        const hackathonDate = new Date("2025-12-03T00:00:00");
+        const hackathonDate = new Date("2025-12-25T00:00:00");
         const today = new Date();
 
         today.setHours(0, 0, 0, 0);
@@ -26,13 +26,13 @@ export function RegisterSection() {
                     Register your team now!
                 </h2>
 
-                {/* <div className="flex justify-center items-center my-6">
+                <div className="flex justify-center items-center my-6">
                     <div className="text-8xl md:text-9xl">🎉</div>
                 </div>
 
                 <p className="text-lg md:text-xl text-text-secondary font-medium">
                     {daysUntil} {daysUntil === 1 ? "Day" : "Days"} until Godawari Hack
-                </p> */}
+                </p>
 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
                     <a
