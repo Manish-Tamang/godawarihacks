@@ -15,6 +15,41 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Extract member count
+    const memberCount = parseInt(formData.get("memberCount") as string) || 3;
+    if (memberCount < 1 || memberCount > 4) {
+      return NextResponse.json(
+        { error: "Team must have between 1 and 4 members" },
+        { status: 400 },
+      );
+    }
+
+    // Extract payment screenshot
+    const paymentScreenshot = formData.get("paymentScreenshot") as File | null;
+    if (!paymentScreenshot) {
+      return NextResponse.json(
+        { error: "Payment screenshot is required" },
+        { status: 400 },
+      );
+    }
+
+    // Validate payment screenshot file size (5MB)
+    if (paymentScreenshot.size > 5 * 1024 * 1024) {
+      return NextResponse.json(
+        { error: "Payment screenshot exceeds 5MB limit" },
+        { status: 400 },
+      );
+    }
+
+    // Validate payment screenshot file type
+    const allowedImageTypes = ["image/jpeg", "image/jpg", "image/png"];
+    if (!allowedImageTypes.includes(paymentScreenshot.type)) {
+      return NextResponse.json(
+        { error: "Invalid payment screenshot type. Only JPG, PNG allowed." },
+        { status: 400 },
+      );
+    }
+
     // Extract member data
     const members: Array<{
       name: string;
@@ -24,7 +59,7 @@ export async function POST(request: NextRequest) {
       document: File | null;
     }> = [];
 
-    for (let i = 1; i <= 3; i++) {
+    for (let i = 1; i <= memberCount; i++) {
       const name = formData.get(`member${i}_name`) as string;
       const email = formData.get(`member${i}_email`) as string;
       const phone = formData.get(`member${i}_phone`) as string;
@@ -79,6 +114,56 @@ export async function POST(request: NextRequest) {
       console.error("Error creating team:", teamError);
       return NextResponse.json(
         { error: "Failed to create team registration" },
+        { status: 500 },
+      );
+    }
+
+    // Upload payment screenshot first
+    const paymentFileExt = paymentScreenshot.name.split(".").pop();
+    const paymentFileName = `payment_${Date.now()}.${paymentFileExt}`;
+    const paymentFilePath = `payments/${team.id}/${paymentFileName}`;
+
+    const paymentArrayBuffer = await paymentScreenshot.arrayBuffer();
+    const paymentBuffer = Buffer.from(paymentArrayBuffer);
+
+    const { error: paymentUploadError } = await supabase.storage
+      .from("payment-screenshots")
+      .upload(paymentFilePath, paymentBuffer, {
+        contentType: paymentScreenshot.type,
+        upsert: false,
+      });
+
+    if (paymentUploadError) {
+      console.error("Error uploading payment screenshot:", paymentUploadError);
+      // Clean up: delete team if payment upload fails
+      await supabase.from("teams").delete().eq("id", team.id);
+      return NextResponse.json(
+        { error: "Failed to upload payment screenshot" },
+        { status: 500 },
+      );
+    }
+
+    // Get payment screenshot public URL
+    const { data: paymentUrlData } = supabase.storage
+      .from("payment-screenshots")
+      .getPublicUrl(paymentFilePath);
+
+    // Update team with payment screenshot info
+    const { error: updateTeamError } = await supabase
+      .from("teams")
+      .update({
+        payment_screenshot_url: paymentUrlData.publicUrl,
+        payment_screenshot_path: paymentFilePath,
+        payment_verified: false,
+      })
+      .eq("id", team.id);
+
+    if (updateTeamError) {
+      console.error("Error updating team with payment info:", updateTeamError);
+      // Clean up
+      await supabase.from("teams").delete().eq("id", team.id);
+      return NextResponse.json(
+        { error: "Failed to save payment information" },
         { status: 500 },
       );
     }
