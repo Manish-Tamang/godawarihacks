@@ -5,6 +5,7 @@ import { AnimatedText } from "../components/AnimatedText";
 import { MainSiteLayout } from "../components/MainSiteLayout";
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
+import toast, { Toaster } from "react-hot-toast";
 
 interface TeamMember {
   name: string;
@@ -25,7 +26,6 @@ export default function RegisterPage() {
   ]);
   const [paymentScreenshot, setPaymentScreenshot] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const turnstileRef = useRef<HTMLDivElement>(null);
   const turnstileWidgetIdRef = useRef<string | null>(null);
@@ -110,17 +110,16 @@ export default function RegisterPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setSubmitStatus("idle");
 
     // Validate form
     if (!teamName.trim()) {
-      alert("Please enter a team name");
+      toast.error("Please enter a team name");
       setIsSubmitting(false);
       return;
     }
 
     if (memberCount < 1 || memberCount > 4) {
-      alert("Please select between 1 to 4 team members");
+      toast.error("Please select between 1 to 4 team members");
       setIsSubmitting(false);
       return;
     }
@@ -128,12 +127,12 @@ export default function RegisterPage() {
     for (let i = 0; i < memberCount; i++) {
       const member = members[i];
       if (!member.name.trim() || !member.email.trim() || !member.phone.trim()) {
-        alert(`Please fill in all fields for team member ${i + 1}`);
+        toast.error(`Please fill in all fields for team member ${i + 1}`);
         setIsSubmitting(false);
         return;
       }
       if (!member.document) {
-        alert(`Please upload a document for team member ${i + 1}`);
+        toast.error(`Please upload a document for team member ${i + 1}`);
         setIsSubmitting(false);
         return;
       }
@@ -141,14 +140,14 @@ export default function RegisterPage() {
 
     // Validate payment screenshot
     if (!paymentScreenshot) {
-      alert("Please upload payment screenshot");
+      toast.error("Please upload payment screenshot");
       setIsSubmitting(false);
       return;
     }
 
     // Validate Turnstile token
     if (!turnstileToken) {
-      alert("Please complete the verification");
+      toast.error("Please complete the verification");
       setIsSubmitting(false);
       return;
     }
@@ -183,7 +182,9 @@ export default function RegisterPage() {
       }
 
       setIsSubmitting(false);
-      setSubmitStatus("success");
+      toast.success("Registration successful! We've received your team registration. You'll receive a confirmation email shortly.", {
+        duration: 5000,
+      });
 
       // Reset form
       setTeamName("");
@@ -200,20 +201,16 @@ export default function RegisterPage() {
       if (turnstileWidgetIdRef.current && typeof window !== "undefined" && (window as any).turnstile) {
         (window as any).turnstile.reset(turnstileWidgetIdRef.current);
       }
-
-      // Reset success message after 5 seconds
-      setTimeout(() => setSubmitStatus("idle"), 5000);
     } catch (error) {
       setIsSubmitting(false);
-      setSubmitStatus("error");
       const errorMessage = error instanceof Error ? error.message : "Something went wrong. Please try again later.";
-      alert(errorMessage);
-      setTimeout(() => setSubmitStatus("idle"), 5000);
+      toast.error(errorMessage);
     }
   };
 
   return (
     <MainSiteLayout>
+      <Toaster position="top-center" />
       <section className="mt-6 space-y-10 md:mt-0 md:space-y-16 pb-0">
         {/* Hero Section */}
         <section className="relative py-12 md:py-16">
@@ -501,16 +498,6 @@ export default function RegisterPage() {
                       <div ref={turnstileRef} id="cf-turnstile"></div>
                     </div>
                   </div>
-                  {submitStatus === "success" && (
-                    <div className="p-4 bg-green-50 border border-green-200 rounded-square text-green-800">
-                      Registration successful! We&apos;ve received your team registration. You&apos;ll receive a confirmation email shortly.
-                    </div>
-                  )}
-                  {submitStatus === "error" && (
-                    <div className="p-4 bg-red-50 border border-red-200 rounded-square text-red-800">
-                      Something went wrong. Please try again later.
-                    </div>
-                  )}
 
                   <button
                     type="submit"
