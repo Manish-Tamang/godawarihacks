@@ -494,7 +494,7 @@ export default function RegisterPage() {
                         className="mt-1 w-4 h-4 text-[#084750] border-border-primary rounded focus:ring-[#084750]"
                       />
                       <label htmlFor="terms" className="text-sm text-text-secondary">
-                        I agree to the terms and conditions of Hack Sushma. I confirm that all information provided is accurate and I have the right to participate in this hackathon.
+                        I agree to the terms and conditions of Godawari Hack. I confirm that all information provided is accurate and I have the right to participate in this hackathon.
                       </label>
                     </div>
                     <div className="flex justify-center pt-2">
