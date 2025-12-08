@@ -15,6 +15,7 @@ import { MainSiteLayout } from "./components/MainSiteLayout";
 import Image from "next/image";
 import Link from "next/link";
 
+
 export default async function Home() {
   const PROFILE_DELAY = 0;
   const HEADING_DELAY = PROFILE_DELAY + 0.2;
