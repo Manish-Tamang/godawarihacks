@@ -3,7 +3,8 @@
 import { GridWrapper } from "../components/GridWrapper";
 import { AnimatedText } from "../components/AnimatedText";
 import { MainSiteLayout } from "../components/MainSiteLayout";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import toast, { Toaster } from "react-hot-toast";
 
 
 export default function ContactPage() {
@@ -14,15 +15,65 @@ export default function ContactPage() {
     message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const turnstileRef = useRef<HTMLDivElement>(null);
+  const turnstileWidgetIdRef = useRef<string | null>(null);
 
   const HEADING_DELAY = 0.2;
   const PARAGRAPH_DELAY = HEADING_DELAY + 0.1;
 
+  // Load Cloudflare Turnstile script
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js";
+    script.async = true;
+    script.defer = true;
+    document.body.appendChild(script);
+
+    script.onload = () => {
+      // Initialize Turnstile after script loads
+      if (turnstileRef.current && typeof window !== "undefined" && (window as any).turnstile) {
+        const siteKey = process.env.NEXT_PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY;
+        if (siteKey) {
+          const widgetId = (window as any).turnstile.render(turnstileRef.current, {
+            sitekey: siteKey,
+            theme: "light",
+            callback: (token: string) => {
+              setTurnstileToken(token);
+            },
+            "error-callback": () => {
+              setTurnstileToken(null);
+            },
+            "expired-callback": () => {
+              setTurnstileToken(null);
+            },
+          });
+          turnstileWidgetIdRef.current = widgetId;
+        }
+      }
+    };
+
+    return () => {
+      // Cleanup: remove script and reset turnstile
+      if (turnstileWidgetIdRef.current && typeof window !== "undefined" && (window as any).turnstile) {
+        (window as any).turnstile.remove(turnstileWidgetIdRef.current);
+      }
+      if (document.body.contains(script)) {
+        document.body.removeChild(script);
+      }
+    };
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setSubmitStatus("idle");
+
+    // Validate Turnstile token
+    if (!turnstileToken) {
+      toast.error("Please complete the verification");
+      setIsSubmitting(false);
+      return;
+    }
 
     try {
       const accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY;
@@ -49,21 +100,22 @@ export default function ContactPage() {
 
       if (data.success) {
         setIsSubmitting(false);
-        setSubmitStatus("success");
+        toast.success("Message sent successfully! We'll get back to you soon.");
         setFormData({ name: "", email: "", subject: "", message: "" });
+        setTurnstileToken(null);
 
-        // Reset success message after 5 seconds
-        setTimeout(() => setSubmitStatus("idle"), 5000);
+        // Reset Turnstile widget
+        if (turnstileWidgetIdRef.current && typeof window !== "undefined" && (window as any).turnstile) {
+          (window as any).turnstile.reset(turnstileWidgetIdRef.current);
+        }
       } else {
         throw new Error(data.message || "Failed to send message");
       }
     } catch (error) {
       setIsSubmitting(false);
-      setSubmitStatus("error");
+      const errorMessage = error instanceof Error ? error.message : "Something went wrong. Please try again later.";
+      toast.error(errorMessage);
       console.error("Error submitting form:", error);
-
-      // Reset error message after 5 seconds
-      setTimeout(() => setSubmitStatus("idle"), 5000);
     }
   };
 
@@ -76,6 +128,7 @@ export default function ContactPage() {
 
   return (
     <MainSiteLayout>
+      <Toaster position="top-center" />
       <section className="mt-6 space-y-10 md:mt-0 md:space-y-16 pb-0">
         {/* Hero Section */}
         <section className="relative py-12 md:py-16">
@@ -142,7 +195,7 @@ export default function ContactPage() {
                         value={formData.email}
                         onChange={handleChange}
                         className="w-full px-4 py-3 border border-border-primary rounded-square bg-bg-primary text-text-primary focus:outline-none focus:ring-2 focus:ring-[#084750] focus:border-transparent transition-colors"
-                        placeholder="your.email@example.com"
+                        placeholder="ramshyam@gmail.com"
                       />
                     </div>
                   </div>
@@ -181,16 +234,14 @@ export default function ContactPage() {
                       placeholder="Tell us what's on your mind..."
                     />
                   </div>
-                  {submitStatus === "success" && (
-                    <div className="p-4 bg-green-50 border border-green-200 rounded-square text-green-800">
-                      Thank you for your message! We&apos;ll get back to you soon.
+
+                  {/* Turnstile Verification */}
+                  <div className="space-y-4 p-4 bg-blue-50/50 rounded-square border border-blue-200">
+                    <div className="flex justify-center pt-2">
+                      <div ref={turnstileRef} id="cf-turnstile"></div>
                     </div>
-                  )}
-                  {submitStatus === "error" && (
-                    <div className="p-4 bg-red-50 border border-red-200 rounded-square text-red-800">
-                      Something went wrong. Please try again later.
-                    </div>
-                  )}
+                  </div>
+
                   <button
                     type="submit"
                     disabled={isSubmitting}
