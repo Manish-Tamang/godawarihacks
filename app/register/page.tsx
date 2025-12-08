@@ -3,6 +3,7 @@
 import { GridWrapper } from "../components/GridWrapper";
 import { AnimatedText } from "../components/AnimatedText";
 import { MainSiteLayout } from "../components/MainSiteLayout";
+import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 
 interface TeamMember {
@@ -402,7 +403,7 @@ export default function RegisterPage() {
                       <div className="flex-shrink-0 flex flex-col items-center">
                         <h3 className="text-lg font-semibold text-text-primary mb-3">Scan to Pay</h3>
                         <div className="bg-white p-4 rounded-lg border-2 border-[#084750]/20 shadow-md">
-                          <img
+                          <Image
                             src="/qr.jpg"
                             alt="Payment QR Code"
                             width={200}
