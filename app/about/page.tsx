@@ -22,7 +22,7 @@ export default async function AboutPage() {
                         style={{
                             backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='grid' width='60' height='60' patternUnits='userSpaceOnUse'%3E%3Cpath d='M 60 0 L 0 0 0 60' fill='none' stroke='%23007cff' stroke-width='1'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23grid)'/%3E%3C/svg%3E")`,
                         }}
-                    ><Image src="/cover-sushma.jpg" alt="Hack Sushma" width={300} height={300} className="w-full h-full object-cover" /></div>
+                    ><Image src="/cover-sushma.jpg" alt="Godawari Hack" width={300} height={300} className="w-full h-full object-cover" /></div>
                     <div className="relative text-balance">
                         <AnimatedText
                             as="h1"
@@ -84,14 +84,14 @@ export default async function AboutPage() {
                                 <div className="space-y-4 flex flex-col justify-center">
                                     <h3 className="text-xl font-semibold text-text-primary">Innovation</h3>
                                     <p className="text-text-secondary leading-relaxed">
-                                        We encourage creative thinking and bold ideas. Hack Sushma is a space where you can experiment, take risks, and push the boundaries of what&apos;s possible.
+                                        We encourage creative thinking and bold ideas. Godawari Hack is a space where you can experiment, take risks, and push the boundaries of what&apos;s possible.
                                     </p>
                                 </div>
 
                                 <div className="space-y-4 flex flex-col justify-center">
                                     <h3 className="text-xl font-semibold text-text-primary">Learning</h3>
                                     <p className="text-text-secondary leading-relaxed">
-                                        We believe in continuous learning and growth. Through workshops, mentorship, and collaboration, participants leave Hack Sushma with new skills and knowledge.
+                                        We believe in continuous learning and growth. Through workshops, mentorship, and collaboration, participants leave Godawari Hack with new skills and knowledge.
                                     </p>
                                 </div>
                             </div>
@@ -145,7 +145,7 @@ export default async function AboutPage() {
                             <div className="relative w-full h-[400px] md:h-[500px] rounded-square overflow-hidden">
                                 <Image
                                     src="/hackathon/sushm-1.jpg"
-                                    alt="Hack Sushma Event"
+                                    alt="Godawari Hack Event"
                                     fill
                                     className="object-cover"
                                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
