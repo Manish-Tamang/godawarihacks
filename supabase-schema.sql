@@ -11,6 +11,9 @@ CREATE TABLE IF NOT EXISTS teams (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   team_name VARCHAR(255) NOT NULL,
   status VARCHAR(50) DEFAULT 'pending' CHECK (status IN ('pending', 'approved', 'rejected', 'cancelled')),
+  payment_screenshot_url TEXT, -- URL to payment screenshot in storage bucket
+  payment_screenshot_path TEXT, -- Path in storage bucket
+  payment_verified BOOLEAN DEFAULT false,
   registration_date TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
@@ -22,7 +25,7 @@ CREATE TABLE IF NOT EXISTS teams (
 CREATE TABLE IF NOT EXISTS team_members (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   team_id UUID NOT NULL REFERENCES teams(id) ON DELETE CASCADE,
-  member_number INTEGER NOT NULL CHECK (member_number IN (1, 2, 3)),
+  member_number INTEGER NOT NULL CHECK (member_number IN (1, 2, 3, 4)),
   full_name VARCHAR(255) NOT NULL,
   email VARCHAR(255) NOT NULL,
   phone VARCHAR(50) NOT NULL,
@@ -31,7 +34,7 @@ CREATE TABLE IF NOT EXISTS team_members (
   document_path TEXT, -- Path in storage bucket
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-  UNIQUE(team_id, member_number) -- Ensure only 3 members per team
+  UNIQUE(team_id, member_number) -- Ensure only 4 members per team
 );
 
 -- ============================================
@@ -150,7 +153,7 @@ CREATE POLICY "Users can view their own admin record"
   );
 
 -- ============================================
--- 8. FUNCTION TO ENSURE 3 MEMBERS PER TEAM
+-- 8. FUNCTION TO ENSURE 4 MEMBERS PER TEAM
 -- ============================================
 CREATE OR REPLACE FUNCTION check_team_member_count()
 RETURNS TRIGGER AS $$
@@ -161,8 +164,8 @@ BEGIN
   FROM team_members
   WHERE team_id = NEW.team_id;
   
-  IF member_count > 3 THEN
-    RAISE EXCEPTION 'A team can only have 3 members';
+  IF member_count > 4 THEN
+    RAISE EXCEPTION 'A team can only have 4 members';
   END IF;
   
   RETURN NEW;
