@@ -41,7 +41,7 @@ export function Venue() {
                                         Dates
                                     </h3>
                                     <p className="text-gray-200 text-lg">
-                                        Yet to be announced
+                                        26th - 27th December 2025
                                     </p>
                                 </div>
                                 <div className="space-y-3">
