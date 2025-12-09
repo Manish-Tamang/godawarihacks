@@ -277,20 +277,16 @@ export default function ContactPage() {
                 </p>
               </div>
               {/* <div className="space-y-4 text-center md:text-left">
-              <div className="text-4xl mb-4">🌐</div>
-              <h3 className="text-lg font-semibold text-text-primary">Social Media</h3>
-              <div className="flex flex-col space-y-2">
-                <a href="#" className="text-[#084750] hover:text-[#084750]/80 underline text-text-secondary">
-                  Twitter / X
-                </a>
-                <a href="#" className="text-[#084750] hover:text-[#084750]/80 underline text-text-secondary">
-                  LinkedIn
-                </a>
-                <a href="#" className="text-[#084750] hover:text-[#084750]/80 underline text-text-secondary">
-                  GitHub
-                </a>
-              </div>
-            </div> */}
+                <div className="text-4xl mb-4">📞</div>
+                <h3 className="text-lg font-semibold text-text-primary">Contact Number</h3>
+                <p className="text-text-secondary">
+                  <a href="tel:+9779707360949" className="text-[#084750] hover:text-[#084750]/80 underline">
+                    +977 9707360949
+                  </a>
+                  <br />
+                  <span className="text-sm">Technical Support</span>
+                </p>
+              </div> */}
             </div>
           </GridWrapper>
         </section>
