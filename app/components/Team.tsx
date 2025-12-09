@@ -54,7 +54,7 @@ export function Team() {
               Meet the team
             </h2>
             <p className="text-base md:text-lg text-gray-600 max-w-3xl mx-auto px-4">
-              The people behind the only web development conference where all of the profits go directly to charity.
+              The students behind the scenes making this event possible, from organizing to managing to technical support.
             </p>
           </div>
         </GridWrapper>
