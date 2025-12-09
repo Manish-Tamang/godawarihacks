@@ -37,10 +37,10 @@ const teamMembers: TeamMember[] = [
     image: "/team/ganesh.png",
   },
   {
-    name: "Dash Dash",
-    role: "Web Developer",
+    name: "Abhi Karki",
+    role: "Event Manager, Connect Club",
     faculty: "Science",
-    image: "/team/gole.jpg",
+    image: "/team/abhi.png",
   },
   {
     name: "Dash Dash1",
