@@ -32,7 +32,7 @@ const teamMembers: TeamMember[] = [
   },
   {
     name: "Ganesh Shah",
-    role: "Full Stack Developer",
+    role: "Event Lead",
     faculty: "Management (Computer)",
     image: "/team/ganesh.png",
   },
@@ -41,12 +41,6 @@ const teamMembers: TeamMember[] = [
     role: "Event Manager, Connect Club",
     faculty: "Science",
     image: "/team/abhi.png",
-  },
-  {
-    name: "Dash Dash1",
-    role: "Game Developer",
-    faculty: "Science",
-    image: "/team/gole.jpg",
   },
 ];
 
