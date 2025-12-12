@@ -33,8 +33,8 @@ export default async function Home() {
               backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='grid' width='60' height='60' patternUnits='userSpaceOnUse'%3E%3Cpath d='M 60 0 L 0 0 0 60' fill='none' stroke='%23007cff' stroke-width='1'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23grid)'/%3E%3C/svg%3E")`,
             }}
           ></div>
-          <div className="relative text-balance">
-
+          <div className="relative text-balance flex flex-col items-center justify-center">
+            <a href="https://www.facebook.com/sushmagodawari" target="_blank" rel="noopener noreferrer"><div className="rounded-full w-[300px] user-select-none bg-gray-200 text-center"><img className="rounded-full w-5 h-5 inline-block" src="/sushma-logo.jpg" /> Sushma Godawari College Presents</div></a>
             <AnimatedText
               as="h1"
               delay={HEADING_DELAY}
