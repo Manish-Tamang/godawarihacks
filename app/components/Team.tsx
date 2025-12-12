@@ -3,12 +3,18 @@
 import { GridWrapper } from "./GridWrapper";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { LinkedIn } from "./icons/LinkedIn";
+import { GitHub } from "./icons/Github";
+import { Instagram } from "./icons/Instagram";
 
 interface TeamMember {
   name: string;
   role: string;
   faculty?: string;
   image?: string;
+  linkedin?: string;
+  github?: string;
+  instagram?: string;
 }
 
 const teamMembers: TeamMember[] = [
@@ -17,30 +23,38 @@ const teamMembers: TeamMember[] = [
     role: "Event Organizer",
     faculty: "Management (Computer)",
     image: "/team/raj.jpg",
+    github: "https://github.com/rajacharya987",
   },
   {
     name: "Manish Tamang",
     role: "Event Organizer",
     faculty: "Science",
     image: "/gole.jpg",
+    linkedin: "https://www.linkedin.com/in/manish-tamang/",
+    github: "https://github.com/Manish-Tamang",
+    instagram: "https://www.instagram.com/golecodes/",
   },
   {
     name: "Bipan Deuja",
     role: "Technical Lead",
     faculty: "Science",
     image: "/team/bipan.png",
+    github: "https://github.com/bipancodes",
   },
   {
     name: "Ganesh Shah",
     role: "Event Lead",
     faculty: "Management (Computer)",
     image: "/team/ganesh.png",
+    github: "https://github.com/GaneshShah98",
+    instagram: "https://www.instagram.com/ganesh_sha1/",
   },
   {
     name: "Abhi Karki",
     role: "Event Manager, Connect Club",
     faculty: "Science",
     image: "/team/abhi.png",
+    instagram: "https://www.instagram.com/abhi_karki09/",
   },
 ];
 
@@ -64,7 +78,7 @@ export function Team() {
               {teamMembers.map((member) => (
                 <motion.div
                   key={member.name}
-                  className="relative aspect-square overflow-hidden rounded-square w-full"
+                  className="relative aspect-square overflow-hidden rounded-square w-full group"
                 >
                   <div className="relative w-full h-full">
                     <Image
@@ -76,6 +90,42 @@ export function Team() {
                     />
 
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent z-10"></div>
+
+                    {/* Social Media Icons - Show on Hover */}
+                    {(member.linkedin || member.github || member.instagram) && (
+                      <div className="absolute top-4 right-4 z-30 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        {member.linkedin && (
+                          <a
+                            href={member.linkedin}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="w-9 h-9 bg-white/90 hover:bg-white rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
+                          >
+                            <LinkedIn className="w-5 h-5" />
+                          </a>
+                        )}
+                        {member.github && (
+                          <a
+                            href={member.github}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="w-9 h-9 bg-white/90 hover:bg-white rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
+                          >
+                            <GitHub className="w-5 h-5" />
+                          </a>
+                        )}
+                        {member.instagram && (
+                          <a
+                            href={member.instagram}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="w-9 h-9 bg-white/90 hover:bg-white rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
+                          >
+                            <Instagram className="w-5 h-5" />
+                          </a>
+                        )}
+                      </div>
+                    )}
 
                     <div className="absolute bottom-0 left-0 right-0 p-4 z-20">
                       <h3 className="text-xl font-semibold text-white mb-1">
