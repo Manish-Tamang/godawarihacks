@@ -25,14 +25,14 @@ const schedule: ScheduleEvent[] = [
         time: "9:00 AM – 10:00 AM",
         title: "Arriving Time",
         description: "Participants arrive and check in. Get settled and ready for an amazing hackathon experience!",
-        image: "/hackathon/sushm-1.jpg",
+        image: "/arrival.jpg",
     },
     {
         day: "Day 1",
         time: "10:00 AM – 11:00 AM",
         title: "Introduction AND SNACKS",
         description: "Welcome session with introductions, hackathon rules, and enjoy some snacks to fuel up!",
-        image: "/hackathon/sushma-2.jpg",
+        image: "/snacks.jpg",
     },
     {
         day: "Day 1",
