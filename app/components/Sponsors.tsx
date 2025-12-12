@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { GridWrapper } from "./GridWrapper";
 import { AnimatedText } from "./AnimatedText";
 import { motion } from "framer-motion";
@@ -10,7 +11,7 @@ interface Sponsor {
 }
 
 const sponsors: Sponsor[] = [
-    { name: "Sponsor Spotlight Available1" },
+    { name: "MST", logo: "/mst.png" },
     { name: "Sponsor Spotlight Available2" },
     { name: "Sponsor Spotlight Available3" },
     { name: "Sponsor Spotlight Available4" },
@@ -41,7 +42,17 @@ export function Sponsors() {
                             }}
                             className="aspect-square border border-border-primary flex items-center justify-center hover:shadow-md transition-shadow"
                         >
-                            <div className="text-lg font-semibold text-text-primary text-center p-4">{sponsor.name}</div>
+                            {sponsor.logo ? (
+                                <Image
+                                    src={sponsor.logo}
+                                    alt={sponsor.name}
+                                    width={150}
+                                    height={150}
+                                    className="object-contain p-4"
+                                />
+                            ) : (
+                                <div className="text-lg font-semibold text-text-primary text-center p-4">{sponsor.name}</div>
+                            )}
                         </motion.div>
                     ))}
                 </div>
