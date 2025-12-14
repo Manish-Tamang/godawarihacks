@@ -5,6 +5,7 @@ import { AnimatedText } from "../components/AnimatedText";
 import { MainSiteLayout } from "../components/MainSiteLayout";
 import { useState, useEffect, useRef } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import { FeedbackFish } from "@feedback-fish/react";
 
 
 export default function ContactPage() {
@@ -129,6 +130,31 @@ export default function ContactPage() {
   return (
     <MainSiteLayout>
       <Toaster position="top-center" />
+
+      {/* Feedback Button - Fixed Position */}
+      <FeedbackFish projectId={process.env.NEXT_PUBLIC_PROJECTID || "1eaa7bd2353b27"}>
+        <button
+          className="fixed bottom-6 right-6 z-50 px-6 py-3 bg-[#084750] text-white font-semibold rounded-full shadow-lg hover:bg-[#084750]/90 hover:shadow-xl transition-all duration-200 flex items-center gap-2 group"
+          aria-label="Report an issue or send feedback"
+        >
+          <svg
+            className="w-5 h-5 group-hover:rotate-12 transition-transform"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+            />
+          </svg>
+          <span className="hidden sm:inline">Report Issue</span>
+        </button>
+      </FeedbackFish>
+
       <section className="mt-6 space-y-10 md:mt-0 md:space-y-16 pb-0">
         {/* Hero Section */}
         <section className="relative py-12 md:py-16">
@@ -257,8 +283,12 @@ export default function ContactPage() {
 
         {/* Contact Information Section */}
         <section className="relative space-y-10 md:space-y-16">
-          <GridWrapper className="before:hidden">
+          <GridWrapper>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 relative mx-auto max-w-5xl px-4 md:px-8 py-8 md:py-12">
+              {/* Vertical divider lines */}
+              <div className="hidden md:block absolute top-0 bottom-0 left-1/3 w-px bg-border-primary"></div>
+              <div className="hidden md:block absolute top-0 bottom-0 left-2/3 w-px bg-border-primary"></div>
+
               <div className="space-y-4 text-center md:text-left">
                 <div className="text-4xl mb-4">📧</div>
                 <h3 className="text-lg font-semibold text-text-primary">Email</h3>
@@ -276,7 +306,7 @@ export default function ContactPage() {
                   Itahari-6, Sunsari, Nepal
                 </p>
               </div>
-              {/* <div className="space-y-4 text-center md:text-left">
+              <div className="space-y-4 text-center md:text-left">
                 <div className="text-4xl mb-4">📞</div>
                 <h3 className="text-lg font-semibold text-text-primary">Contact Number</h3>
                 <p className="text-text-secondary">
@@ -286,7 +316,7 @@ export default function ContactPage() {
                   <br />
                   <span className="text-sm">Technical Support</span>
                 </p>
-              </div> */}
+              </div>
             </div>
           </GridWrapper>
         </section>
@@ -321,6 +351,18 @@ export default function ContactPage() {
                   <h3 className="text-lg font-semibold text-text-primary">What should I bring?</h3>
                   <p className="text-text-secondary leading-relaxed">
                     Bring your laptop, charger, and enthusiasm! We&apos;ll provide food, drinks, and a great environment for coding.
+                  </p>
+                </div>
+                <div className="space-y-2">
+                  <h3 className="text-lg font-semibold text-text-primary">What about food and accommodation?</h3>
+                  <p className="text-text-secondary leading-relaxed">
+                    Food, snacks, and sleeping management is on us! We&apos;ll provide delicious meals, refreshments, and a comfortable space for rest throughout the hackathon. Both <span className="underline decoration-wavy decoration-[#084750]">vegetarian</span> and <span className="underline decoration-wavy decoration-[#084750]">non-vegetarian</span> options will be available for all participants, so don&apos;t worry about your dietary preferences. Just focus on building your amazing projects!
+                  </p>
+                </div>
+                <div className="space-y-2">
+                  <h3 className="text-lg font-semibold text-text-primary">Have more questions?</h3>
+                  <p className="text-text-secondary leading-relaxed">
+                    Feel free to ask any inquiry! Contact us at <a href="mailto:hack@godawari.edu.np" className="text-[#084750] hover:text-[#084750]/80 underline">hack@godawari.edu.np</a> or call us at <a href="tel:+9779707360949" className="text-[#084750] hover:text-[#084750]/80 underline">9707360949</a>. We&apos;re here to help!
                   </p>
                 </div>
               </div>
