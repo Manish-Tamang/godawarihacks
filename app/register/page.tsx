@@ -6,6 +6,7 @@ import { MainSiteLayout } from "../components/MainSiteLayout";
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import { FeedbackFish } from "@feedback-fish/react";
 
 interface TeamMember {
   name: string;
@@ -211,6 +212,31 @@ export default function RegisterPage() {
   return (
     <MainSiteLayout>
       <Toaster position="top-center" />
+
+      {/* Feedback Button - Fixed Position */}
+      <FeedbackFish projectId={process.env.NEXT_PUBLIC_PROJECTID || "1eaa7bd2353b27"}>
+        <button
+          className="fixed bottom-6 right-6 z-50 px-6 py-3 bg-[#084750] text-white font-semibold rounded-full shadow-lg hover:bg-[#084750]/90 hover:shadow-xl transition-all duration-200 flex items-center gap-2 group"
+          aria-label="Report an issue or send feedback"
+        >
+          <svg
+            className="w-5 h-5 group-hover:rotate-12 transition-transform"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+            />
+          </svg>
+          <span className="hidden sm:inline">Report Issue</span>
+        </button>
+      </FeedbackFish>
+
       <section className="mt-6 space-y-10 md:mt-0 md:space-y-16 pb-0">
         {/* Hero Section */}
         <section className="relative py-12 md:py-16">
@@ -543,7 +569,7 @@ export default function RegisterPage() {
                     <li>Registration fee is NPR 2500 per team</li>
                     <li>You will receive a confirmation email after successful registration</li>
                     <li>Please ensure all information is accurate before submitting</li>
-                    <li>Contact us if you have any questions about the registration process</li>
+                    <li>Contact us if you have any questions: <a href="mailto:hack@godawari.edu.np" className="text-[#084750] hover:text-[#084750]/80 underline">hack@godawari.edu.np</a> or call <a href="tel:+9779707360949" className="text-[#084750] hover:text-[#084750]/80 underline">9707360949</a></li>
                   </ul>
                 </div>
               </div>
