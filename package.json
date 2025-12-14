@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@feedback-fish/react": "^1.2.2",
     "@headlessui/react": "^2.1.8",
     "@supabase/ssr": "^0.7.0",
     "@supabase/supabase-js": "^2.81.1",
