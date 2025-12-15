@@ -19,11 +19,17 @@ interface TeamMember {
 
 const teamMembers: TeamMember[] = [
   {
-    name: "Raj Acharya",
-    role: "Event Organizer",
-    faculty: "Management (Computer)",
-    image: "/team/raj.jpg",
-    github: "https://github.com/rajacharya987",
+    name: "Ankit Katwal",
+    role: "Event Manager",
+    faculty: "Science",
+    image: "/team/ankit.png",
+    instagram: "https://www.instagram.com/ankit_0721___/",
+  },
+  {
+    name: "Bimarsh Katwal",
+    role: "Event Lead",
+    faculty: "Science",
+    image: "/team/bimarsh.jpg",
   },
   {
     name: "Manish Tamang",
@@ -43,7 +49,7 @@ const teamMembers: TeamMember[] = [
   },
   {
     name: "Ganesh Shah",
-    role: "Event Lead",
+    role: "Event Marketing Lead",
     faculty: "Management (Computer)",
     image: "/team/ganesh.png",
     github: "https://github.com/GaneshShah98",
@@ -55,6 +61,13 @@ const teamMembers: TeamMember[] = [
     faculty: "Science",
     image: "/team/abhi.png",
     instagram: "https://www.instagram.com/abhi_karki09/",
+  },
+  {
+    name: "Raj Acharya",
+    role: "Event Organizer",
+    faculty: "Management (Computer)",
+    image: "/team/raj.jpg",
+    github: "https://github.com/rajacharya987",
   },
 ];
 
