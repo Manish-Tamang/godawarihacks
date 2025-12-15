@@ -12,7 +12,8 @@ interface Sponsor {
 
 const sponsors: Sponsor[] = [
     { name: "MST", logo: "/mst.png" },
-    { name: "Sponsor Spotlight Available2" },
+    { name: "Expert Visa and Services", logo: "/expert.png" },
+    // { name: "Alfa Beta Itahari", logo: "/alfabeta-logo.png" },
     { name: "Sponsor Spotlight Available3" },
     { name: "Sponsor Spotlight Available4" },
     { name: "Sponsor Spotlight Available5" },
