@@ -143,14 +143,14 @@ export const EncryptedText: React.FC<EncryptedTextProps> = ({
 
     if (!text) return null;
 
+    const style = {
+        display: 'inline-block',
+        whiteSpace: 'nowrap',
+        cursor: 'pointer',
+    };
+
     return (
-        <motion.span
-            ref={ref}
-            className={cn(className, "cursor-pointer")}
-            aria-label={text}
-            role="text"
-            onMouseEnter={handleMouseEnter}
-        >
+        <span ref={ref} style={style} className={className} onMouseEnter={handleMouseEnter}>
             {text.split("").map((char, index) => {
                 const isRevealed = index < revealCount;
                 const displayChar = isRevealed
@@ -169,6 +169,6 @@ export const EncryptedText: React.FC<EncryptedTextProps> = ({
                     </span>
                 );
             })}
-        </motion.span>
+        </span>
     );
 };
