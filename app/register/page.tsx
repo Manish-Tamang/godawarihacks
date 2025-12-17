@@ -273,6 +273,9 @@ export default function RegisterPage() {
               <h2 className="text-[#084750] ml-4 text-balance text-left text-3xl font-medium leading-10 tracking-tight md:text-4xl">
                 Team Registration
               </h2>
+              <div className="mx-4 rounded-square border border-amber-300 bg-amber-50 text-amber-900 px-4 py-3 text-sm leading-relaxed md:text-base md:px-5 md:py-4">
+                We take your documents seriously. Submitted IDs and sensitive files are used only for verification, kept secure until the event, and then deleted.
+              </div>
               <div className="px-4">
                 <form onSubmit={handleSubmit} className="max-w-4xl space-y-8">
                   <div className="space-y-2">
@@ -427,7 +430,7 @@ export default function RegisterPage() {
                         <h3 className="text-lg font-semibold text-text-primary mb-3">Scan to Pay</h3>
                         <div className="bg-white p-4 rounded-lg border-2 border-[#084750]/20 shadow-md">
                           <Image
-                            src="/qr.jpg"
+                            src="/ganesh-qr.jpg"
                             alt="Payment QR Code"
                             width={200}
                             height={200}
@@ -450,7 +453,7 @@ export default function RegisterPage() {
                         <div className="space-y-2">
                           <div className="flex gap-3">
                             <span className="flex-shrink-0 w-6 h-6 rounded-full bg-[#084750] text-white flex items-center justify-center text-xs font-bold">1</span>
-                            <p className="text-sm text-text-secondary">Scan the QR code using Esewa, Fonepay or any Other Banking App.(Make sure to send Fee to Di****** Sahau)</p>
+                            <p className="text-sm text-text-secondary">Scan the QR code using Esewa, Fonepay or any Other Banking App.(Make sure to send Fee to Ganesh Sahau)</p>
                           </div>
                           <div className="flex gap-3">
                             <span className="flex-shrink-0 w-6 h-6 rounded-full bg-[#084750] text-white flex items-center justify-center text-xs font-bold">2</span>
