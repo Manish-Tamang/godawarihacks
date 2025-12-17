@@ -7,7 +7,7 @@ export function RegisterSection() {
     const [daysUntil, setDaysUntil] = useState<number>(0);
 
     useEffect(() => {
-        const hackathonDate = new Date("2025-12-25T00:00:00");
+        const hackathonDate = new Date("2026-01-16T00:00:00");
         const today = new Date();
 
         today.setHours(0, 0, 0, 0);
