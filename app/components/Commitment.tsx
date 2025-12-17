@@ -45,19 +45,19 @@ export function Commitment() {
 
           <div className="p-6 pl-8 md:pl-12 border-b border-border-primary/50 flex items-center justify-center gap-4 min-h-[120px]">
             <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden">
-              <Image src="/sushma-leaders.jpg" draggable={false} alt="Sushma Leaders Alliance" width={64} height={64} className="object-cover" />
+              <Image src="/connect-club.jpg" draggable={false} alt="Connect Club Sushma Godawari College" width={64} height={64} className="object-cover" />
             </div>
             <div>
-              <p className="text-base font-bold text-text-primary tracking-wide">Sushma Leaders Alliance</p>
+              <p className="text-base font-bold text-text-primary tracking-wide">Connect Club (Sushma Godawari College)</p>
             </div>
           </div>
 
           <div className="p-6 pl-8 md:pl-12 flex items-center justify-center gap-4 min-h-[120px]">
             <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden">
-              <Image src="/connect-club.jpg" draggable={false} alt="Connect Club Sushma Godawari College" width={64} height={64} className="object-cover" />
+              <Image src="/sushma-leaders.jpg" draggable={false} alt="Sushma Leaders Alliance" width={64} height={64} className="object-cover" />
             </div>
             <div>
-              <p className="text-base font-bold text-text-primary tracking-wide">Connect Club (Sushma Godawari College)</p>
+              <p className="text-base font-bold text-text-primary tracking-wide">Sushma Leaders Alliance</p>
             </div>
           </div>
         </div>
