@@ -55,8 +55,8 @@ function DesktopNav() {
     >
       <div className="w-[104px]">
         <Link href="/" aria-label="Home" className="text-xl font-bold text-[#084750] whitespace-nowrap flex items-center gap-2">
-          <Image src="/sushma-logo.jpg" alt="Godawari Hack Logo" className="rounded-full" width={40} height={40} />
-          Hack
+          <Image src="/sushma-logo.jpg" alt="Godawari Hackss Logo" className="rounded-full" width={40} height={40} />
+          Hacks
         </Link>
       </div>
       <ul className="flex place-items-center space-x-4 rounded-full border border-border-primary px-5 py-2 text-sm text-gray-500">
@@ -180,7 +180,7 @@ interface NavLogoProps {
 const NavLogo: React.FC<NavLogoProps> = ({ onClickCallback }) => {
   return (
     <Link href="/" onClick={() => onClickCallback(false)} aria-label="Home" className="text-xl font-bold text-[#084750]">
-      Godawari Hack
+      Godawari Hacks
     </Link>
   );
 };
