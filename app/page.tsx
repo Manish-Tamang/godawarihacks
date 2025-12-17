@@ -41,7 +41,7 @@ export default async function Home() {
               className="mx-auto max-w-2xl text-center text-5xl font-bold leading-tight tracking-tighter text-[#084750] md:text-7xl md:leading-[78px]"
             >
               <EncryptedText
-                text="Godawari <Hack/>"
+                text="Godawari <Hacks/>"
                 encryptedClassName="text-neutral-500"
                 revealedClassName="text-[#084750]"
                 revealDelayMs={50}
@@ -63,7 +63,7 @@ export default async function Home() {
                 delay={PARAGRAPH_DELAY + 0.1}
                 className="text-sm md:text-base text-text-tertiary leading-relaxed max-w-2xl mx-auto"
               >
-                Godawari Hack is a 24 hours highschool hackathon where 30+ teams competes each other making innovative projects aligning with the theme.
+                Godawari Hacks is a 24 hours highschool hackathon where 30+ teams competes each other making innovative projects aligning with the theme.
               </AnimatedText>
             </div>
             <Link href="/register">
