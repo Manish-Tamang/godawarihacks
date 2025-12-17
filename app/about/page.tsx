@@ -5,8 +5,8 @@ import Image from "next/image";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "About - Godawari Hack",
-    description: "Learn about Godawari Hack, our mission, values, and what makes our hackathon special. Join a community-driven event that brings together passionate developers.",
+    title: "About - Godawari Hacks",
+    description: "Learn about Godawari Hacks, our mission, values, and what makes our hackathon special. Join a community-driven event that brings together passionate developers.",
 };
 
 export default async function AboutPage() {
@@ -22,14 +22,14 @@ export default async function AboutPage() {
                         style={{
                             backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='grid' width='60' height='60' patternUnits='userSpaceOnUse'%3E%3Cpath d='M 60 0 L 0 0 0 60' fill='none' stroke='%23007cff' stroke-width='1'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23grid)'/%3E%3C/svg%3E")`,
                         }}
-                    ><Image src="/cover-sushma.jpg" alt="Godawari Hack" width={300} height={300} className="w-full h-full object-cover" /></div>
+                    ><Image src="/cover-sushma.jpg" alt="Godawari Hacks" width={300} height={300} className="w-full h-full object-cover" /></div>
                     <div className="relative text-balance">
                         <AnimatedText
                             as="h1"
                             delay={HEADING_DELAY}
                             className="mx-auto max-w-2xl text-center text-6xl font-bold leading-tight tracking-tighter text-[#084750] md:text-8xl md:leading-[78px]"
                         >
-                            About Godawari Hack
+                            About Godawari Hacks
                         </AnimatedText>
                         <div className="mt-4 text-center md:mt-8">
                             <AnimatedText
@@ -52,10 +52,10 @@ export default async function AboutPage() {
                             </h2>
                             <div className="space-y-6 px-4">
                                 <p className="text-left text-text-secondary leading-relaxed max-w-4xl">
-                                    Godawari Hack was founded with a simple yet powerful mission: to create a hackathon that gives back to the community while fostering innovation and collaboration among developers. We believe that technology should be accessible to everyone, and that the best solutions come from diverse teams working together.
+                                    Godawari Hacks was founded with a simple yet powerful mission: to create a hackathon that gives back to the community while fostering innovation and collaboration among developers. We believe that technology should be accessible to everyone, and that the best solutions come from diverse teams working together.
                                 </p>
                                 <p className="text-left text-text-secondary leading-relaxed max-w-4xl">
-                                    Our event is designed to be inclusive, educational, and fun. Whether you&apos;re a beginner taking your first steps in coding or an experienced developer looking to build something amazing, there&apos;s a place for you at Godawari Hack.
+                                    Our event is designed to be inclusive, educational, and fun. Whether you&apos;re a beginner taking your first steps in coding or an experienced developer looking to build something amazing, there&apos;s a place for you at Godawari Hacks.
                                 </p>
                             </div>
                         </div>
@@ -84,14 +84,14 @@ export default async function AboutPage() {
                                 <div className="space-y-4 flex flex-col justify-center">
                                     <h3 className="text-xl font-semibold text-text-primary">Innovation</h3>
                                     <p className="text-text-secondary leading-relaxed">
-                                        We encourage creative thinking and bold ideas. Godawari Hack is a space where you can experiment, take risks, and push the boundaries of what&apos;s possible.
+                                        We encourage creative thinking and bold ideas. Godawari Hacks is a space where you can experiment, take risks, and push the boundaries of what&apos;s possible.
                                     </p>
                                 </div>
 
                                 <div className="space-y-4 flex flex-col justify-center">
                                     <h3 className="text-xl font-semibold text-text-primary">Learning</h3>
                                     <p className="text-text-secondary leading-relaxed">
-                                        We believe in continuous learning and growth. Through workshops, mentorship, and collaboration, participants leave Godawari Hack with new skills and knowledge.
+                                        We believe in continuous learning and growth. Through workshops, mentorship, and collaboration, participants leave Godawari Hacks with new skills and knowledge.
                                     </p>
                                 </div>
                             </div>
@@ -145,7 +145,7 @@ export default async function AboutPage() {
                             <div className="relative w-full h-[400px] md:h-[500px] rounded-square overflow-hidden">
                                 <Image
                                     src="/hackathon/sushm-1.jpg"
-                                    alt="Godawari Hack Event"
+                                    alt="Godawari Hacks Event"
                                     fill
                                     className="object-cover"
                                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
