@@ -47,11 +47,11 @@ export default async function Home() {
                 revealDelayMs={50}
               />
             </AnimatedText>
-            <div className="mt-4 text-center md:mt-8">
+            <div className="mt-4 text-center ">
               <AnimatedText
                 as="p"
                 delay={PARAGRAPH_DELAY}
-                className="leading-8 text-text-secondary text-base md:text-lg max-w-3xl mx-auto"
+                className="leading-4 text-text-secondary text-base md:text-lg max-w-3xl mx-auto"
               >
                 Join 30+ teams of passionate students for an epic 24-hour coding hackathon at Sushma Godawari College.
               </AnimatedText>
