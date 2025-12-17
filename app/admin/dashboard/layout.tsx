@@ -6,7 +6,7 @@ import { GeistSans } from "geist/font/sans";
 import "@/app/globals.css";
 
 export const metadata: Metadata = {
-  title: "Admin Dashboard | Godawari Hack",
+  title: "Admin Dashboard | Godawari Hacks",
   description: "Admin dashboard for managing team registrations",
   robots: {
     index: false,
@@ -36,7 +36,7 @@ export default function DashboardLayout({
                       </div>
                       <div>
                         <h1 className="text-base font-bold text-gray-900 dark:text-white">
-                          Godawari Hack
+                          Godawari Hacks
                         </h1>
                         <p className="text-xs text-gray-500 dark:text-gray-400">Admin Dashboard</p>
                       </div>
