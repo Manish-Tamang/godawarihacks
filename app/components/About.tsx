@@ -7,11 +7,11 @@ export function About() {
   return (
     <div className="space-y-4 -mt-8">
       <h2 className="text-[#084750] ml-4 text-balance text-left text-3xl font-medium leading-10 tracking-tight md:text-4xl">
-        About Godawari Hack
+        About Godawari Hacks
       </h2>
       <div className="space-y-6">
         <p className="text-left ml-4 text-text-secondary leading-relaxed">
-          Godawari Hack is a 24 hours highschool hackathon organized by Students of Sushma Godawari College (+2 Students) where 30+ teams competes each other to build the best project in 24 hours.
+          Godawari Hacks is a 24 hours highschool hackathon organized by Students of Sushma Godawari College (+2 Students) where 30+ teams competes each other to build the best project in 24 hours.
         </p>
         <GridWrapper className="mt-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 relative mx-auto max-w-5xl px-4 md:px-8">
