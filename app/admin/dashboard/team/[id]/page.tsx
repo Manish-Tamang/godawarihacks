@@ -3,6 +3,8 @@ import { createClient } from "@/app/lib/supabase/server";
 import Link from "next/link";
 import Image from "next/image";
 import { generateBlurDataURL } from "@/app/lib/utils";
+import { MemberDocuments } from "@/app/components/admin/MemberDocuments";
+import { createAdminClient } from "@/app/lib/supabase/admin";
 
 interface TeamMember {
     id: string;
@@ -12,6 +14,7 @@ interface TeamMember {
     phone: string;
     document_type: string;
     document_url: string;
+    document_path?: string | null;
     created_at: string;
 }
 
@@ -46,6 +49,24 @@ async function getTeamById(teamId: string): Promise<Team | null> {
     return team as Team;
 }
 
+async function signDocumentUrls(team: Team): Promise<Team> {
+    const adminClient = createAdminClient();
+    const updatedMembers = await Promise.all(
+        team.team_members.map(async (member) => {
+            if (!member.document_path) return member;
+            const { data, error } = await adminClient
+                .storage
+                .from("team-documents")
+                .createSignedUrl(member.document_path, 60 * 60); // 1 hour
+
+            if (error || !data?.signedUrl) return member;
+            return { ...member, document_url: data.signedUrl };
+        })
+    );
+
+    return { ...team, team_members: updatedMembers };
+}
+
 const blurDataURL = generateBlurDataURL();
 
 const statusStyles: Record<string, { bg: string; text: string; label: string }> = {
@@ -62,7 +83,8 @@ export default async function TeamDetailPage({
 }) {
     const resolvedParams = await params;
     await requireAdmin();
-    const team = await getTeamById(resolvedParams.id);
+    const rawTeam = await getTeamById(resolvedParams.id);
+    const team = rawTeam ? await signDocumentUrls(rawTeam) : null;
 
     if (!team) {
         return (
@@ -118,48 +140,7 @@ export default async function TeamDetailPage({
                         </h2>
                     </div>
 
-                    <div className="divide-y divide-gray-200 dark:divide-neutral-800">
-                        {team.team_members
-                            .sort((a, b) => a.member_number - b.member_number)
-                            .map((member) => (
-                                <div key={member.id} className="px-6 py-4 hover:bg-gray-50 dark:hover:bg-neutral-900/50 transition-colors">
-                                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                                        <div className="flex-1">
-                                            <div className="flex items-center gap-3 mb-2">
-                                                <span className="inline-flex items-center justify-center h-8 w-8 rounded-full bg-[#084750] text-white text-sm font-semibold">
-                                                    {member.member_number}
-                                                </span>
-                                                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                                                    {member.full_name}
-                                                </h3>
-                                            </div>
-                                            <div className="space-y-1 text-sm">
-                                                <p className="text-gray-600 dark:text-gray-400">
-                                                    <span className="font-medium">Email:</span> {member.email}
-                                                </p>
-                                                <p className="text-gray-600 dark:text-gray-400">
-                                                    <span className="font-medium">Phone:</span> {member.phone}
-                                                </p>
-                                            </div>
-                                        </div>
-
-                                        {member.document_url && (
-                                            <a
-                                                href={member.document_url}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="inline-flex items-center gap-2 px-3 py-2 text-sm font-medium bg-[#084750] text-white rounded-lg hover:bg-[#084750]/90 transition-colors"
-                                            >
-                                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                                </svg>
-                                                View Document
-                                            </a>
-                                        )}
-                                    </div>
-                                </div>
-                            ))}
-                    </div>
+                    <MemberDocuments members={team.team_members} />
                 </div>
 
                 {/* Payment Information */}
