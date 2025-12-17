@@ -4,10 +4,10 @@ import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
 
 export const metadata: Metadata = {
-  title: "Godawari Hack",
+  title: "Godawari Hacks",
   description: "Join 30+ teams of passionate developers for an epic 24-hour coding marathon!",
   openGraph: {
-    title: "Godawari Hack",
+    title: "Godawari Hacks",
     description: "Join 30+ teams of passionate developers for an epic 24-hour coding marathon!.",
     images: [
       {
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Godawari Hack",
+    title: "Godawari Hacks",
     description: "Join 30+ teams of passionate developers for an epic 24-hour coding marathon!.",
     images: ["/sushma-logo.jpg"],
   },
