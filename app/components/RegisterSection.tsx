@@ -31,7 +31,7 @@ export function RegisterSection() {
                 </div>
 
                 <p className="text-lg md:text-xl text-text-secondary font-medium">
-                    {daysUntil} {daysUntil === 1 ? "Day" : "Days"} until Godawari Hack
+                    {daysUntil} {daysUntil === 1 ? "Day" : "Days"} until Godawari Hacks
                 </p>
 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
