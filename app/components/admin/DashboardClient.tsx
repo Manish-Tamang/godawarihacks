@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { TeamTable } from "./TeamTableNew";
+import { Toaster, toast } from "react-hot-toast";
 
 interface TeamMember {
     id: string;
@@ -59,11 +60,12 @@ export function DashboardClient({ teams: initialTeams }: DashboardClientProps) {
                     team.id === teamId ? { ...team, status: newStatus } : team
                 )
             );
-
-            // Show success message (optional - you can add a toast notification here)
+            toast.success("Status updated");
         } catch (error) {
             console.error("Error updating status:", error);
-            alert(error instanceof Error ? error.message : "Failed to update status");
+            toast.error(
+                error instanceof Error ? error.message : "Failed to update status"
+            );
             // Refresh to get latest data
             router.refresh();
         } finally {
@@ -71,9 +73,40 @@ export function DashboardClient({ teams: initialTeams }: DashboardClientProps) {
         }
     };
 
+    const handleDeleteTeam = async (teamId: string) => {
+        setIsUpdating(true);
+        try {
+            const response = await fetch("/api/admin/delete-team", {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ teamId }),
+            });
+
+            if (!response.ok) {
+                const data = await response.json().catch(() => ({}));
+                throw new Error(data.error || "Failed to delete team");
+            }
+
+            setTeams((prev) => prev.filter((t) => t.id !== teamId));
+            toast.success("Team deleted");
+        } catch (error) {
+            console.error("Error deleting team:", error);
+            toast.error(
+                error instanceof Error ? error.message : "Failed to delete team"
+            );
+        } finally {
+            setIsUpdating(false);
+        }
+    };
+
     return (
         <div className="bg-bg-primary border border-border-primary/50 rounded-square overflow-hidden">
-            <TeamTable teams={teams} onStatusUpdate={handleStatusUpdate} />
+            <Toaster position="top-center" />
+            <TeamTable
+                teams={teams}
+                onStatusUpdate={handleStatusUpdate}
+                onDeleteTeam={handleDeleteTeam}
+            />
         </div>
     );
 }
