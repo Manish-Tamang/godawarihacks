@@ -332,7 +332,7 @@ export default function ContactPage() {
                 <div className="space-y-2">
                   <h3 className="text-lg font-semibold text-text-primary">Is the hackathon free to attend?</h3>
                   <p className="text-text-secondary leading-relaxed">
-                    NO! Godawari Hack is not free to attend. There is a nominal registration fee of NRs. 2500 per Team to cover event costs and provide meals and swag.
+                    NO! Godawari Hacks is not free to attend. There is a nominal registration fee of NRs. 2500 per Team to cover event costs and provide meals and swag.
                   </p>
                 </div>
                 <div className="space-y-2">
