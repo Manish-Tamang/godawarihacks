@@ -284,10 +284,11 @@ export default function ContactPage() {
         {/* Contact Information Section */}
         <section className="relative space-y-10 md:space-y-16">
           <GridWrapper>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 relative mx-auto max-w-5xl px-4 md:px-8 py-8 md:py-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 relative mx-auto max-w-6xl px-4 md:px-8 py-8 md:py-12">
               {/* Vertical divider lines */}
-              <div className="hidden md:block absolute top-0 bottom-0 left-1/3 w-px bg-border-primary"></div>
-              <div className="hidden md:block absolute top-0 bottom-0 left-2/3 w-px bg-border-primary"></div>
+              <div className="hidden md:block absolute top-0 bottom-0 left-1/2 w-px bg-border-primary lg:left-1/4"></div>
+              <div className="hidden lg:block absolute top-0 bottom-0 left-1/2 w-px bg-border-primary"></div>
+              <div className="hidden lg:block absolute top-0 bottom-0 left-3/4 w-px bg-border-primary"></div>
 
               <div className="space-y-4 text-center md:text-left">
                 <div className="text-4xl mb-4">📧</div>
@@ -315,6 +316,17 @@ export default function ContactPage() {
                   </a>
                   <br />
                   <span className="text-sm">Technical Support</span>
+                </p>
+              </div>
+              <div className="space-y-4 text-center md:text-left">
+                <div className="text-4xl mb-4">📱</div>
+                <h3 className="text-lg font-semibold text-text-primary">Instagram</h3>
+                <p className="text-text-secondary">
+                  <a href="https://www.instagram.com/hack_godawari/" target="_blank" rel="noopener noreferrer" className="text-[#084750] hover:text-[#084750]/80 underline">
+                    @hack_godawari
+                  </a>
+                  <br />
+                  <span className="text-sm">Follow for updates</span>
                 </p>
               </div>
             </div>
