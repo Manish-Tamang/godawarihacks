@@ -35,7 +35,7 @@ function DatesBanner() {
   return (
     <div className="w-full bg-gradient-to-r from-[#084750] to-[#0a5a63] py-3 px-4 text-center text-white">
       <p className="text-sm md:text-base font-semibold">
-        📅 Dates have been postponed to <span className="font-bold">Jan 16-17</span> from <span className="line-through">Dec 26-27</span>
+        📅 Dates have been postponed to <span className="font-bold">Jan 18-19</span> from <span className="line-through">Dec 26-27</span>
       </p>
     </div>
   );
