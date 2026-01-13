@@ -53,7 +53,7 @@ export default async function Home() {
                 delay={PARAGRAPH_DELAY}
                 className="leading-4 text-text-secondary text-base md:text-lg max-w-3xl mx-auto"
               >
-                Join 30+ teams of passionate students for an epic 24-hour coding hackathon at Sushma Godawari College.
+                Join highschool teams of passionate students for an epic 24-hour coding hackathon at Sushma Godawari College.
               </AnimatedText>
             </div>
 
@@ -63,7 +63,8 @@ export default async function Home() {
                 delay={PARAGRAPH_DELAY + 0.1}
                 className="text-sm md:text-base text-text-tertiary leading-relaxed max-w-2xl mx-auto"
               >
-                Godawari Hacks is a 24 hours highschool hackathon where 30+ teams competes each other making innovative projects aligning with the theme.
+                A student-driven hackathon inspiring teens to explore, build, and innovate with technology.
+                Sushma Godawari College, Itahari, Nepal.
               </AnimatedText>
             </div>
             <Link href="/register">
