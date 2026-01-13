@@ -69,6 +69,13 @@ const teamMembers: TeamMember[] = [
     image: "/team/raj.jpg",
     github: "https://github.com/rajacharya987",
   },
+  {
+    name: "Ronisha Adhikari",
+    role: "Event Host",
+    faculty: "Science (Biology)",
+    image: "/team/ronisha.jpg",
+    instagram: "https://www.instagram.com/ah_sinorr/",
+  },
 ];
 
 export function Team() {
