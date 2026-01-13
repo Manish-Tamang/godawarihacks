@@ -41,7 +41,7 @@ export function Venue() {
                                         Dates
                                     </h3>
                                     <p className="text-gray-200 text-lg">
-                                        16th - 17th January 2026
+                                        18th - 19th January 2026
                                     </p>
                                 </div>
                                 <div className="space-y-3">
