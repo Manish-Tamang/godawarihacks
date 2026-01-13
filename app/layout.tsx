@@ -6,23 +6,23 @@ import { Analytics } from "@vercel/analytics/next"
 
 export const metadata: Metadata = {
   title: "Godawari Hacks",
-  description: "Join 30+ teams of passionate developers for an epic 24-hour coding marathon!",
+  description: "Join highschool teams of passionate developers for an epic 24-hour coding marathon!",
   openGraph: {
     title: "Godawari Hacks",
-    description: "Join 30+ teams of passionate developers for an epic 24-hour coding marathon!.",
+    description: "Join highschool teams of passionate developers for an epic 24-hour coding marathon!.",
     images: [
       {
-        url: "/sushma-logo.jpg",
+        url: "/logo-godawari-hacks.png",
         width: 1200,
         height: 630,
-        alt: "Hack Sushma",
+        alt: "Godawari Hacks",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Godawari Hacks",
-    description: "Join 30+ teams of passionate developers for an epic 24-hour coding marathon!.",
+    description: "Join highschool teams of passionate developers for an epic 24-hour coding marathon!.",
     images: ["/sushma-logo.jpg"],
   },
 };
