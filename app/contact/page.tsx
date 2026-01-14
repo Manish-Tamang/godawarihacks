@@ -312,7 +312,10 @@ export default function ContactPage() {
                 <h3 className="text-lg font-semibold text-text-primary">Contact Number</h3>
                 <p className="text-text-secondary">
                   <a href="tel:+9779707360949" className="text-[#084750] hover:text-[#084750]/80 underline">
-                    +977 9707360949
+                    +977 9707360949 (Manish Gole Tamang)
+                  </a>
+                  <a href="tel:+9779805345766" className="text-[#084750] hover:text-[#084750]/80 underline">
+                    +977 9805345766 (Dipak Parajuli)
                   </a>
                   <br />
                   <span className="text-sm">Technical Support</span>
