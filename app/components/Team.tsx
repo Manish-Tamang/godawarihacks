@@ -19,6 +19,13 @@ interface TeamMember {
 
 const teamMembers: TeamMember[] = [
   {
+    name: "Dipak Parajuli",
+    role: "Event Manager",
+    faculty: "Management (Computer)",
+    image: "/team/Dipak.jpg",
+    instagram: "https://www.instagram.com/nijanparajuli/",
+  },
+  {
     name: "Ankit Katwal",
     role: "Event Manager",
     faculty: "Science",
