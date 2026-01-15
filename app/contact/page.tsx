@@ -6,6 +6,7 @@ import { MainSiteLayout } from "../components/MainSiteLayout";
 import { useState, useEffect, useRef } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { FeedbackFish } from "@feedback-fish/react";
+import { Facebook } from "../components/icons/Facebook";
 
 
 export default function ContactPage() {
@@ -322,11 +323,11 @@ export default function ContactPage() {
                 </p>
               </div>
               <div className="space-y-4 text-center md:text-left">
-                <div className="text-4xl mb-4">📱</div>
-                <h3 className="text-lg font-semibold text-text-primary">Instagram</h3>
+                <div className="mb-4 h-10 w-10"><Facebook /></div>
+                <h3 className="text-lg font-semibold text-text-primary">Facebook page</h3>
                 <p className="text-text-secondary">
-                  <a href="https://www.instagram.com/hack_godawari/" target="_blank" rel="noopener noreferrer" className="text-[#084750] hover:text-[#084750]/80 underline">
-                    @hack_godawari
+                  <a href="https://www.facebook.com/profile.php?id=61586598928514" target="_blank" rel="noopener noreferrer" className="text-[#084750] hover:text-[#084750]/80 underline">
+                    @Godawari Hacks
                   </a>
                   <br />
                   <span className="text-sm">Follow for updates</span>
