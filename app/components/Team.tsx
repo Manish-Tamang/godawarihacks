@@ -21,7 +21,7 @@ const teamMembers: TeamMember[] = [
   {
     name: "Dipak Parajuli",
     role: "Event Manager",
-    faculty: "Management (Computer)",
+    faculty: "Robotics",
     image: "/team/Dipak.jpg",
     instagram: "https://www.instagram.com/nijanparajuli/",
   },
