@@ -36,7 +36,7 @@ export default async function Home() {
             }}
           ></div>
           <div className="relative text-balance flex flex-col items-center justify-center">
-            <a href="https://www.facebook.com/sushmagodawari" target="_blank" rel="noopener noreferrer"><div className="rounded-full w-[300px] user-select-none bg-gray-200 text-center"><img className="rounded-full w-5 h-5 inline-block" src="/sushma-logo.jpg" /> Sushma Godawari College Presents</div></a>
+            <a href="https://www.facebook.com/sushmagodawari" target="_blank" rel="noopener noreferrer"><div className="rounded-full w-[300px] user-select-none bg-gray-200 text-center"><Image className="rounded-full w-5 h-5 inline-block" src="/sushma-logo.jpg" alt="Sushma Godawari College Logo" width={20} height={20} /> Sushma Godawari College Presents</div></a>
             <AnimatedText
               as="h1"
               delay={HEADING_DELAY}
