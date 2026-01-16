@@ -78,23 +78,17 @@ export default function ContactPage() {
     }
 
     try {
-      const accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY;
-      if (!accessKey) {
-        throw new Error("Web3Forms access key not configured");
-      }
-
-      const response = await fetch("https://api.web3forms.com/submit", {
+      const response = await fetch("/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Accept: "application/json",
         },
         body: JSON.stringify({
-          access_key: accessKey,
           name: formData.name,
           email: formData.email,
           subject: formData.subject,
           message: formData.message,
+          turnstileToken: turnstileToken,
         }),
       });
 
