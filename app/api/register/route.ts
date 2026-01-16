@@ -1,5 +1,6 @@
 import { createAdminClient } from "@/app/lib/supabase/admin";
 import { NextRequest, NextResponse } from "next/server";
+import { sendEmail } from "@/app/lib/mail";
 
 export async function POST(request: NextRequest) {
   try {
@@ -244,6 +245,30 @@ export async function POST(request: NextRequest) {
         phone: teamMember.phone,
       });
     }
+
+    // Send confirmation emails to all team members
+    const emailPromises = teamMembers.map((member) => {
+      return sendEmail({
+        to: member.email,
+        subject: `Registration Received - Godawari Hacks`,
+        html: `
+          <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
+            <h1 style="color: #084750; text-align: center;">Registration Received!</h1>
+            <p>Hello ${member.full_name},</p>
+            <p>Thank you for registering your team <strong>${team.team_name}</strong> for Godawari Hacks!</p>
+            <p>We have received your registration details and payment screenshot. Our team will review your submission and update your status within 24-48 hours.</p>
+            <div style="background: #fdfaf0; padding: 15px; border-radius: 5px; margin: 20px 0; border-left: 4px solid #f59e0b;">
+              <p style="margin: 0; color: #92400e;"><strong>Status:</strong> Your registration is currently <strong>Pending Review</strong>.</p>
+            </div>
+            <p>Once approved, you will receive another email with further instructions and an invitation to our official Discord server.</p>
+            <p>Best regards,<br>The Godawari Hacks Team</p>
+          </div>
+        `,
+      });
+    });
+
+    // Fire and forget email sending (or at least don't block the UI response too much)
+    Promise.all(emailPromises).catch(err => console.error("Error sending registration confirmation emails:", err));
 
     return NextResponse.json(
       {
