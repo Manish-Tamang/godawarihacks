@@ -12,6 +12,7 @@ import { PrizePool } from "./components/PrizePool";
 import { Venue } from "./components/Venue";
 import { EncryptedText } from "./components/ui/encrypted-text";
 import { MainSiteLayout } from "./components/MainSiteLayout";
+import { ApologyBanner } from "./components/ApologyBanner";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -24,6 +25,7 @@ export default async function Home() {
 
   return (
     <MainSiteLayout>
+      <ApologyBanner />
       <section className="mt-6 space-y-10 md:mt-0 md:space-y-16 pb-0 bg-bg-primary dark:bg-neutral-900">
         <section className="relative py-12 md:py-16 bg-bg-primary dark:bg-neutral-900">
           <div className="absolute inset-0 bg-gradient-to-b from-blue-50 via-blue-50/30 to-transparent dark:from-neutral-800 dark:via-neutral-800/30 dark:to-transparent -z-10"></div>
