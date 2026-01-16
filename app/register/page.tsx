@@ -45,7 +45,7 @@ export default function RegisterPage() {
       }
     }
     setMembers(newMembers);
-  }, [memberCount]);
+  }, [memberCount, members]);
 
   // Load Cloudflare Turnstile script
   useEffect(() => {
