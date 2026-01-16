@@ -8,14 +8,32 @@ Create a `.env.local` file in your project root with:
 # Public keys (safe to expose in browser)
 NEXT_PUBLIC_SUPABASE_URL=https://your-project-id.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key-here
+NEXT_PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY=your-site-key-here
 
-# Secret key (NEVER expose in browser - server-side only)
+# Secret keys (NEVER expose in browser - server-side only)
 SUPABASE_SERVICE_ROLE_KEY=your-service-role-key-here
+CLOUDFLARE_TURNSTILE_SECRET_KEY=your-secret-key-here
+SMTP_USER=your-gmail@gmail.com
+SMTP_PASSWORD=your-16-char-app-password
 ```
 
-## How to Get Your Keys
+## How to Get Your API Keys
 
-1. Go to: https://supabase.com/dashboard/project/_/settings/api
+### 1. Supabase Keys
+Go to: https://supabase.com/dashboard/project/_/settings/api
+
+### 2. Gmail SMTP (Nodemailer)
+To send emails using Gmail, you need an **App Password**:
+1. Go to your [Google Account Security](https://myaccount.google.com/security).
+2. Enable **2-Step Verification**.
+3. Search for **"App passwords"** in the top search bar.
+4. Select "Other" name it "Nodemailer" and click **Create**.
+5. Copy the 16-character password and paste it into `SMTP_PASSWORD`.
+6. Use your full Gmail address for `SMTP_USER`.
+
+### 3. Cloudflare Turnstile
+Go to the [Cloudflare Dashboard](https://dash.cloudflare.com/) > Turnstile to create your site/secret keys for spam protection.
+
 
 2. **Project URL** → Copy to `NEXT_PUBLIC_SUPABASE_URL`
    - Example: `https://abcdefghijklmnop.supabase.co`
