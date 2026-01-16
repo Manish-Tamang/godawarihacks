@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import Link from "next/link";
+import { AdminNav } from "@/app/components/admin/AdminNav";
 import { SignOutButton } from "@/app/components/admin/SignOutButton";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
@@ -44,27 +45,7 @@ export default function DashboardLayout({
                   </div>
 
                   {/* Navigation */}
-                  <nav className="flex-1 space-y-1 px-3">
-                    <Link
-                      href="/admin/dashboard"
-                      className="group flex items-center px-3 py-2.5 text-sm font-medium rounded-lg text-white bg-[#084750]"
-                    >
-                      <svg className="mr-3 h-5 w-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                      </svg>
-                      Dashboard
-                    </Link>
-
-                    <Link
-                      href="/"
-                      className="group flex items-center px-3 py-2.5 text-sm font-medium rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-neutral-800 dark:hover:text-white"
-                    >
-                      <svg className="mr-3 h-5 w-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                      </svg>
-                      Back to Site
-                    </Link>
-                  </nav>
+                  <AdminNav />
 
                   {/* Sign Out at bottom */}
                   <div className="flex flex-shrink-0 border-t border-gray-200 dark:border-neutral-800 p-4">
