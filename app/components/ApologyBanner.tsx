@@ -83,7 +83,7 @@ export function ApologyBanner() {
                     {/* Content */}
                     <div className="px-6 py-6 space-y-4 text-neutral-800 dark:text-neutral-200">
                         <p className="text-base leading-relaxed">
-                            We sincerely apologize for the confusion regarding yesterday's prize pool announcement.
+                            We sincerely apologize for the confusion regarding yesterday&apos;s prize pool announcement.
                             We understand this change caused frustration among our participants.
                         </p>
 
@@ -102,7 +102,7 @@ export function ApologyBanner() {
                         <div className="bg-neutral-100 dark:bg-neutral-700 rounded-lg p-4">
                             <p className="text-sm leading-relaxed">
                                 <strong>Our Sincere Apology:</strong> We acknowledge this was our mistake in communication.
-                                The prize pool section clearly mentions "worth" but not specifically "cash prize."
+                                The prize pool section clearly mentions &quot;worth&quot; but not specifically &quot;cash prize.&quot;
                                 We appreciate your understanding and encourage all participants to reach out to the
                                 organizing team directly with any concerns rather than venting to others.
                             </p>
