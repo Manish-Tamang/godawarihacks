@@ -2,9 +2,15 @@ import { cx } from "../lib/utils";
 import Navbar from "./Navbar";
 import { BgGradient } from "./BgGradient";
 
-export function MainSiteLayout({ children }: { children: React.ReactNode }) {
+interface MainSiteLayoutProps {
+    children: React.ReactNode;
+    className?: string;
+    fullWidth?: boolean;
+}
+
+export function MainSiteLayout({ children, className, fullWidth = false }: MainSiteLayoutProps) {
     return (
-        <div className="max-w-full md:max-w-[880px] overflow-x-hidden md:overflow-y-auto lg:mx-auto">
+        <div className={cx("max-w-full overflow-x-hidden md:overflow-y-auto", !fullWidth && "md:max-w-[880px] lg:mx-auto", className)}>
             <main className={cx("relative flex flex-1 flex-col min-h-0 max-w-full bg-bg-primary dark:bg-neutral-900")}>
                 <Navbar />
                 <div className="grid flex-1 grid-cols-1 lg:grid-cols-[32px_1fr_32px] min-h-0 bg-bg-primary dark:bg-neutral-900">
