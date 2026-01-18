@@ -3,9 +3,9 @@
 import React from "react";
 import { StickyCanvas, StickyNote } from "react-sticky-canvas";
 import Image from "next/image";
-import { MainSiteLayout } from "../components/MainSiteLayout";
 import { GridWrapper } from "../components/GridWrapper";
 import { AnimatedText } from "../components/AnimatedText";
+import { MainSiteLayout } from "../components/MainSiteLayout";
 import { Gaegu } from 'next/font/google';
 
 import { REVIEW_DATA } from "./data";
@@ -16,15 +16,14 @@ const gaegu = Gaegu({
     variable: '--font-gaegu'
 });
 
-export default function ReviewPage() {
-    const HEADER_DELAY = 0.2;
-    const [mounted, setMounted] = React.useState(false);
+export default function Review1Page() {
+    const HEADING_DELAY = 0.2;
+    const PARAGRAPH_DELAY = HEADING_DELAY + 0.1;
+
     const [itemPositions, setItemPositions] = React.useState<{ x: number; y: number }[]>([]);
-    const containerRef = React.useRef<HTMLDivElement>(null);
+    const containerRef = React.useRef<HTMLElement>(null);
 
     React.useEffect(() => {
-        setMounted(true);
-
         const calculatePositions = () => {
             if (!containerRef.current) return;
             const containerRect = containerRef.current.getBoundingClientRect();
@@ -56,9 +55,8 @@ export default function ReviewPage() {
 
     return (
         <MainSiteLayout>
-            <div ref={containerRef} className="relative min-h-screen bg-bg-primary dark:bg-neutral-900">
-
-                {/* Global Sticky Canvas Overlay */}
+            <section ref={containerRef} className="mt-6 space-y-10 p-10 md:mt-0 md:space-y-16 pb-0 bg-bg-primary dark:bg-neutral-900">
+                {/* Sticky Notes Canvas */}
                 <div className="absolute inset-0 z-10 w-full h-full pointer-events-none overflow-hidden">
                     <StickyCanvas className="w-full h-full">
                         {REVIEW_DATA.map((team, index) => {
@@ -86,31 +84,45 @@ export default function ReviewPage() {
                     </StickyCanvas>
                 </div>
 
-                <div className="relative z-0">
-                    <section className="relative py-12 md:py-16 text-center space-y-6">
+                {/* Hero Section - Same as Homepage */}
+                <section className="relative py-12 md:py-16 bg-bg-primary dark:bg-neutral-900">
+                    <div className="absolute inset-0 bg-gradient-to-b from-blue-50 via-blue-50/30 to-transparent dark:from-neutral-800 dark:via-neutral-800/30 dark:to-transparent -z-10"></div>
+                    <div
+                        className="absolute inset-0 opacity-[0.03] -z-10"
+                        style={{
+                            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='grid' width='60' height='60' patternUnits='userSpaceOnUse'%3E%3Cpath d='M 60 0 L 0 0 0 60' fill='none' stroke='%23007cff' stroke-width='1'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23grid)'/%3E%3C/svg%3E")`,
+                        }}
+                    ></div>
+                    <div className="relative text-balance flex flex-col items-center justify-center">
                         <AnimatedText
                             as="h1"
-                            delay={HEADER_DELAY}
-                            className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#084750] to-[#0a5a63] dark:from-white dark:to-gray-300 tracking-tight"
+                            delay={HEADING_DELAY}
+                            className="mx-auto max-w-2xl text-center text-5xl font-bold leading-tight tracking-tighter text-[#084750] md:text-7xl md:leading-[78px]"
                         >
                             Project Reviews
                         </AnimatedText>
-                        <AnimatedText
-                            as="p"
-                            delay={HEADER_DELAY + 0.1}
-                            className="text-text-secondary text-lg max-w-2xl mx-auto px-4"
-                        >
-                            Feedback for all the amazing teams! Drag notes anywhere on the page.
-                        </AnimatedText>
-                    </section>
+                        <div className="mt-4 text-center">
+                            <AnimatedText
+                                as="p"
+                                delay={PARAGRAPH_DELAY}
+                                className="leading-4 text-text-secondary text-base md:text-lg max-w-3xl mx-auto"
+                            >
+                                Feedback for all the amazing teams! Drag notes anywhere on the page.
+                            </AnimatedText>
+                        </div>
+                    </div>
+                </section>
 
+                {/* Team Reviews Section */}
+                <section className="relative space-y-10 md:space-y-16 bg-bg-primary dark:bg-neutral-900">
                     {REVIEW_DATA.map((team, index) => {
                         const isEven = index % 2 === 0;
                         return (
                             <GridWrapper key={team.id}>
-                                <div className="py-12 md:py-16 px-4 md:px-8">
-                                    <div className={`flex flex-col gap-8 md:gap-12 ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'}`}>
-                                        <div className="w-full md:w-1/2 space-y-2">
+                                <div className="py-8 md:py-12">
+                                    <div className={`grid grid-cols-1 md:grid-cols-2 gap-6 ${isEven ? '' : 'md:[&>*:first-child]:order-2'}`}>
+                                        {/* Team Info Column */}
+                                        <div className="space-y-2 p-10">
                                             <h2 className="text-2xl font-bold text-text-primary">{team.name}</h2>
                                             <div className="relative aspect-video w-full overflow-hidden rounded-square border border-border-primary/50 shadow-sm">
                                                 <Image
@@ -123,9 +135,10 @@ export default function ReviewPage() {
                                             <p className="text-text-secondary">{team.description}</p>
                                         </div>
 
+                                        {/* Sticky Notes Board Column */}
                                         <div
                                             id={`team-board-${index}`}
-                                            className="w-full md:w-1/2 h-[350px] relative bg-gray-50 dark:bg-neutral-800/50 border border-dashed border-border-primary rounded-xl overflow-hidden shadow-inner opacity-60"
+                                            className="h-[350px] ml-10 mr-10 relative bg-gray-50 dark:bg-neutral-800/50 border border-dashed border-border-primary rounded-square overflow-hidden shadow-inner opacity-60"
                                         >
                                         </div>
                                     </div>
@@ -133,10 +146,12 @@ export default function ReviewPage() {
                             </GridWrapper>
                         );
                     })}
+
+                    {/* Footer Section */}
                     <GridWrapper>
-                        <div className="py-8 md:py-12">
-                            <div className="flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-8 px-4">
-                                <div className="flex-1 space-y-3">
+                        <div className="py-6 md:py-8">
+                            <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-6 md:gap-8 items-center md:items-start">
+                                <div className="space-y-3">
                                     <p className="text-sm md:text-base text-text-secondary">
                                         Draggable Canvas Sticky Notes Review{" "}
                                         <span className="text-[#084750] dark:text-gray-300 font-medium">Godawari Hacks</span>
@@ -145,7 +160,7 @@ export default function ReviewPage() {
                                         Celebrating innovation and creativity at Sushma Godawari College.
                                     </p>
                                 </div>
-                                <div className="flex-shrink-0 bg-gray-100 mr-2">
+                                <div className="flex-shrink-0">
                                     <div className="w-[80px] h-[80px] relative rounded-square overflow-hidden border border-primary/50">
                                         <Image
                                             src="/profile.png"
@@ -154,13 +169,13 @@ export default function ReviewPage() {
                                             className="object-cover"
                                         />
                                     </div>
-                                    <p className="text-sm md:text-sm text-text-secondary">Event Coodinator: <br /> Manish Gole Tamang</p>
+                                    <p className="text-sm text-text-secondary mt-2">Event Coordinator: <br /> Manish Gole Tamang</p>
                                 </div>
                             </div>
                         </div>
                     </GridWrapper>
-                </div>
-            </div>
+                </section>
+            </section>
         </MainSiteLayout>
     );
 }
