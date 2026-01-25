@@ -16,7 +16,7 @@ const sponsors: Sponsor[] = [
     { name: "Alfa Beta Itahari", logo: "/alfabeta-logo.png" },
     { name: "Digital Pathshala", logo: "/dp.png" },
     { name: "Ultima Lifestyle", logo: "/Ultima_life_style_in_Nepal_broth.png" },
-    { name: "Sponsor Spotlight Available5" },
+    { name: "Samaya Tech", logo: "/samaya-tech.png" },
     // { name: "Sponsor Spotlight Available6" },
 ];
 

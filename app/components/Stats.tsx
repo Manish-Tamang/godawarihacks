@@ -9,7 +9,7 @@ interface StatItem {
 }
 
 const stats: StatItem[] = [
-  { number: "30", label: "Plus Teams" },
+  { number: "10", label: "Plus Teams" },
   { number: "24", label: "Hours of Grind" },
   { number: "02", label: "Days Session" },
 ];

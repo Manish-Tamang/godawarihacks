@@ -95,7 +95,7 @@ const schedule: ScheduleEvent[] = [
         time: "11:00 AM – 4:00 PM",
         title: "PRESENTATION",
         description: "Teams present their projects to the judges. Show off what you've built in the last 24 hours!",
-        image: "/hackathon/sushma-5.jpg",
+        image: "/swatika.jpg",
     },
     {
         day: "Day 2",
@@ -109,7 +109,7 @@ const schedule: ScheduleEvent[] = [
         time: "4:30 PM – 5:30 PM",
         title: "Winner and Price Distribution",
         description: "The moment we've all been waiting for! Winners are announced and prizes are distributed. Celebrate the amazing work!",
-        image: "/prize.jpg",
+        image: "/1st.jpg",
     },
 ];
 
