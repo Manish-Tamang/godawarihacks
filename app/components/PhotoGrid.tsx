@@ -12,7 +12,7 @@ export function PhotoGrid() {
             <div className="grid grid-cols-3 grid-rows-3 gap-[2px] w-full h-full">
                 <div className="col-span-2 row-span-2 relative overflow-hidden">
                     <Image
-                        src="/hackathon/team-godawari.jpg"
+                        src="/1st.jpg"
                         alt="Group photo of Team Godawari"
                         fill
                         placeholder="blur"
@@ -25,7 +25,7 @@ export function PhotoGrid() {
 
                 <div className="col-span-1 row-span-1 relative overflow-hidden">
                     <Image
-                        src="/hackathon/team-sushma.jpg"
+                        src="/2nd.jpg"
                         alt="Team Sushma"
                         fill
                         placeholder="blur"
@@ -38,7 +38,7 @@ export function PhotoGrid() {
 
                 <div className="col-span-1 row-span-1 relative overflow-hidden">
                     <Image
-                        src="/hackathon/sushma-3.jpg"
+                        src="/3rd.jpg"
                         alt="Team collaboration"
                         fill
                         placeholder="blur"
@@ -51,7 +51,7 @@ export function PhotoGrid() {
 
                 <div className="col-span-1 row-span-1 relative overflow-hidden">
                     <Image
-                        src="/hackathon/sushma-4.jpg"
+                        src="/judges.jpg"
                         alt="Event attendees"
                         fill
                         placeholder="blur"
@@ -64,7 +64,7 @@ export function PhotoGrid() {
 
                 <div className="col-span-1 row-span-1 relative overflow-hidden">
                     <Image
-                        src="/hackathon/sushma-5.jpg"
+                        src="/IMG-20260119-WA0355.jpg"
                         alt="Workshop session"
                         fill
                         placeholder="blur"
@@ -77,7 +77,7 @@ export function PhotoGrid() {
 
                 <div className="col-span-1 row-span-1 relative overflow-hidden">
                     <Image
-                        src="/hackathon/sushma-6.jpg"
+                        src="/swatika.jpg"
                         alt="Technical presentation"
                         fill
                         placeholder="blur"
