@@ -37,7 +37,7 @@ export function About() {
                 </li>
                 <li className="flex items-start">
                   <span className="text-[#084750] mr-2">•</span>
-                  <span>Mentorship from industry experts and Session from our <span className="underline decoration-wavy text-[#084750]" >Special International Guest</span></span>
+                  <span>Mentorship from industry experts</span>
                 </li>
                 <li className="flex items-start">
                   <span className="text-[#084750] mr-2">•</span>
