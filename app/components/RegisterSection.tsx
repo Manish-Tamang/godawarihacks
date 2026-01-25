@@ -23,7 +23,7 @@ export function RegisterSection() {
         <GridWrapper className="before:hidden">
             <div className="text-center space-y-6 py-8 -mt-12">
                 <h2 className="text-4xl md:text-5xl font-bold text-text-primary">
-                    Register your team now!
+                    Registration Closed!
                 </h2>
 
                 <div className="flex justify-center items-center my-6">
@@ -36,8 +36,8 @@ export function RegisterSection() {
 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
                     <a
-                        href="/register"
-                        className="px-8 py-4 bg-[#084750] text-white font-semibold rounded-square hover:bg-[#084750]/80 transition-colors"
+                        href="/"
+                        className="px-8 py-4 bg-[#084750] cursor-not-allowed text-white font-semibold rounded-square hover:bg-[#084750]/80 transition-colors"
                     >
                         Register Team
                     </a>
