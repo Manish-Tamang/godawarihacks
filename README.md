@@ -34,4 +34,4 @@ A minimalist hackathon management and registration portal designed for efficienc
 
 
 ---
-Made for **Godawari Hacks 2026**.
+Made for **Godawari Hacks 2026** by Manish Gole Tamang
