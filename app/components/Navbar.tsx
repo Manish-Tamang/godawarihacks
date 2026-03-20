@@ -17,7 +17,7 @@ const navigationLinks: readonly NavigationLink[] = [
   { name: "Sponsors", link: "#sponsors" },
   { name: "Team", link: "#team" },
   { name: "About", link: "/about" },
-  { name: "Review", link: "/review" },
+  // { name: "Review", link: "/review" },
   { name: "Contact", link: "/contact" },
 ] as const;
 
@@ -55,7 +55,7 @@ function DesktopNav() {
     >
       <div className="w-[104px]">
         <Link href="/" aria-label="Home" className="text-xl font-bold text-[#084750] whitespace-nowrap flex items-center gap-2">
-          <Image src="/sushma-logo.jpg" alt="Godawari Hackss Logo" className="rounded-full" width={40} height={40} />
+          <Image src="/logo-godawari-hacks-nobg.png" alt="Godawari Hackss Logo" className="rounded-full h-10 w-10" width={150} height={150} />
           Hacks
         </Link>
       </div>
