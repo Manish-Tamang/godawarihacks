@@ -144,7 +144,7 @@ export default async function AboutPage() {
                         <div className="relative py-8 -mt-16">
                             <div className="relative w-full h-[400px] md:h-[500px] rounded-square overflow-hidden">
                                 <Image
-                                    src="/hackathon/sushm-1.jpg"
+                                    src="/hackathon/615441793_1496629622471458_2605852539031229038_n.jpg"
                                     alt="Godawari Hacks Event"
                                     fill
                                     className="object-cover"
