@@ -12,10 +12,8 @@ export function GridWrapper({
       className={clsx(
         className,
         "relative w-full",
-        "before:absolute before:top-0 before:h-px before:bg-border-primary/50 before:z-50",
-        "before:left-[calc(-50vw+50%)] before:w-screen",
-        "after:absolute after:bottom-0 after:h-px after:bg-border-primary/50 after:z-50",
-        "after:left-[calc(-50vw+50%)] after:w-screen",
+        "before:absolute before:inset-x-0 before:top-0 before:z-50 before:h-px before:bg-border-primary/50",
+        "after:absolute after:inset-x-0 after:bottom-0 after:z-50 after:h-px after:bg-border-primary/50",
       )}
     >
       {children}

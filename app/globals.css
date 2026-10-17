@@ -29,6 +29,7 @@ body.modal-open {
 
 /* styles.css */
 :root {
+  --font-helvetica: "Helvetica Neue", Helvetica, Arial, sans-serif;
   --sh-class: #0d9488;
   --sh-identifier: #2252d9;
   --sh-sign: #334155;
@@ -43,6 +44,7 @@ body.modal-open {
 html {
   min-width: 360px;
   height: 100%;
+  overflow-x: hidden;
   background-color: #f7f7f8;
   transition: background-color 0.3s ease;
 }

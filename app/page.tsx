@@ -1,110 +1,274 @@
 import { GridWrapper } from "./components/GridWrapper";
-import { AnimatedText } from "./components/AnimatedText";
 import { Stats } from "./components/Stats";
 import { Schedule } from "./components/Schedule";
 import { Sponsors } from "./components/Sponsors";
+import { HackathonDiaries } from "./components/HackathonDiaries";
 import { Team } from "./components/Team";
+import { InstagramFeed } from "./components/InstagramFeed";
 import { About } from "./components/About";
 import { PhotoGrid } from "./components/PhotoGrid";
 import { RegisterSection } from "./components/RegisterSection";
 import { Commitment } from "./components/Commitment";
 import { PrizePool } from "./components/PrizePool";
 import { Venue } from "./components/Venue";
-import { EncryptedText } from "./components/ui/encrypted-text";
+import { Hero } from "./components/Hero";
 import { MainSiteLayout } from "./components/MainSiteLayout";
 import Image from "next/image";
-import Link from "next/link";
+import { sanityFetch } from "@/sanity/lib/fetch";
+import { HOME_PAGE_QUERY } from "@/sanity/lib/queries";
+import type { RichTextValue } from "@/sanity/lib/portable-text";
+import { toPlainText } from "@/sanity/lib/portable-text";
+import { urlFor } from "@/sanity/lib/image";
+import type { Event, WithContext } from "schema-dts";
+import type { Metadata } from "next";
 
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
+
+type SanityImage = {
+  asset?: {
+    _id: string;
+    url: string;
+    metadata?: {
+      lqip?: string;
+      dimensions?: { width: number; height: number };
+    };
+  };
+  alt?: string;
+} | null;
+
+type HomePageData = {
+  title?: string;
+  tagline?: RichTextValue;
+  subtitle?: RichTextValue;
+  heroBackground?: SanityImage;
+  collegeName?: string;
+  collegeLogo?: SanityImage;
+  collegeUrl?: string;
+  startDate?: string;
+  endDate?: string;
+  registrationStatus?: string;
+  stats?: Array<{ _key: string; number: string; label: string }>;
+  commitment?: {
+    title?: string;
+    description?: RichTextValue;
+    partners?: Array<{
+      _key: string;
+      name: string;
+      logo?: { asset?: { _id: string; url: string }; alt?: string } | null;
+      url?: string;
+    }>;
+  };
+  prizePool?: {
+    title?: string;
+    description?: RichTextValue;
+    prizes?: Array<{
+      _key: string;
+      title: string;
+      amount?: string;
+      description?: string;
+      icon?: { asset?: { _id: string; url: string } } | null;
+      gradientFrom?: string;
+      gradientTo?: string;
+    }>;
+  };
+  about?: {
+    title?: string;
+    description?: RichTextValue;
+    values?: Array<{ _key: string; title: string; description?: RichTextValue }>;
+    expectations?: Array<{ _key: string; text: string }>;
+  };
+  photoGallery?: {
+    title?: string;
+    description?: string;
+    photos?: Array<{
+      _key: string;
+      alt?: string;
+      caption?: string;
+      hotspot?: { x: number; y: number; height: number; width: number };
+      crop?: { top: number; bottom: number; left: number; right: number };
+      asset?: {
+        _id: string;
+        url: string;
+        metadata?: { lqip?: string; dimensions?: { width: number; height: number } };
+      };
+    }>;
+  };
+  schedule?: ScheduleEventData[];
+  venue?: VenueData;
+  team?: TeamMemberData[];
+  sponsors?: SponsorData[];
+} | null;
+
+type SponsorData = {
+  _id: string;
+  name: string;
+  logo?: SanityImage;
+  url?: string;
+  tier?: string;
+};
+
+type ScheduleEventData = {
+  _id: string;
+  title: string;
+  day: string;
+  time: string;
+  description?: RichTextValue;
+  location?: string;
+  image?: SanityImage;
+};
+
+type VenueData = {
+  _id: string;
+  name: string;
+  address?: string;
+  city?: string;
+  dates?: string;
+  plusCode?: string;
+  landmark?: string;
+  mapUrl?: string;
+  image?: SanityImage;
+} | null;
+
+type TeamMemberData = {
+  _id: string;
+  name: string;
+  role: string;
+  faculty?: string;
+  image?: SanityImage;
+  linkedin?: string;
+  github?: string;
+  instagram?: string;
+};
 
 export default async function Home() {
-  const PROFILE_DELAY = 0;
-  const HEADING_DELAY = PROFILE_DELAY + 0.2;
-  const PARAGRAPH_DELAY = HEADING_DELAY + 0.1;
-  const STATS_DELAY = PARAGRAPH_DELAY + 0.1;
+  const STATS_DELAY = 0.4;
+
+  const homePage = await sanityFetch<HomePageData>({
+    query: HOME_PAGE_QUERY,
+    tags: ["homePage", "sponsor", "scheduleEvent", "venue", "teamMember"],
+  });
+  const sponsors = homePage?.sponsors;
+  const scheduleEvents = homePage?.schedule;
+  const venue = homePage?.venue;
+  const teamMembers = homePage?.team;
+
+  const isRegistrationOpen = homePage?.registrationStatus === "open";
+
+  const heroBg = homePage?.heroBackground;
+  const heroBgSrc = heroBg?.asset
+    ? urlFor(heroBg).width(2300).auto("format").quality(80).url()
+    : "/bg-hero.jpg";
+  const heroBgDimensions = heroBg?.asset?.metadata?.dimensions;
+  const heroBgWidth = heroBgDimensions?.width ?? 4032;
+  const heroBgHeight = heroBgDimensions?.height ?? 1131;
+
+  const jsonLd: WithContext<Event> = {
+    "@context": "https://schema.org",
+    "@type": "Event",
+    name: homePage?.title || "Godawari Hacks",
+    description: toPlainText(homePage?.tagline) || "Join highschool teams of passionate students for an epic 24-hour coding hackathon.",
+    startDate: homePage?.startDate || "2026-01-18T09:00:00+05:45",
+    endDate: homePage?.endDate || "2026-01-19T17:30:00+05:45",
+    eventStatus: "https://schema.org/EventScheduled",
+    eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+    location: {
+      "@type": "Place",
+      name: venue?.name || "Sushma Godawari College",
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: venue?.city || "Itahari",
+        addressCountry: "NP",
+        streetAddress: venue?.address || "Itahari-6, Sunsari",
+      },
+    },
+    organizer: {
+      "@type": "Organization",
+      name: homePage?.collegeName || "Sushma Godawari College",
+      url: homePage?.collegeUrl || "https://www.facebook.com/sushmagodawari",
+    },
+    image: "https://hack.godawari.edu.np/logo-godawari-hacks.png",
+    url: "https://hack.godawari.edu.np",
+  };
 
   return (
-    <MainSiteLayout>
-      <section className="mt-6 space-y-10 md:mt-0 md:space-y-16 pb-0 bg-bg-primary dark:bg-neutral-900">
-        <section className="relative py-12 md:py-16 bg-bg-primary dark:bg-neutral-900">
-          <div className="absolute inset-0 bg-gradient-to-b from-blue-50 via-blue-50/30 to-transparent dark:from-neutral-800 dark:via-neutral-800/30 dark:to-transparent -z-10"></div>
-          <div
-            className="absolute inset-0 opacity-[0.03] -z-10"
-            style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='grid' width='60' height='60' patternUnits='userSpaceOnUse'%3E%3Cpath d='M 60 0 L 0 0 0 60' fill='none' stroke='%23007cff' stroke-width='1'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23grid)'/%3E%3C/svg%3E")`,
-            }}
-          ></div>
-          <div className="relative text-balance flex flex-col items-center justify-center">
-            <a href="https://www.facebook.com/sushmagodawari" target="_blank" rel="noopener noreferrer"><div className="rounded-full w-[300px] user-select-none bg-gray-200 text-center"><Image className="rounded-full w-5 h-5 inline-block" src="/sushma-logo.jpg" alt="Sushma Godawari College Logo" width={20} height={20} /> Sushma Godawari College Presents</div></a>
-            <AnimatedText
-              as="h1"
-              delay={HEADING_DELAY}
-              className="mx-auto max-w-2xl text-center text-5xl font-bold leading-tight tracking-tighter text-[#084750] md:text-7xl md:leading-[78px]"
-            >
-              <EncryptedText
-                text="Godawari <Hacks/>"
-                encryptedClassName="text-neutral-500"
-                revealedClassName="text-[#084750]"
-                revealDelayMs={50}
-              />
-            </AnimatedText>
-            <div className="mt-4 text-center ">
-              <AnimatedText
-                as="p"
-                delay={PARAGRAPH_DELAY}
-                className="leading-4 text-text-secondary text-base md:text-lg max-w-3xl mx-auto"
-              >
-                Join highschool teams of passionate students for an epic 24-hour coding hackathon at Sushma Godawari College.
-              </AnimatedText>
-            </div>
-
-            <div className="mt-4 text-center">
-              <AnimatedText
-                as="p"
-                delay={PARAGRAPH_DELAY + 0.1}
-                className="text-sm md:text-base text-text-tertiary leading-relaxed max-w-2xl mx-auto"
-              >
-                A student-driven hackathon inspiring teens to explore, build, and innovate with technology.
-                Sushma Godawari College, Itahari, Nepal.
-              </AnimatedText>
-            </div>
-            <Link href="/">
-              <div className="mt-6 text-center">
-                <div className="inline-block cursor-not-allowed bg-[#084750] text-white px-6 py-3 rounded-square text-sm md:text-base font-medium">
-                  Registration Closed
-                </div>
-              </div>
-            </Link>
-          </div>
-        </section>
+    <div className="relative isolate">
+      <div className="pointer-events-none -mt-4 absolute inset-x-0 top-0 -z-10 mx-auto w-full max-w-[1150px] overflow-hidden">
+        <Image
+          src={heroBgSrc}
+          alt={heroBg?.alt || ""}
+          width={heroBgWidth}
+          height={heroBgHeight}
+          priority
+          sizes="(max-width: 1150px) 100vw, 1150px"
+          className="block h-auto w-full grayscale-[50%] [mask-image:linear-gradient(to_bottom,black_0%,black_35%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,black_0%,black_35%,transparent_100%)]"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-bg-primary/30 to-bg-primary dark:via-neutral-900/30 dark:to-neutral-900" />
+        {/* <HeroEffect /> */}
+      </div>
+      <MainSiteLayout>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        <section className="space-y-10 md:space-y-16 pb-0">
+          <Hero
+            title={homePage?.title}
+            tagline={homePage?.tagline}
+            subtitle={homePage?.subtitle}
+            collegeName={homePage?.collegeName}
+            collegeUrl={homePage?.collegeUrl}
+            isRegistrationOpen={isRegistrationOpen}
+          />
         <section className="relative space-y-10 md:space-y-16 bg-bg-primary dark:bg-neutral-900">
           <PhotoGrid />
         </section>
         <section className="relative space-y-10 md:space-y-16 bg-bg-primary dark:bg-neutral-900">
-          <Stats delay={STATS_DELAY} />
+          <Stats delay={STATS_DELAY} stats={homePage?.stats} />
         </section>
         <section className="relative space-y-10 md:space-y-16 bg-bg-primary dark:bg-neutral-900">
           <RegisterSection />
         </section>
         <section className="relative space-y-10 md:space-y-16 bg-bg-primary dark:bg-neutral-900">
-          <Commitment />
+          <Commitment
+            title={homePage?.commitment?.title}
+            description={homePage?.commitment?.description}
+            partners={homePage?.commitment?.partners}
+          />
         </section>
         <section className="relative space-y-10 md:space-y-16 bg-bg-primary dark:bg-neutral-900">
-          <PrizePool />
+          <PrizePool
+            title={homePage?.prizePool?.title}
+            description={homePage?.prizePool?.description}
+            prizes={homePage?.prizePool?.prizes}
+          />
         </section>
-        <section className="relative space-y-10 md:space-y-16 bg-bg-primary dark:bg-neutral-900">
-          <Venue />
+        <section id="venue" className="relative space-y-10 md:space-y-16 bg-bg-primary dark:bg-neutral-900">
+          <Venue venue={venue} />
         </section>
         <section id="about" className="relative space-y-10 md:space-y-16 bg-bg-primary dark:bg-neutral-900">
-          <About />
+          <About
+            title={homePage?.about?.title}
+            description={homePage?.about?.description}
+            values={homePage?.about?.values}
+            expectations={homePage?.about?.expectations}
+          />
+        </section>
+        <section id="diaries" className="relative space-y-10 md:space-y-16 bg-bg-primary dark:bg-neutral-900">
+          <HackathonDiaries gallery={homePage?.photoGallery} />
         </section>
         <section id="schedule" className="relative space-y-10 md:space-y-16 bg-bg-primary dark:bg-neutral-900">
-          <Schedule />
+          <Schedule events={scheduleEvents} />
         </section>
         <section id="sponsors" className="relative space-y-10 md:space-y-16 bg-bg-primary dark:bg-neutral-900">
-          <Sponsors />
+          <Sponsors sponsors={sponsors} />
         </section>
         <section id="team" className="relative space-y-10 md:space-y-16 bg-bg-primary dark:bg-neutral-900">
-          <Team />
+          <Team members={teamMembers} />
+        </section>
+        <section id="instagram" className="relative space-y-10 md:space-y-16 bg-bg-primary dark:bg-neutral-900">
+          <InstagramFeed />
         </section>
         <section id="contact" className="relative space-y-10 md:space-y-16 bg-bg-primary dark:bg-neutral-900">
           <div className="text-center space-y-6 -mt-8">
@@ -166,5 +330,6 @@ export default async function Home() {
         </section>
       </section>
     </MainSiteLayout>
+    </div>
   );
 }

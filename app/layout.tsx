@@ -2,14 +2,66 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
-import { Analytics } from "@vercel/analytics/next"
+import { Analytics } from "@vercel/analytics/next";
+import type { Organization, WithContext } from "schema-dts";
+import { siteMetadata } from "@/app/data/siteMetadata";
+
+// Site-wide entity. Lets search engines tie the site, its logo and its social
+// profiles to one organisation rather than treating each page as unrelated.
+const organizationJsonLd: WithContext<Organization> = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Godawari Hacks",
+  url: siteMetadata.siteUrl,
+  logo: `${siteMetadata.siteUrl}/logo-godawari-hacks.png`,
+  description: siteMetadata.description,
+  email: "hack@godawari.edu.np",
+  parentOrganization: {
+    "@type": "CollegeOrUniversity",
+    name: "Sushma Godawari College",
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Itahari",
+      addressRegion: "Koshi Province",
+      addressCountry: "NP",
+    },
+  },
+  sameAs: [
+    "https://www.instagram.com/godawarihacks/",
+    "https://github.com/Godawari-Hacks",
+    "https://www.facebook.com/profile.php?id=61586598928514",
+  ],
+};
 
 export const metadata: Metadata = {
-  title: "Godawari Hacks",
-  description: "Join highschool teams of passionate developers for an epic 24-hour coding marathon!",
+  metadataBase: new URL("https://hack.godawari.edu.np"),
+  title: {
+    default: "Godawari Hacks - 24-Hour Highschool Hackathon in Nepal",
+    template: "%s | Godawari Hacks",
+  },
+  description:
+    "Join highschool teams of passionate students for an epic 24-hour coding hackathon at Sushma Godawari College, Itahari, Nepal. Compete for prizes worth over NRs. 1,00,000.",
+  keywords: [
+    "hackathon",
+    "Nepal",
+    "Itahari",
+    "coding",
+    "highschool hackathon",
+    "Sushma Godawari College",
+    "Godawari Hacks",
+    "programming competition",
+    "Koshi Province",
+  ],
+  authors: [{ name: "Manish Tamang", url: "https://manishtamang.com" }],
+  creator: "Manish Tamang",
   openGraph: {
-    title: "Godawari Hacks",
-    description: "Join highschool teams of passionate developers for an epic 24-hour coding marathon!.",
+    type: "website",
+    locale: "en_US",
+    url: "https://hack.godawari.edu.np",
+    siteName: "Godawari Hacks",
+    title: "Godawari Hacks - 24-Hour Highschool Hackathon in Nepal",
+    description:
+      "Join highschool teams of passionate students for an epic 24-hour coding hackathon at Sushma Godawari College, Itahari, Nepal.",
     images: [
       {
         url: "/logo-godawari-hacks.png",
@@ -21,9 +73,21 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Godawari Hacks",
-    description: "Join highschool teams of passionate developers for an epic 24-hour coding marathon!.",
-    images: ["/sushma-logo.jpg"],
+    title: "Godawari Hacks - 24-Hour Highschool Hackathon in Nepal",
+    description:
+      "Join highschool teams of passionate students for an epic 24-hour coding hackathon at Sushma Godawari College, Itahari, Nepal.",
+    images: ["/logo-godawari-hacks.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
 };
 
@@ -37,7 +101,11 @@ export default function RootLayout({
       lang="en"
       className={`bg-bg-primary dark:bg-neutral-900 ${GeistMono.variable} ${GeistSans.variable}`}
     >
-      <body className="flex min-h-screen flex-col font-sans bg-bg-primary dark:bg-neutral-900 transition-colors">
+      <body className="flex min-h-screen flex-col font-sans bg-bg-primary dark:bg-neutral-900 transition-colors overflow-x-hidden">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
         {children}
         <Analytics />
       </body>

@@ -3,10 +3,13 @@ import { siteMetadata } from "@/app/data/siteMetadata";
 
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: {
-      userAgent: "*",
-      allow: "/",
-    },
+    rules: [
+      {
+        userAgent: "*",
+        allow: "/",
+        disallow: ["/studio", "/admin", "/api"],
+      },
+    ],
     sitemap: `${siteMetadata.siteUrl}/sitemap.xml`,
   };
 }

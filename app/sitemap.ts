@@ -1,12 +1,14 @@
 import type { MetadataRoute } from "next";
 import { siteMetadata } from "@/app/data/siteMetadata";
+import { client } from "@/sanity/lib/client";
+import { SITEMAP_QUERY } from "@/sanity/lib/queries";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  return [
+  const staticPages: MetadataRoute.Sitemap = [
     {
-      url: `${siteMetadata.siteUrl}`,
+      url: siteMetadata.siteUrl,
       lastModified: new Date(),
-      changeFrequency: "yearly",
+      changeFrequency: "weekly",
       priority: 1,
     },
     {
@@ -27,5 +29,42 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "monthly",
       priority: 0.9,
     },
+    {
+      url: `${siteMetadata.siteUrl}/blog`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.7,
+    },
+    {
+      url: `${siteMetadata.siteUrl}/archive`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${siteMetadata.siteUrl}/review`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.5,
+    },
   ];
+
+  try {
+    const dynamicPages = await client
+      .withConfig({ useCdn: false })
+      .fetch<Array<{ href: string; _updatedAt: string }>>(SITEMAP_QUERY);
+
+    const blogPages: MetadataRoute.Sitemap = (dynamicPages ?? []).map(
+      (page) => ({
+        url: `${siteMetadata.siteUrl}${page.href}`,
+        lastModified: new Date(page._updatedAt),
+        changeFrequency: "weekly" as const,
+        priority: 0.6,
+      }),
+    );
+
+    return [...staticPages, ...blogPages];
+  } catch {
+    return staticPages;
+  }
 }

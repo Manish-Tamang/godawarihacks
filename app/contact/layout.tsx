@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Contact - Godawari Hacks",
+  title: "Contact",
+  alternates: { canonical: "/contact" },
   description: "Get in touch with the Godawari Hacks team. Have questions about the hackathon, sponsorship, or volunteering? We'd love to hear from you!",
 };
 

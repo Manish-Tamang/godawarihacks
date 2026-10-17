@@ -1,41 +1,81 @@
 import { GridWrapper } from "../components/GridWrapper";
 import { AnimatedText } from "../components/AnimatedText";
 import { MainSiteLayout } from "../components/MainSiteLayout";
+import { Team } from "../components/Team";
 import Image from "next/image";
 import type { Metadata } from "next";
+import { sanityFetch } from "@/sanity/lib/fetch";
+import { HOME_PAGE_QUERY } from "@/sanity/lib/queries";
+import { PortableTextContent } from "../components/PortableTextContent";
+import type { RichTextValue } from "@/sanity/lib/portable-text";
 
 export const metadata: Metadata = {
-    title: "About - Godawari Hacks",
+    title: "About",
+  alternates: { canonical: "/about" },
     description: "Learn about Godawari Hacks, our mission, values, and what makes our hackathon special. Join a community-driven event that brings together passionate developers.",
+};
+
+type HomePageAbout = {
+    about?: {
+        title?: string;
+        values?: Array<{ _key: string; title: string; description?: RichTextValue }>;
+        expectations?: Array<{ _key: string; text: string }>;
+    };
+    team?: TeamMemberData[];
+} | null;
+
+type TeamMemberData = {
+    _id: string;
+    name: string;
+    role: string;
+    faculty?: string;
+    image?: {
+        asset?: { _id: string; url: string; metadata?: { lqip?: string } };
+        alt?: string;
+    } | null;
 };
 
 export default async function AboutPage() {
     const HEADING_DELAY = 0.2;
     const PARAGRAPH_DELAY = HEADING_DELAY + 0.1;
 
+    const homePage = await sanityFetch<HomePageAbout>({
+        query: HOME_PAGE_QUERY,
+        tags: ["homePage", "teamMember"],
+    });
+
+    const values = homePage?.about?.values ?? [];
+
     return (
+        <div className="relative isolate">
+            <div className="pointer-events-none -mt-4 absolute inset-x-0 top-0 -z-10 mx-auto w-full max-w-[1150px] overflow-hidden">
+                <Image
+                    src="/hackathon/bg.jpg"
+                    alt=""
+                    width={1600}
+                    height={821}
+                    priority
+                    sizes="(max-width: 1150px) 100vw, 1150px"
+                    className="block h-auto w-full grayscale-[50%] [mask-image:linear-gradient(to_bottom,black_0%,black_35%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,black_0%,black_35%,transparent_100%)]"
+                />
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-bg-primary/30 to-bg-primary dark:via-neutral-900/30 dark:to-neutral-900" />
+            </div>
         <MainSiteLayout>
-            <section className="mt-6 space-y-10 md:mt-0 md:space-y-16 pb-0">
-                <section className="relative py-12 md:py-16">
-                    <div
-                        className="absolute inset-0 opacity-[0.10] -z-10"
-                        style={{
-                            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='grid' width='60' height='60' patternUnits='userSpaceOnUse'%3E%3Cpath d='M 60 0 L 0 0 0 60' fill='none' stroke='%23007cff' stroke-width='1'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23grid)'/%3E%3C/svg%3E")`,
-                        }}
-                    ><Image src="/cover-sushma.jpg" alt="Godawari Hacks" width={300} height={300} className="w-full h-full object-cover" /></div>
-                    <div className="relative text-balance">
+            <section className="space-y-10 md:space-y-16 pb-0">
+                <section className="relative mt-14 pb-12 md:pb-16">
+                    <div className="relative z-10 flex flex-col items-center pt-36 text-balance md:pt-44">
                         <AnimatedText
                             as="h1"
                             delay={HEADING_DELAY}
-                            className="mx-auto max-w-2xl text-center text-6xl font-bold leading-tight tracking-tighter text-[#084750] md:text-8xl md:leading-[78px]"
+                            className="mx-auto w-full max-w-4xl text-center font-helvetica text-5xl font-bold leading-tight tracking-tighter text-[#084750] md:text-7xl md:leading-[80px]"
                         >
-                            About Godawari Hacks
+                            {homePage?.about?.title || "About Godawari Hacks"}
                         </AnimatedText>
-                        <div className="mt-4 text-center md:mt-8">
+                        <div className="mt-4 text-center md:mt-6">
                             <AnimatedText
                                 as="p"
                                 delay={PARAGRAPH_DELAY}
-                                className="leading-8 text-text-secondary text-base md:text-lg max-w-3xl mx-auto"
+                                className="mx-auto max-w-2xl px-4 text-base leading-7 text-text-secondary md:text-lg"
                             >
                                 A student organized hackathon that brings together passionate students to build, learn, and innovate together.
                             </AnimatedText>
@@ -43,14 +83,13 @@ export default async function AboutPage() {
                     </div>
                 </section>
 
-                {/* Mission Section */}
-                <section className="relative space-y-10 md:space-y-16">
+                <section className="relative space-y-10 md:space-y-16 bg-bg-primary dark:bg-neutral-900">
                     <GridWrapper className="before:hidden">
-                        <div className="space-y-6 py-8 md:py-12 -mt-16">
-                            <h2 className="text-[#084750] ml-4 text-balance text-left text-3xl font-medium leading-10 tracking-tight md:text-4xl">
+                        <div className="space-y-4 py-8 md:py-12 -mt-16">
+                            <h2 className="px-4 text-balance text-left text-3xl font-medium leading-10 tracking-tight text-[#084750] md:px-6 md:text-4xl">
                                 Our Mission
                             </h2>
-                            <div className="space-y-6 px-4">
+                            <div className="space-y-6 px-4 md:px-6">
                                 <p className="text-left text-text-secondary leading-relaxed max-w-4xl">
                                     Godawari Hacks was founded with a simple yet powerful mission: to create a hackathon that gives back to the community while fostering innovation and collaboration among developers. We believe that technology should be accessible to everyone, and that the best solutions come from diverse teams working together.
                                 </p>
@@ -61,85 +100,47 @@ export default async function AboutPage() {
                         </div>
                     </GridWrapper>
                 </section>
-                <section className="relative space-y-10 md:space-y-16">
+                <section className="relative space-y-10 md:space-y-16 bg-bg-primary dark:bg-neutral-900">
                     <GridWrapper className="before:hidden">
-                        <div className="relative mx-auto max-w-5xl px-4 md:px-8 py-8 md:py-12 -mt-16">
+                        <div className="relative px-4 md:px-6 py-8 md:py-12 -mt-16">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 relative">
                                 <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-border-primary/50 -translate-x-1/2"></div>
 
-                                <div className="space-y-4 flex flex-col justify-center pb-8 md:pb-12">
-                                    <h3 className="text-xl font-semibold text-text-primary">Community First</h3>
-                                    <p className="text-text-secondary leading-relaxed">
-                                        We prioritize the community above all else. Every decision we make is guided by what&apos;s best for our participants, mentors, and the broader developer community.
-                                    </p>
-                                </div>
-
-                                <div className="space-y-4 flex flex-col justify-center pb-8 md:pb-12">
-                                    <h3 className="text-xl font-semibold text-text-primary">Inclusivity</h3>
-                                    <p className="text-text-secondary leading-relaxed">
-                                        We welcome developers of all skill levels, backgrounds, and experiences. Our goal is to create an environment where everyone feels valued and empowered to contribute.
-                                    </p>
-                                </div>
-
-                                <div className="space-y-4 flex flex-col justify-center">
-                                    <h3 className="text-xl font-semibold text-text-primary">Innovation</h3>
-                                    <p className="text-text-secondary leading-relaxed">
-                                        We encourage creative thinking and bold ideas. Godawari Hacks is a space where you can experiment, take risks, and push the boundaries of what&apos;s possible.
-                                    </p>
-                                </div>
-
-                                <div className="space-y-4 flex flex-col justify-center">
-                                    <h3 className="text-xl font-semibold text-text-primary">Learning</h3>
-                                    <p className="text-text-secondary leading-relaxed">
-                                        We believe in continuous learning and growth. Through workshops, mentorship, and collaboration, participants leave Godawari Hacks with new skills and knowledge.
-                                    </p>
-                                </div>
+                                {values.slice(1).map((value, index) => (
+                                    <div key={value._key} className={`space-y-4 flex flex-col justify-center ${index < 2 ? "pb-8 md:pb-12" : ""}`}>
+                                        <h3 className="text-xl font-semibold text-text-primary">{value.title}</h3>
+                                        <div className="text-text-secondary leading-relaxed">
+                                            {value.description ? (
+                                                <PortableTextContent value={value.description} />
+                                            ) : null}
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
-                            {/* Horizontal border spanning grid width only */}
-                            <div className="absolute left-4 md:left-8 right-4 md:right-8 top-1/2 -translate-y-1/2 h-px bg-border-primary/50"></div>
+                            <div className="absolute left-4 md:left-6 right-4 md:right-6 top-1/2 -translate-y-1/2 h-px bg-border-primary/50"></div>
                         </div>
                     </GridWrapper>
                 </section>
-                <section className="relative space-y-10 md:space-y-16">
+                <section className="relative space-y-10 md:space-y-16 bg-bg-primary dark:bg-neutral-900">
                     <GridWrapper>
-                        <div className="space-y-6 py-8 md:py-12">
-                            <h2 className="text-[#084750] ml-4 text-balance text-left text-3xl font-medium leading-10 tracking-tight md:text-4xl">
+                        <div className="space-y-4 py-8 md:py-12">
+                            <h2 className="px-4 text-balance text-left text-3xl font-medium leading-10 tracking-tight text-[#084750] md:px-6 md:text-4xl">
                                 What to Expect
                             </h2>
-                            <div className="space-y-6 px-4">
+                            <div className="space-y-6 px-4 md:px-6">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl">
-                                    <div className="space-y-2">
-                                        <h3 className="text-lg font-semibold text-text-primary">24 Hours of Coding</h3>
-                                        <p className="text-text-secondary leading-relaxed">
-                                            Intense coding sessions where you&apos;ll build, debug, and deploy your project alongside your team.
-                                        </p>
-                                    </div>
-                                    <div className="space-y-2">
-                                        <h3 className="text-lg font-semibold text-text-primary">Networking Opportunities</h3>
-                                        <p className="text-text-secondary leading-relaxed">
-                                            Connect with fellow developers, mentors, and industry professionals. Build relationships that last beyond the hackathon.
-                                        </p>
-                                    </div>
-                                    <div className="space-y-2">
-                                        <h3 className="text-lg font-semibold text-text-primary">Mentorship</h3>
-                                        <p className="text-text-secondary leading-relaxed">
-                                            Get guidance from experienced developers and industry experts who are there to help you succeed.
-                                        </p>
-                                    </div>
-                                    <div className="space-y-2">
-                                        <h3 className="text-lg font-semibold text-text-primary">Prizes & Recognition</h3>
-                                        <p className="text-text-secondary leading-relaxed">
-                                            Compete for exciting prizes and get recognition for your innovative solutions. Every participant is a winner.
-                                        </p>
-                                    </div>
+                                    {(homePage?.about?.expectations ?? []).map((item) => (
+                                        <div key={item._key} className="space-y-2">
+                                            <h3 className="text-lg font-semibold text-text-primary">{item.text}</h3>
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
                         </div>
                     </GridWrapper>
                 </section>
 
-                {/* Photo Section */}
-                <section className="relative space-y-10 md:space-y-16">
+                <section className="relative space-y-10 md:space-y-16 bg-bg-primary dark:bg-neutral-900">
                     <GridWrapper className="before:hidden">
                         <div className="relative py-8 -mt-16">
                             <div className="relative w-full h-[400px] md:h-[500px] rounded-square overflow-hidden">
@@ -163,8 +164,16 @@ export default async function AboutPage() {
                         </div>
                     </GridWrapper>
                 </section>
+
+                <section className="relative space-y-10 md:space-y-16 bg-bg-primary dark:bg-neutral-900">
+                    <Team
+                        title="Meet our founding team of Godawari Hacks 2026"
+                        description="The students who brought Godawari Hacks 2026 to life through community, creativity, and collaboration."
+                        members={homePage?.team}
+                    />
+                </section>
             </section>
         </MainSiteLayout>
+        </div>
     );
 }
-
