@@ -4,23 +4,24 @@ import { motion } from "framer-motion";
 import { GridWrapper } from "./GridWrapper";
 
 interface StatItem {
+  _key: string;
   number: string;
   label: string;
 }
 
-const stats: StatItem[] = [
-  { number: "10", label: "Plus Teams" },
-  { number: "24", label: "Hours of Grind" },
-  { number: "02", label: "Days Session" },
-];
+export function Stats({ delay = 0, stats }: { delay?: number; stats?: StatItem[] }) {
+  const items = stats ?? [
+    { _key: "1", number: "10", label: "Plus Teams" },
+    { _key: "2", number: "24", label: "Hours of Grind" },
+    { _key: "3", number: "02", label: "Days Session" },
+  ];
 
-export function Stats({ delay = 0 }: { delay?: number }) {
   return (
     <GridWrapper>
       <div className="-mt-16 grid grid-cols-1 md:grid-cols-3">
-        {stats.map((stat, index) => (
+        {items.map((stat, index) => (
           <motion.div
-            key={stat.label}
+            key={stat._key}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{
@@ -68,4 +69,3 @@ export function Stats({ delay = 0 }: { delay?: number }) {
     </GridWrapper>
   );
 }
-
