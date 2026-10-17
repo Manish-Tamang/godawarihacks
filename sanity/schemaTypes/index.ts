@@ -17,6 +17,8 @@ import {scheduleEventType} from './scheduleEventType'
 import {venueType} from './venueType'
 import {blogPostType} from './blogPostType'
 import {photoGalleryType} from './photoGalleryType'
+import {registrationMemberType} from './registration/2026/registrationMemberType'
+import {teamRegistrationType} from './registration/2026/teamRegistrationType'
 
 export const schema: {types: SchemaTypeDefinition[]} = {
   types: [
@@ -39,5 +41,7 @@ export const schema: {types: SchemaTypeDefinition[]} = {
     venueType,
     blogPostType,
     photoGalleryType,
+    registrationMemberType,
+    teamRegistrationType,
   ],
 }
