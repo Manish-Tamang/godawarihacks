@@ -10,7 +10,8 @@ import { PortableTextContent } from "../components/PortableTextContent";
 import type { RichTextValue } from "@/sanity/lib/portable-text";
 
 export const metadata: Metadata = {
-    title: "About - Godawari Hacks",
+    title: "About",
+  alternates: { canonical: "/about" },
     description: "Learn about Godawari Hacks, our mission, values, and what makes our hackathon special. Join a community-driven event that brings together passionate developers.",
 };
 
