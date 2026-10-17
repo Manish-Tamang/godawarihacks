@@ -1,14 +1,12 @@
 import { type NextRequest } from "next/server";
 import { updateSession } from "./app/lib/supabase/middleware";
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   try {
     return await updateSession(request);
   } catch (error) {
-    // If middleware fails, allow the request to continue
-    // This prevents the entire app from breaking due to middleware errors
     if (process.env.NODE_ENV === "development") {
-      console.error("Middleware error:", error);
+      console.error("Proxy error:", error);
     }
     return undefined;
   }
