@@ -1,5 +1,6 @@
 import { cx } from "../lib/utils";
 import Navbar from "./Navbar";
+import Footer from "./Footer";
 import { BgGradient } from "./BgGradient";
 
 interface MainSiteLayoutProps {
@@ -18,6 +19,7 @@ export function MainSiteLayout({ children, className, fullWidth = false }: MainS
                     {children}
                 </div>
             </main>
+            <Footer />
         </div>
     );
 }
