@@ -13,6 +13,7 @@ export default {
       fontFamily: {
         sans: "var(--font-geist-sans), system-ui, sans-serif",
         mono: ["var(--font-geist-mono)"],
+        helvetica: "var(--font-helvetica)",
       },
       colors: {
         "bg-primary": "#F7F7F8",
