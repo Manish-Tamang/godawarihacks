@@ -248,6 +248,20 @@ export const PHOTO_GALLERY_QUERY = defineQuery(
   }`,
 )
 
+export const ARCHIVE_PHOTOS_QUERY = defineQuery(
+  `*[_type == "archivePhoto" && season == $season] | order(order asc){
+    _id,
+    alt,
+    caption,
+    order,
+    image{asset->{_id, url, metadata{lqip, dimensions}}}
+  }`,
+)
+
+export const ARCHIVE_SEASONS_QUERY = defineQuery(
+  `array::unique(*[_type == "archivePhoto" && defined(season)].season) | order(@ desc)`,
+)
+
 export const BLOG_POSTS_QUERY = defineQuery(
   `*[_type == "blogPost" && defined(slug.current)] | order(publishedAt desc){
     _id,
