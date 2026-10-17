@@ -1,6 +1,6 @@
 import {defineArrayMember, defineField, defineType} from 'sanity'
 import {UsersIcon} from '@sanity/icons'
-import {CURRENT_SEASON, SEASONS} from '../../../lib/seasons'
+import {CURRENT_SEASON, SEASONS} from '../../lib/seasons'
 
 export const REGISTRATION_STATUSES = [
   {title: 'Pending', value: 'pending'},
