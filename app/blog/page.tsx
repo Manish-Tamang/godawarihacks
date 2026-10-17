@@ -6,9 +6,12 @@ import { GridWrapper } from "../components/GridWrapper";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { BLOG_POSTS_QUERY } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
+import { siteMetadata } from "@/app/data/siteMetadata";
+import type { Blog, WithContext } from "schema-dts";
 
 export const metadata: Metadata = {
-  title: "Blog - Godawari Hacks",
+  title: "Blog",
+  alternates: { canonical: "/blog" },
   description:
     "Read the latest updates, stories, and insights from the Godawari Hacks hackathon community.",
 };
@@ -27,8 +30,31 @@ export default async function BlogPage() {
     }>
   >({ query: BLOG_POSTS_QUERY, tags: ["blogPost"] });
 
+  const jsonLd: WithContext<Blog> = {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    name: "Godawari Hacks Blog",
+    description:
+      "Updates, stories, and insights from the Godawari Hacks community.",
+    url: `${siteMetadata.siteUrl}/blog`,
+    blogPost: posts.map((post) => ({
+      "@type": "BlogPosting" as const,
+      headline: post.title,
+      url: `${siteMetadata.siteUrl}/blog/${post.slug}`,
+      ...(post.excerpt && {description: post.excerpt}),
+      ...(post.publishedAt && {datePublished: post.publishedAt}),
+      ...(post.author?.name && {
+        author: {"@type": "Person" as const, name: post.author.name},
+      }),
+    })),
+  };
+
   return (
     <MainSiteLayout>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <section className="mt-6 space-y-10 md:mt-0 md:space-y-16 pb-0">
         <section className="relative py-12 md:py-16">
           <div className="relative text-balance">
