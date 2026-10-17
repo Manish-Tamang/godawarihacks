@@ -1,6 +1,6 @@
 import {defineArrayMember, defineField, defineType} from 'sanity'
 import {HomeIcon} from '@sanity/icons'
-import {imageWithAlt} from './objects/imageWithAlt'
+import {imageWithAlt} from '../objects/imageWithAlt'
 
 const general = 'general'
 const sections = 'sections'
