@@ -1,6 +1,6 @@
 import {defineField, defineType} from 'sanity'
 import {UsersIcon} from '@sanity/icons'
-import {imageWithAlt} from '../objects/imageWithAlt'
+import {imageWithAlt} from '../imageWithAlt'
 
 export const partnerType = defineType({
   name: 'partner',
