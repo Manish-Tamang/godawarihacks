@@ -3,6 +3,35 @@ import "./globals.css";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
 import { Analytics } from "@vercel/analytics/next";
+import type { Organization, WithContext } from "schema-dts";
+import { siteMetadata } from "@/app/data/siteMetadata";
+
+// Site-wide entity. Lets search engines tie the site, its logo and its social
+// profiles to one organisation rather than treating each page as unrelated.
+const organizationJsonLd: WithContext<Organization> = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Godawari Hacks",
+  url: siteMetadata.siteUrl,
+  logo: `${siteMetadata.siteUrl}/logo-godawari-hacks.png`,
+  description: siteMetadata.description,
+  email: "hack@godawari.edu.np",
+  parentOrganization: {
+    "@type": "CollegeOrUniversity",
+    name: "Sushma Godawari College",
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Itahari",
+      addressRegion: "Koshi Province",
+      addressCountry: "NP",
+    },
+  },
+  sameAs: [
+    "https://www.instagram.com/godawarihacks/",
+    "https://github.com/Godawari-Hacks",
+    "https://www.facebook.com/profile.php?id=61586598928514",
+  ],
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://hack.godawari.edu.np"),
@@ -49,9 +78,6 @@ export const metadata: Metadata = {
       "Join highschool teams of passionate students for an epic 24-hour coding hackathon at Sushma Godawari College, Itahari, Nepal.",
     images: ["/logo-godawari-hacks.png"],
   },
-  alternates: {
-    canonical: "https://hack.godawari.edu.np",
-  },
   robots: {
     index: true,
     follow: true,
@@ -75,10 +101,11 @@ export default function RootLayout({
       lang="en"
       className={`bg-bg-primary dark:bg-neutral-900 ${GeistMono.variable} ${GeistSans.variable}`}
     >
-      <head>
-        <link rel="canonical" href="https://hack.godawari.edu.np" />
-      </head>
       <body className="flex min-h-screen flex-col font-sans bg-bg-primary dark:bg-neutral-900 transition-colors overflow-x-hidden">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
         {children}
         <Analytics />
       </body>
