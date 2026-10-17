@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { CloseButton, Dialog, DialogPanel } from "@headlessui/react";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { cx } from "../lib/utils";
 
 type NavigationLink = {
   name: string;
@@ -17,14 +18,14 @@ const navigationLinks: readonly NavigationLink[] = [
   { name: "Sponsors", link: "#sponsors" },
   { name: "Team", link: "#team" },
   { name: "About", link: "/about" },
-  // { name: "Review", link: "/review" },
+  { name: "Blog", link: "/blog" },
   { name: "Contact", link: "/contact" },
 ] as const;
 
 const Navbar: React.FC = () => {
   return (
     <header role="banner">
-      <DatesBanner />
+      {/* <DatesBanner /> */}
       <DesktopNav />
       <MobileNav />
     </header>
@@ -43,6 +44,7 @@ function DatesBanner() {
 
 function DesktopNav() {
   const path = usePathname();
+  const isHome = path === "/" || path === "/about";
 
   const determineActiveClass = (link: string): string => {
     return path === link ? "text-[#084750]" : "text-gray-500";
@@ -51,15 +53,20 @@ function DesktopNav() {
   return (
     <nav
       aria-label="Desktop navigation"
-      className="hidden h-16 w-full items-center justify-between border-b border-border-primary/50 dark:border-neutral-700/50 px-4 md:flex bg-bg-primary dark:bg-neutral-900"
+      className={cx(
+        "hidden h-16 w-full items-center justify-between px-4 md:flex",
+        isHome
+          ? "absolute inset-x-0 top-0 z-30 border-b border-transparent bg-transparent"
+          : "border-b border-border-primary/50 bg-bg-primary dark:border-neutral-700/50 dark:bg-neutral-900",
+      )}
     >
       <div className="w-[104px]">
-        <Link href="/" aria-label="Home" className="text-xl font-bold text-[#084750] whitespace-nowrap flex items-center gap-2">
+        {/* <Link href="/" aria-label="Home" className="text-xl font-bold text-[#084750] whitespace-nowrap flex items-center gap-2">
           <Image src="/logo-godawari-hacks-nobg.png" alt="Godawari Hackss Logo" className="rounded-full h-10 w-10" width={150} height={150} />
           Hacks
-        </Link>
+        </Link> */}
       </div>
-      <ul className="flex place-items-center space-x-4 rounded-full border border-border-primary px-5 py-2 text-sm text-gray-500">
+      <ul className={cx("flex place-items-center space-x-4 rounded-full border border-border-primary px-5 py-2 text-sm text-gray-500", isHome && "bg-bg-primary/80 backdrop-blur-sm dark:bg-neutral-900/80")}>
         {navigationLinks.map((link) => (
           <li key={link.name}>
             {link.link.startsWith("#") ? (
@@ -99,6 +106,7 @@ function DesktopNav() {
 function MobileNav() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const path = usePathname();
+  const isHome = path === "/" || path === "/about";
 
   useEffect(() => {
     setIsOpen(false);
@@ -107,7 +115,12 @@ function MobileNav() {
   return (
     <nav
       aria-label="Mobile navigation"
-      className="flex h-16 items-center justify-between gap-2.5 border-b border-border-primary/50 dark:border-neutral-700/50 px-3 md:hidden bg-bg-primary dark:bg-neutral-900"
+      className={cx(
+        "flex h-16 items-center justify-between gap-2.5 px-3 md:hidden",
+        isHome
+          ? "absolute inset-x-0 top-0 z-30 border-b border-transparent bg-transparent"
+          : "border-b border-border-primary/50 bg-bg-primary dark:border-neutral-700/50 dark:bg-neutral-900",
+      )}
     >
       <NavLogo onClickCallback={setIsOpen} />
 
@@ -116,6 +129,7 @@ function MobileNav() {
         aria-expanded={isOpen}
         aria-controls="mobile-menu"
         aria-label="Toggle menu"
+        className={isHome ? "bg-bg-primary/80 backdrop-blur-sm dark:bg-neutral-900/80" : ""}
       />
 
       <Dialog
@@ -196,7 +210,7 @@ const CircleBtn = ({
   onClickCallback,
   className = "",
   ...props
-}: CircleBtnProps): JSX.Element => {
+}: CircleBtnProps): React.JSX.Element => {
   return (
     <button
       className={`rounded-full border border-border-primary p-2 ${className}`}
