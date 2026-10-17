@@ -12,16 +12,19 @@ import { Commitment } from "./components/Commitment";
 import { PrizePool } from "./components/PrizePool";
 import { Venue } from "./components/Venue";
 import { Hero } from "./components/Hero";
-import { HeroEffect } from "./components/HeroEffect";
 import { MainSiteLayout } from "./components/MainSiteLayout";
 import Image from "next/image";
-import Link from "next/link";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { HOME_PAGE_QUERY } from "@/sanity/lib/queries";
 import type { RichTextValue } from "@/sanity/lib/portable-text";
 import { toPlainText } from "@/sanity/lib/portable-text";
 import { urlFor } from "@/sanity/lib/image";
 import type { Event, WithContext } from "schema-dts";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 type SanityImage = {
   asset?: {
@@ -241,7 +244,7 @@ export default async function Home() {
             prizes={homePage?.prizePool?.prizes}
           />
         </section>
-        <section className="relative space-y-10 md:space-y-16 bg-bg-primary dark:bg-neutral-900">
+        <section id="venue" className="relative space-y-10 md:space-y-16 bg-bg-primary dark:bg-neutral-900">
           <Venue venue={venue} />
         </section>
         <section id="about" className="relative space-y-10 md:space-y-16 bg-bg-primary dark:bg-neutral-900">
