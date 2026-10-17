@@ -6,11 +6,12 @@ import {
   HomeIcon,
   DocumentTextIcon,
   UsersIcon,
+  ImageIcon,
 } from '@sanity/icons'
 import {SEASONS} from './lib/seasons'
 
 const SINGLETONS = ['siteSettings', 'homePage']
-const HIDDEN_TYPES = ['blogPost', 'teamRegistration']
+const HIDDEN_TYPES = ['blogPost', 'teamRegistration', 'archivePhoto']
 
 const REGISTRATION_STATUS_VIEWS = [
   {id: 'pending', title: 'Pending'},
@@ -56,6 +57,27 @@ function seasonRegistrations(S: StructureBuilder, season: string) {
           ),
       ),
     ])
+}
+
+function archiveBySeason(S: StructureBuilder) {
+  return S.list()
+    .id('archive')
+    .title('Archive')
+    .items(
+      SEASONS.map((season) =>
+        S.listItem()
+          .id(`archive-${season}`)
+          .title(`Season ${season}`)
+          .icon(ImageIcon)
+          .child(
+            S.documentTypeList('archivePhoto')
+              .title(`Photos · ${season}`)
+              .filter('_type == "archivePhoto" && season == $season')
+              .params({season})
+              .defaultOrdering([{field: 'order', direction: 'asc'}]),
+          ),
+      ),
+    )
 }
 
 function registrationsBySeason(S: StructureBuilder) {
@@ -129,6 +151,8 @@ export const structure: StructureResolver = (S) =>
         .title('Registrations')
         .icon(UsersIcon)
         .child(registrationsBySeason(S)),
+
+      S.listItem().title('Archive').icon(ImageIcon).child(archiveBySeason(S)),
 
       S.divider(),
 
