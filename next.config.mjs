@@ -7,18 +7,24 @@ try {
 
 const config = {
   images: {
-    // Allow optimized images from Supabase public storage
-    remotePatterns: supabaseHost
-      ? [
-          {
-            protocol: "https",
-            hostname: supabaseHost,
-            pathname: "/storage/v1/object/public/**",
-          },
-        ]
-      : [],
-    // Simple domains fallback if remotePatterns ever changes
-    domains: supabaseHost ? [supabaseHost] : [],
+    remotePatterns: [
+      // Sanity CDN (images served via @sanity/image-url)
+      {
+        protocol: "https",
+        hostname: "cdn.sanity.io",
+        pathname: "/images/**",
+      },
+      // Allow optimized images from Supabase public storage
+      ...(supabaseHost
+        ? [
+            {
+              protocol: "https",
+              hostname: supabaseHost,
+              pathname: "/storage/v1/object/public/**",
+            },
+          ]
+        : []),
+    ],
   },
 };
 
