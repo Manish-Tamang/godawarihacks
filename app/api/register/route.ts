@@ -1,261 +1,193 @@
-import { createAdminClient } from "@/app/lib/supabase/admin";
-import { NextRequest, NextResponse } from "next/server";
-import { sendEmail } from "@/app/lib/mail";
+import {randomUUID} from "node:crypto";
+import {NextRequest, NextResponse} from "next/server";
+import {writeClient} from "@/sanity/lib/writeClient";
+import {CURRENT_SEASON} from "@/sanity/lib/seasons";
+import {sendEmail} from "@/app/lib/mail";
+
+const MAX_FILE_BYTES = 5 * 1024 * 1024;
+const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png"];
+const ALLOWED_DOCUMENT_TYPES = [...ALLOWED_IMAGE_TYPES, "application/pdf"];
+const VALID_DOCUMENT_TYPES = ["id", "citizenship", "birthcertificate"];
+
+interface PendingMember {
+  fullName: string;
+  email: string;
+  phone: string;
+  documentType: string;
+  document: File;
+}
+
+async function verifyTurnstile(token: string | null, ip: string | null) {
+  const secret = process.env.CLOUDFLARE_TURNSTILE_SECRET_KEY;
+  if (!secret) return true;
+  if (!token) return false;
+
+  const body = new URLSearchParams({secret, response: token});
+  if (ip) body.set("remoteip", ip);
+
+  const res = await fetch(
+    "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+    {method: "POST", body},
+  );
+  const result = (await res.json()) as {success?: boolean};
+  return result.success === true;
+}
+
+async function uploadAsset(
+  kind: "image" | "file",
+  file: File,
+  filename: string,
+) {
+  const buffer = Buffer.from(await file.arrayBuffer());
+  return writeClient.assets.upload(kind, buffer, {
+    filename,
+    contentType: file.type,
+  });
+}
 
 export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData();
-    const supabase = createAdminClient();
 
-    // Extract team name
-    const teamName = formData.get("teamName") as string;
-    if (!teamName?.trim()) {
+    const turnstileOk = await verifyTurnstile(
+      formData.get("turnstileToken") as string | null,
+      request.headers.get("cf-connecting-ip"),
+    );
+    if (!turnstileOk) {
       return NextResponse.json(
-        { error: "Team name is required" },
-        { status: 400 },
+        {error: "Verification failed. Please try again."},
+        {status: 400},
       );
     }
 
-    // Extract member count
+    const teamName = (formData.get("teamName") as string)?.trim();
+    if (!teamName) {
+      return NextResponse.json(
+        {error: "Team name is required"},
+        {status: 400},
+      );
+    }
+
     const memberCount = parseInt(formData.get("memberCount") as string) || 3;
     if (memberCount < 1 || memberCount > 4) {
       return NextResponse.json(
-        { error: "Team must have between 1 and 4 members" },
-        { status: 400 },
+        {error: "Team must have between 1 and 4 members"},
+        {status: 400},
       );
     }
 
-    // Extract payment screenshot
     const paymentScreenshot = formData.get("paymentScreenshot") as File | null;
     if (!paymentScreenshot) {
       return NextResponse.json(
-        { error: "Payment screenshot is required" },
-        { status: 400 },
+        {error: "Payment screenshot is required"},
+        {status: 400},
       );
     }
-
-    // Validate payment screenshot file size (5MB)
-    if (paymentScreenshot.size > 5 * 1024 * 1024) {
+    if (paymentScreenshot.size > MAX_FILE_BYTES) {
       return NextResponse.json(
-        { error: "Payment screenshot exceeds 5MB limit" },
-        { status: 400 },
+        {error: "Payment screenshot exceeds 5MB limit"},
+        {status: 400},
       );
     }
-
-    // Validate payment screenshot file type
-    const allowedImageTypes = ["image/jpeg", "image/jpg", "image/png"];
-    if (!allowedImageTypes.includes(paymentScreenshot.type)) {
+    if (!ALLOWED_IMAGE_TYPES.includes(paymentScreenshot.type)) {
       return NextResponse.json(
-        { error: "Invalid payment screenshot type. Only JPG, PNG allowed." },
-        { status: 400 },
+        {error: "Invalid payment screenshot type. Only JPG, PNG allowed."},
+        {status: 400},
       );
     }
 
-    // Extract member data
-    const members: Array<{
-      name: string;
-      email: string;
-      phone: string;
-      documentType: string;
-      document: File | null;
-    }> = [];
-
+    const members: PendingMember[] = [];
     for (let i = 1; i <= memberCount; i++) {
-      const name = formData.get(`member${i}_name`) as string;
-      const email = formData.get(`member${i}_email`) as string;
-      const phone = formData.get(`member${i}_phone`) as string;
+      const fullName = (formData.get(`member${i}_name`) as string)?.trim();
+      const email = (formData.get(`member${i}_email`) as string)
+        ?.toLowerCase()
+        .trim();
+      const phone = (formData.get(`member${i}_phone`) as string)?.trim();
       const documentType = formData.get(`member${i}_documentType`) as string;
       const document = formData.get(`member${i}_document`) as File | null;
 
-      if (!name || !email || !phone || !documentType || !document) {
+      if (!fullName || !email || !phone || !documentType || !document) {
         return NextResponse.json(
-          { error: `All fields are required for member ${i}` },
-          { status: 400 },
+          {error: `All fields are required for member ${i}`},
+          {status: 400},
         );
       }
-
-      // Validate file size (5MB)
-      if (document.size > 5 * 1024 * 1024) {
+      if (!VALID_DOCUMENT_TYPES.includes(documentType)) {
         return NextResponse.json(
-          { error: `Document for member ${i} exceeds 5MB limit` },
-          { status: 400 },
+          {error: `Invalid document type for member ${i}`},
+          {status: 400},
         );
       }
-
-      // Validate file type
-      const allowedTypes = [
-        "application/pdf",
-        "image/jpeg",
-        "image/jpg",
-        "image/png",
-      ];
-      if (!allowedTypes.includes(document.type)) {
+      if (document.size > MAX_FILE_BYTES) {
+        return NextResponse.json(
+          {error: `Document for member ${i} exceeds 5MB limit`},
+          {status: 400},
+        );
+      }
+      if (!ALLOWED_DOCUMENT_TYPES.includes(document.type)) {
         return NextResponse.json(
           {
             error: `Invalid file type for member ${i}. Only PDF, JPG, PNG allowed.`,
           },
-          { status: 400 },
+          {status: 400},
         );
       }
 
-      members.push({ name, email, phone, documentType, document });
+      members.push({fullName, email, phone, documentType, document});
     }
 
-    // Create team in database
-    const { data: team, error: teamError } = await supabase
-      .from("teams")
-      .insert({
-        team_name: teamName.trim(),
-        status: "pending",
-      })
-      .select()
-      .single();
+    // Upload every asset before creating the document, so a failed upload
+    // cannot leave a half-populated registration in the dataset.
+    const paymentAsset = await uploadAsset(
+      "image",
+      paymentScreenshot,
+      `payment-${Date.now()}-${paymentScreenshot.name}`,
+    );
 
-    if (teamError || !team) {
-      console.error("Error creating team:", teamError);
-      return NextResponse.json(
-        { error: "Failed to create team registration" },
-        { status: 500 },
-      );
-    }
+    const memberAssets = await Promise.all(
+      members.map((member, index) =>
+        uploadAsset(
+          "file",
+          member.document,
+          `member${index + 1}-${Date.now()}-${member.document.name}`,
+        ),
+      ),
+    );
 
-    // Upload payment screenshot first
-    const paymentFileExt = paymentScreenshot.name.split(".").pop();
-    const paymentFileName = `payment_${Date.now()}.${paymentFileExt}`;
-    const paymentFilePath = `payments/${team.id}/${paymentFileName}`;
+    const registration = await writeClient.create({
+      _type: "teamRegistration",
+      teamName,
+      season: CURRENT_SEASON,
+      status: "pending",
+      registeredAt: new Date().toISOString(),
+      paymentVerified: false,
+      paymentScreenshot: {
+        _type: "image",
+        asset: {_type: "reference", _ref: paymentAsset._id},
+      },
+      members: members.map((member, index) => ({
+        _key: randomUUID(),
+        _type: "registrationMember",
+        fullName: member.fullName,
+        email: member.email,
+        phone: member.phone,
+        documentType: member.documentType,
+        document: {
+          _type: "file",
+          asset: {_type: "reference", _ref: memberAssets[index]._id},
+        },
+      })),
+    });
 
-    const paymentArrayBuffer = await paymentScreenshot.arrayBuffer();
-    const paymentBuffer = Buffer.from(paymentArrayBuffer);
-
-    const { error: paymentUploadError } = await supabase.storage
-      .from("payment-screenshots")
-      .upload(paymentFilePath, paymentBuffer, {
-        contentType: paymentScreenshot.type,
-        upsert: false,
-      });
-
-    if (paymentUploadError) {
-      console.error("Error uploading payment screenshot:", paymentUploadError);
-      // Clean up: delete team if payment upload fails
-      await supabase.from("teams").delete().eq("id", team.id);
-      return NextResponse.json(
-        { error: "Failed to upload payment screenshot" },
-        { status: 500 },
-      );
-    }
-
-    // Get payment screenshot public URL
-    const { data: paymentUrlData } = supabase.storage
-      .from("payment-screenshots")
-      .getPublicUrl(paymentFilePath);
-
-    // Update team with payment screenshot info
-    const { error: updateTeamError } = await supabase
-      .from("teams")
-      .update({
-        payment_screenshot_url: paymentUrlData.publicUrl,
-        payment_screenshot_path: paymentFilePath,
-        payment_verified: false,
-      })
-      .eq("id", team.id);
-
-    if (updateTeamError) {
-      console.error("Error updating team with payment info:", updateTeamError);
-      // Clean up
-      await supabase.from("teams").delete().eq("id", team.id);
-      return NextResponse.json(
-        { error: "Failed to save payment information" },
-        { status: 500 },
-      );
-    }
-
-    // Upload documents and create team members
-    interface TeamMemberResponse {
-      full_name: string;
-      email: string;
-      phone: string;
-    }
-    const teamMembers: TeamMemberResponse[] = [];
-    for (let i = 0; i < members.length; i++) {
-      const member = members[i];
-      const file = member.document!;
-
-      // Generate file path: registrations/{team_id}/member{i+1}_{filename}
-      const fileExt = file.name.split(".").pop();
-      const fileName = `member${i + 1}_${Date.now()}.${fileExt}`;
-      const filePath = `registrations/${team.id}/${fileName}`;
-
-      // Convert File to ArrayBuffer for upload
-      const arrayBuffer = await file.arrayBuffer();
-      const buffer = Buffer.from(arrayBuffer);
-
-      // Upload to Supabase Storage
-      const { error: uploadError } = await supabase.storage
-        .from("team-documents")
-        .upload(filePath, buffer, {
-          contentType: file.type,
-          upsert: false,
-        });
-
-      if (uploadError) {
-        console.error("Error uploading document:", uploadError);
-        // Clean up: delete team if document upload fails
-        await supabase.from("teams").delete().eq("id", team.id);
-        return NextResponse.json(
-          { error: `Failed to upload document for member ${i + 1}` },
-          { status: 500 },
-        );
-      }
-
-      // Get public URL (or signed URL for private buckets)
-      const { data: urlData } = supabase.storage
-        .from("team-documents")
-        .getPublicUrl(filePath);
-
-      // Create team member record
-      const { data: teamMember, error: memberError } = await supabase
-        .from("team_members")
-        .insert({
-          team_id: team.id,
-          member_number: i + 1,
-          full_name: member.name.trim(),
-          email: member.email.toLowerCase().trim(),
-          phone: member.phone.trim(),
-          document_type: member.documentType,
-          document_url: urlData.publicUrl,
-          document_path: filePath,
-        })
-        .select()
-        .single();
-
-      if (memberError || !teamMember) {
-        console.error("Error creating team member:", memberError);
-        // Clean up: delete team and uploaded documents
-        await supabase.from("teams").delete().eq("id", team.id);
-        // Note: Storage cleanup would require listing and deleting files
-        return NextResponse.json(
-          { error: `Failed to create member ${i + 1} record` },
-          { status: 500 },
-        );
-      }
-
-      teamMembers.push({
-        full_name: teamMember.full_name,
-        email: teamMember.email,
-        phone: teamMember.phone,
-      });
-    }
-
-    // Send confirmation emails to all team members
-    const emailPromises = teamMembers.map((member) => {
-      return sendEmail({
+    const emailPromises = members.map((member) =>
+      sendEmail({
         to: member.email,
         subject: `Registration Received - Godawari Hacks`,
         html: `
           <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
             <h1 style="color: #084750; text-align: center;">Registration Received!</h1>
-            <p>Hello ${member.full_name},</p>
-            <p>Thank you for registering your team <strong>${team.team_name}</strong> for Godawari Hacks!</p>
+            <p>Hello ${member.fullName},</p>
+            <p>Thank you for registering your team <strong>${teamName}</strong> for Godawari Hacks!</p>
             <p>We have received your registration details and payment screenshot. Our team will review your submission and update your status within 24-48 hours.</p>
             <div style="background: #fdfaf0; padding: 15px; border-radius: 5px; margin: 20px 0; border-left: 4px solid #f59e0b;">
               <p style="margin: 0; color: #92400e;"><strong>Status:</strong> Your registration is currently <strong>Pending Review</strong>.</p>
@@ -264,35 +196,36 @@ export async function POST(request: NextRequest) {
             <p>Best regards,<br>The Godawari Hacks Team</p>
           </div>
         `,
-      });
-    });
+      }),
+    );
 
-    // Fire and forget email sending (or at least don't block the UI response too much)
-    Promise.all(emailPromises).catch(err => console.error("Error sending registration confirmation emails:", err));
+    Promise.all(emailPromises).catch((err) =>
+      console.error("Error sending registration confirmation emails:", err),
+    );
 
     return NextResponse.json(
       {
         success: true,
         message: "Team registration successful",
         team: {
-          id: team.id,
-          team_name: team.team_name,
-          status: team.status,
-          registration_date: team.registration_date,
+          id: registration._id,
+          team_name: registration.teamName,
+          status: registration.status,
+          registration_date: registration.registeredAt,
         },
-        members: teamMembers.map((m) => ({
-          name: m.full_name,
-          email: m.email,
-          phone: m.phone,
+        members: members.map((member) => ({
+          name: member.fullName,
+          email: member.email,
+          phone: member.phone,
         })),
       },
-      { status: 201 },
+      {status: 201},
     );
   } catch (error) {
     console.error("Registration error:", error);
     return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 },
+      {error: "Internal server error"},
+      {status: 500},
     );
   }
 }
