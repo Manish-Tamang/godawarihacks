@@ -3,7 +3,18 @@ import {type SchemaTypeDefinition} from 'sanity'
 // Objects — reusable, embedded inside documents.
 import {seoType} from './objects/seo'
 import {simpleRichTextType, richTextType} from './objects/richText'
+import {blogContentType} from './objects/blogContent'
 import {registrationMemberType} from './objects/registrationMember'
+
+// Objects — blocks embeddable inside blogContent.
+import {ctaButtonType} from './objects/blocks/ctaButton'
+import {buttonGroupType} from './objects/blocks/buttonGroup'
+import {calloutType} from './objects/blocks/callout'
+import {contentTableType, tableRowType} from './objects/blocks/contentTable'
+import {codeBlockType} from './objects/blocks/codeBlock'
+import {videoEmbedType} from './objects/blocks/videoEmbed'
+import {pullQuoteType} from './objects/blocks/pullQuote'
+import {dividerType} from './objects/blocks/divider'
 
 // Objects — homepage sections.
 import {statItemType} from './objects/home/statItem'
@@ -35,7 +46,19 @@ export const schema: {types: SchemaTypeDefinition[]} = {
     seoType,
     simpleRichTextType,
     richTextType,
+    blogContentType,
     registrationMemberType,
+
+    // Blog content blocks
+    ctaButtonType,
+    buttonGroupType,
+    calloutType,
+    tableRowType,
+    contentTableType,
+    codeBlockType,
+    videoEmbedType,
+    pullQuoteType,
+    dividerType,
 
     // Homepage section objects
     statItemType,
