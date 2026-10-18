@@ -41,26 +41,7 @@ export const blogPostType = defineType({
     }),
     defineField({
       name: 'body',
-      type: 'array',
-      of: [
-        defineArrayMember({type: 'block'}),
-        defineArrayMember({
-          type: 'image',
-          options: {hotspot: true},
-          fields: [
-            defineField({
-              name: 'alt',
-              type: 'string',
-              title: 'Alt Text',
-            }),
-            defineField({
-              name: 'caption',
-              type: 'string',
-              title: 'Caption',
-            }),
-          ],
-        }),
-      ],
+      type: 'blogContent',
     }),
     defineField({
       name: 'author',
