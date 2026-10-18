@@ -572,7 +572,7 @@ export default function RegisterPage() {
                     <li>Registration fee is NPR 2500 per team</li>
                     <li>You will receive a confirmation email after successful registration</li>
                     <li>Please ensure all information is accurate before submitting</li>
-                    <li>Contact us if you have any questions: <a href="mailto:hack@godawari.edu.np" className="text-[#084750] hover:text-[#084750]/80 underline">hack@godawari.edu.np</a> or call <a href="tel:+9779707360949" className="text-[#084750] hover:text-[#084750]/80 underline">9707360949</a></li>
+                    <li>Contact us if you have any questions: <a href="mailto:hack@godawari.edu.np" className="text-[#084750] hover:text-[#084750]/80 underline">hack@godawari.edu.np</a></li>
                   </ul>
                 </div>
               </div>
