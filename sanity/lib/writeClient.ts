@@ -1,16 +1,30 @@
-import {createClient} from 'next-sanity'
+import {createClient, type SanityClient} from 'next-sanity'
 import {apiVersion, dataset, projectId} from '../env'
 
-const token = process.env.SANITY_WRITE_TOKEN
+let cached: SanityClient | undefined
 
-if (!token) {
-  throw new Error('Missing environment variable: SANITY_WRITE_TOKEN')
+/**
+ * Built on first use rather than at import time. `next build` evaluates the
+ * route modules that import this to collect their config, and the write token
+ * is a runtime-only secret that is not necessarily present then — throwing
+ * during module evaluation failed the build instead of the request.
+ */
+export function getWriteClient(): SanityClient {
+  if (!cached) {
+    const token = process.env.SANITY_WRITE_TOKEN
+
+    if (!token) {
+      throw new Error('Missing environment variable: SANITY_WRITE_TOKEN')
+    }
+
+    cached = createClient({
+      projectId,
+      dataset,
+      apiVersion,
+      token,
+      useCdn: false,
+    })
+  }
+
+  return cached
 }
-
-export const writeClient = createClient({
-  projectId,
-  dataset,
-  apiVersion,
-  token,
-  useCdn: false,
-})
