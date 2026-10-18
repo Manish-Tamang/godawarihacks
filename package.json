@@ -17,8 +17,6 @@
     "@sanity/image-url": "2",
     "@sanity/vision": "5",
     "@sanity/webhook": "4.0.4",
-    "@supabase/ssr": "^0.7.0",
-    "@supabase/supabase-js": "^2.81.1",
     "@vercel/analytics": "^1.6.1",
     "clsx": "^2.1.1",
     "framer-motion": "12.43.0",
