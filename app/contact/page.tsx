@@ -279,11 +279,10 @@ export default function ContactPage() {
         {/* Contact Information Section */}
         <section className="relative space-y-10 md:space-y-16">
           <GridWrapper>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 relative mx-auto max-w-6xl px-4 md:px-8 py-8 md:py-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12 relative mx-auto max-w-6xl px-4 md:px-8 py-8 md:py-12">
               {/* Vertical divider lines */}
-              <div className="hidden md:block absolute top-0 bottom-0 left-1/2 w-px bg-border-primary lg:left-1/4"></div>
-              <div className="hidden lg:block absolute top-0 bottom-0 left-1/2 w-px bg-border-primary"></div>
-              <div className="hidden lg:block absolute top-0 bottom-0 left-3/4 w-px bg-border-primary"></div>
+              <div className="hidden md:block absolute top-0 bottom-0 left-1/2 w-px bg-border-primary lg:left-1/3"></div>
+              <div className="hidden lg:block absolute top-0 bottom-0 left-2/3 w-px bg-border-primary"></div>
 
               <div className="space-y-4 text-center md:text-left">
                 <div className="text-4xl mb-4">📧</div>
@@ -303,20 +302,6 @@ export default function ContactPage() {
                 </p>
               </div>
               <div className="space-y-4 text-center md:text-left">
-                <div className="text-4xl mb-4">📞</div>
-                <h3 className="text-lg font-semibold text-text-primary">Contact Number</h3>
-                <p className="text-text-secondary">
-                  <a href="tel:+9779707360949" className="text-[#084750] hover:text-[#084750]/80 underline">
-                    +977 9707360949 (Manish Gole Tamang)
-                  </a>
-                  <a href="tel:+9779805345766" className="text-[#084750] hover:text-[#084750]/80 underline">
-                    +977 9805345766 (Dipak Parajuli)
-                  </a>
-                  <br />
-                  <span className="text-sm">Technical Support</span>
-                </p>
-              </div>
-              <div className="space-y-4 text-center md:text-left">
                 <div className="mb-4 h-10 w-10"><Facebook /></div>
                 <h3 className="text-lg font-semibold text-text-primary">Facebook page</h3>
                 <p className="text-text-secondary">
@@ -326,6 +311,38 @@ export default function ContactPage() {
                   <br />
                   <span className="text-sm">Follow for updates</span>
                 </p>
+              </div>
+            </div>
+          </GridWrapper>
+        </section>
+
+        {/* Map Section */}
+        <section className="relative space-y-10 md:space-y-16">
+          <GridWrapper>
+            <div className="space-y-4 py-8 md:py-12">
+              <div className="flex flex-wrap items-baseline justify-between gap-2 px-4 md:px-8">
+                <h2 className="text-[#084750] text-balance text-left text-3xl font-medium leading-10 tracking-tight md:text-4xl">
+                  Find us
+                </h2>
+                <a
+                  href="https://www.google.com/maps/dir/?api=1&destination=26.654076,87.274864"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-[#084750] hover:text-[#084750]/80 underline"
+                >
+                  Get directions
+                </a>
+              </div>
+              <div className="mx-4 md:mx-8 overflow-hidden rounded-xl border border-border-primary">
+                <iframe
+                  title="Sushma Godawari College on Google Maps"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3565.825291823272!2d87.27486387599244!3d26.654075676802282!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39ef6c6ffd419ad7%3A0x3c19a0cb1869a764!2z4aSb4aSj4aSY4aSg4aSW4aSlIFN1c21hIEtvaXJhbGEgTWVtb3JpYWwgQ29sbGVnZQ!5e0!3m2!1sen!2snp!4v1792324739928!5m2!1sen!2snp"
+                  className="block h-[320px] w-full md:h-[420px]"
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                />
               </div>
             </div>
           </GridWrapper>
@@ -372,7 +389,7 @@ export default function ContactPage() {
                 <div className="space-y-2">
                   <h3 className="text-lg font-semibold text-text-primary">Have more questions?</h3>
                   <p className="text-text-secondary leading-relaxed">
-                    Feel free to ask any inquiry! Contact us at <a href="mailto:hack@godawari.edu.np" className="text-[#084750] hover:text-[#084750]/80 underline">hack@godawari.edu.np</a> or call us at <a href="tel:+9779707360949" className="text-[#084750] hover:text-[#084750]/80 underline">9707360949</a>. We&apos;re here to help!
+                    Feel free to ask any inquiry! Contact us at <a href="mailto:hack@godawari.edu.np" className="text-[#084750] hover:text-[#084750]/80 underline">hack@godawari.edu.np</a>. We&apos;re here to help!
                   </p>
                 </div>
               </div>
