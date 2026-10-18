@@ -12,7 +12,6 @@ hackathon at Sushma Godawari College, Itahari, Nepal.
 | Framework | Next.js 16 (App Router, Turbopack) |
 | Content | Sanity v5 — embedded Studio at `/studio` |
 | Registrations | Sanity (`teamRegistration` documents) |
-| Admin auth | Supabase Auth + `admin_users` table |
 | Styling | Tailwind CSS 3, Geist font |
 | Mail | Nodemailer (Gmail SMTP) |
 | Package manager | pnpm |
@@ -36,17 +35,9 @@ The site runs at `http://localhost:3000`, the Studio at `/studio`.
 | `NEXT_PUBLIC_SANITY_DATASET` | Sanity dataset (`production`) |
 | `SANITY_WRITE_TOKEN` | Server-side writes: registrations, imports |
 | `SANITY_WEBHOOK_SECRET` | Verifies the registration-status webhook |
-| `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase client key |
-| `SUPABASE_SERVICE_ROLE_KEY` | Server-side Supabase access |
 | `SMTP_USER` / `SMTP_PASSWORD` | Outgoing mail |
 | `CLOUDFLARE_TURNSTILE_SECRET_KEY` | Verifies registration captcha |
 | `NEXT_PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY` | Captcha widget |
-
-> `NEXT_PUBLIC_SUPABASE_URL` must be the project **URL** and
-> `SUPABASE_SERVICE_ROLE_KEY` the **JWT**. These were swapped at one point,
-> which silently broke every Supabase call — `next.config.mjs` swallows the
-> resulting `new URL()` failure in an empty `catch`.
 
 ## Project structure
 
@@ -54,11 +45,9 @@ The site runs at `http://localhost:3000`, the Studio at `/studio`.
 app/
 ├── archive/          Photo archive (masonry grid + lightbox)
 ├── blog/             Blog index and post pages
-├── admin/            Supabase-authenticated dashboard (legacy, see below)
 ├── api/
 │   ├── register/     Registration intake → writes to Sanity
-│   ├── sanity/       Webhook receiver for status-change emails
-│   └── admin/        Legacy Supabase admin endpoints
+│   └── sanity/       Webhook receiver for status-change emails
 ├── components/       Shared UI
 └── data/             Static site metadata
 
@@ -72,7 +61,6 @@ sanity/
 └── structure.ts      Studio sidebar layout
 
 scripts/              Photo-curation tooling (see Archive below)
-proxy.ts              Next.js 16 proxy (formerly middleware.ts)
 ```
 
 ## Content model
@@ -151,7 +139,6 @@ All live in `sanity/migrations/`, all dry-run by default and need `--commit`:
 | Script | Purpose |
 | --- | --- |
 | `import-archive-photos.ts` | Curated event photos → `archivePhoto` |
-| `import-registrations-from-supabase.ts` | Legacy Supabase teams → `teamRegistration` |
 | `move-sections-into-homepage.ts` | Folds standalone sections into `homePage` |
 
 ## SEO
@@ -162,23 +149,19 @@ All live in `sanity/migrations/`, all dry-run by default and need `--commit`:
 - `Organization` JSON-LD site-wide, `Event` on the homepage, `Blog` on the blog
   index, `BlogPosting` on posts, `ImageGallery` on the archive.
 - `app/sitemap.ts` lists static routes plus every blog post;
-  `app/robots.ts` blocks `/studio`, `/admin` and `/api`.
+  `app/robots.ts` blocks `/studio` and `/api`.
 - Decorative images intentionally use `alt=""` so screen readers skip them.
 
 ## Known issues
 
 - **Dark mode never activates.** Tailwind is configured with `darkMode: "class"`,
-  but `ThemeToggle.tsx` is the only code that adds the class and it is not
-  rendered anywhere. Every `dark:` utility in the codebase is currently inert.
+  but nothing adds the class to the document. Every `dark:` utility in the
+  codebase is currently inert.
 - **`/rules` does not exist** but is linked from the footer, and the "View Rules"
   button in `RegisterSection.tsx` points at a `#rules` anchor that is never rendered.
-- **The admin dashboard is legacy.** `/admin` and `/api/admin` still read teams
-  from Supabase, which no longer receives registrations. The Studio is the live
-  admin surface.
-- `pnpm lint` reports 7 pre-existing `react-hooks` errors, including a
+- `pnpm lint` reports 6 pre-existing `react-hooks` errors, including a
   `setState` inside an effect in `app/register/page.tsx` that lists its own
   state in the dependency array.
-- `ApologyBanner.tsx`, `ThemeToggle.tsx` and `HeroEffect.tsx` are unreferenced.
 
 ---
 
