@@ -1,6 +1,6 @@
 import {randomUUID} from "node:crypto";
 import {NextRequest, NextResponse} from "next/server";
-import {writeClient} from "@/sanity/lib/writeClient";
+import {getWriteClient} from "@/sanity/lib/writeClient";
 import {CURRENT_SEASON} from "@/sanity/lib/seasons";
 import {sendEmail} from "@/app/lib/mail";
 
@@ -39,7 +39,7 @@ async function uploadAsset(
   filename: string,
 ) {
   const buffer = Buffer.from(await file.arrayBuffer());
-  return writeClient.assets.upload(kind, buffer, {
+  return getWriteClient().assets.upload(kind, buffer, {
     filename,
     contentType: file.type,
   });
@@ -154,7 +154,7 @@ export async function POST(request: NextRequest) {
       ),
     );
 
-    const registration = await writeClient.create({
+    const registration = await getWriteClient().create({
       _type: "teamRegistration",
       teamName,
       season: CURRENT_SEASON,
