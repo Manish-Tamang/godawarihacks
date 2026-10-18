@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { SVGProps } from "react";
 
@@ -60,8 +61,15 @@ export default function Footer() {
           <div className="max-w-sm">
             <Link
               href="/"
-              className="text-xl font-bold text-[#084750] dark:text-teal-300"
+              className="flex items-center gap-3 text-xl font-bold text-[#084750] dark:text-teal-300"
             >
+              <Image
+                src="/logo-godawari-hacks-nobg.png"
+                alt=""
+                width={150}
+                height={150}
+                className="h-10 w-10 rounded-full"
+              />
               Godawari Hacks
             </Link>
             <p className="mt-4 text-sm leading-relaxed text-text-secondary dark:text-neutral-400">
