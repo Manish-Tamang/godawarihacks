@@ -205,7 +205,6 @@ export default async function Home() {
           className="block h-auto w-full grayscale-[50%] [mask-image:linear-gradient(to_bottom,black_0%,black_35%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,black_0%,black_35%,transparent_100%)]"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-bg-primary/30 to-bg-primary dark:via-neutral-900/30 dark:to-neutral-900" />
-        {/* <HeroEffect /> */}
       </div>
       <MainSiteLayout>
         <script
