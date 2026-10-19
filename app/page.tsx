@@ -6,6 +6,7 @@ import { HackathonDiaries } from "./components/HackathonDiaries";
 import { Team } from "./components/Team";
 import { InstagramFeed } from "./components/InstagramFeed";
 import { About } from "./components/About";
+import { CollegeAbout } from "./components/CollegeAbout";
 import { PhotoGrid } from "./components/PhotoGrid";
 import { RegisterSection } from "./components/RegisterSection";
 import { Commitment } from "./components/Commitment";
@@ -254,6 +255,9 @@ export default async function Home() {
             expectations={homePage?.about?.expectations}
           />
         </section>
+        <section id="college" className="relative space-y-10 md:space-y-16 bg-bg-primary dark:bg-neutral-900">
+          <CollegeAbout />
+        </section>
         <section id="diaries" className="relative space-y-10 md:space-y-16 bg-bg-primary dark:bg-neutral-900">
           <HackathonDiaries gallery={homePage?.photoGallery} />
         </section>
@@ -310,7 +314,7 @@ export default async function Home() {
                     </a>
                   </p>
                   <p className="text-sm md:text-base text-text-tertiary leading-relaxed">
-                    He is an +2 science student of Sushma godawari college passionate about full stack web app development.
+                    A +2 Science graduate of Sushma Godawari College (2024–2026 batch), passionate about full stack web app development.
                   </p>
                 </div>
                 <div className="flex-shrink-0 bg-gray-100 mr-2">
