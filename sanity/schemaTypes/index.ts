@@ -29,6 +29,7 @@ import {aboutSectionType} from './objects/home/aboutSection'
 // Singletons — exactly one document each.
 import {siteSettingsType} from './singletons/siteSettings'
 import {homePageType} from './singletons/homePage'
+import {rulesPageType} from './singletons/rulesPage'
 
 // Documents — many instances, editable in the Studio.
 import {teamMemberType} from './documents/teamMember'
@@ -73,6 +74,7 @@ export const schema: {types: SchemaTypeDefinition[]} = {
     // Singletons
     siteSettingsType,
     homePageType,
+    rulesPageType,
 
     // Documents
     teamMemberType,
