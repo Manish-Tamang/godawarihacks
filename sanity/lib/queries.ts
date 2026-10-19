@@ -16,6 +16,16 @@ export const SITE_SETTINGS_QUERY = defineQuery(
   }`,
 )
 
+export const RULES_PAGE_QUERY = defineQuery(
+  `*[_id == "rulesPage"][0]{
+    title,
+    description,
+    lastUpdated,
+    body,
+    seo
+  }`,
+)
+
 export const HOME_PAGE_QUERY = defineQuery(
   `*[_id == "homePage"][0]{
     title,
