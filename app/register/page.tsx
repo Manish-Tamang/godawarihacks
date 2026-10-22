@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { GridPageLayout } from "../components/GridPageLayout";
 import { FeedbackButton } from "../components/FeedbackButton";
@@ -43,25 +43,8 @@ export default function RegisterPage() {
     reset: resetTurnstile,
   } = useTurnstile();
 
-  // Update members array when member count changes
-  useEffect(() => {
-    const newMembers: TeamMember[] = [];
-    for (let i = 0; i < memberCount; i++) {
-      if (members[i]) {
-        newMembers.push(members[i]);
-      } else {
-        newMembers.push({
-          name: "",
-          email: "",
-          phone: "",
-          document: null,
-          documentType: "",
-        });
-      }
-    }
-    setMembers(newMembers);
-  }, [memberCount, members]);
-
+  // `members` always holds the maximum of 4 slots; only the first
+  // `memberCount` are shown and submitted.
   const handleMemberChange = (
     index: number,
     field: keyof TeamMember,
