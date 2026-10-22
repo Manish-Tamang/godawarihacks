@@ -22,10 +22,6 @@ const programs = [
     _key: "p3",
     text: "3-year Diploma in Civil and Computer Engineering (SKMEC, CTEVT)",
   },
-  {
-    _key: "p4",
-    text: "Short-term training in plumbing, house wiring, electrical and electronics",
-  },
 ];
 
 const facilities = [
