@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { MainSiteLayout } from "../components/MainSiteLayout";
-import { GridWrapper } from "../components/GridWrapper";
-import { AnimatedText } from "../components/AnimatedText";
+import { GridPageLayout } from "../components/GridPageLayout";
+import { GridSection } from "../components/ui/grid-section";
+import { PageHero } from "../components/ui/page-hero";
+import { Button } from "../components/ui/button";
 import { PortableTextContent } from "../components/PortableTextContent";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { RULES_PAGE_QUERY } from "@/sanity/lib/queries";
@@ -43,9 +43,6 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function RulesPage() {
-  const HEADING_DELAY = 0.2;
-  const PARAGRAPH_DELAY = HEADING_DELAY + 0.1;
-
   const rulesPage = await getRulesPage();
   const body = rulesPage?.body?.length ? rulesPage.body : DEFAULT_RULES;
 
@@ -58,59 +55,31 @@ export default async function RulesPage() {
     : null;
 
   return (
-    <MainSiteLayout>
-      <section className="space-y-10 md:space-y-16 pb-0">
-        <section className="relative mt-14 pb-12 md:pb-16">
-          <div className="relative z-10 flex flex-col items-center pt-24 text-balance md:pt-32">
-            <AnimatedText
-              as="h1"
-              delay={HEADING_DELAY}
-              className="mx-auto w-full max-w-4xl text-center font-helvetica text-5xl font-bold leading-tight tracking-tighter text-[#084750] md:text-7xl md:leading-[80px]"
-            >
-              {rulesPage?.title || DEFAULT_TITLE}
-            </AnimatedText>
-            <div className="mt-4 text-center md:mt-6">
-              <AnimatedText
-                as="p"
-                delay={PARAGRAPH_DELAY}
-                className="mx-auto max-w-2xl px-4 text-base leading-7 text-text-secondary md:text-lg"
-              >
-                {rulesPage?.description || DEFAULT_DESCRIPTION}
-              </AnimatedText>
-              {lastUpdatedLabel && (
-                <p className="mt-3 font-mono text-xs tabular-nums text-text-tertiary">
-                  Last updated {lastUpdatedLabel}
-                </p>
-              )}
-            </div>
-          </div>
-        </section>
+    <GridPageLayout>
+      <PageHero
+        title={rulesPage?.title || DEFAULT_TITLE}
+        description={<p>{rulesPage?.description || DEFAULT_DESCRIPTION}</p>}
+      >
+        {lastUpdatedLabel && (
+          <p className="mt-4 font-mono text-xs tabular-nums text-neutral-500">
+            Last updated {lastUpdatedLabel}
+          </p>
+        )}
+      </PageHero>
 
-        <section className="relative bg-bg-primary dark:bg-neutral-900">
-          <GridWrapper>
-            <div className="px-4 py-10 md:px-8 md:py-14">
-              <div className="mx-auto w-full max-w-[68ch] text-base leading-7 text-text-secondary md:text-lg">
-                <PortableTextContent value={body} />
-              </div>
-
-              <div className="mx-auto mt-10 flex w-full max-w-[68ch] flex-col gap-4 border-t border-border-primary/50 pt-6 sm:flex-row dark:border-neutral-700/50">
-                <Link
-                  href="/register"
-                  className="px-8 py-4 bg-[#084750] text-center text-white font-semibold rounded-square hover:bg-[#084750]/80 transition-colors"
-                >
-                  Register Now
-                </Link>
-                <Link
-                  href="/contact"
-                  className="px-8 py-4 border-2 border-border-primary text-center text-text-primary font-semibold rounded-square hover:bg-gray-50 transition-colors"
-                >
-                  Ask a Question
-                </Link>
-              </div>
-            </div>
-          </GridWrapper>
-        </section>
-      </section>
-    </MainSiteLayout>
+      <GridSection innerClassName="flex flex-col gap-8 px-4 py-5 sm:px-5 lg:flex-row lg:items-start lg:gap-14">
+        <div className="min-w-0 flex-1 py-6 text-base leading-7 text-neutral-600 md:text-lg md:leading-8 lg:max-w-[640px] lg:pl-5">
+          <PortableTextContent value={body} />
+        </div>
+        <aside className="flex w-full flex-col gap-2 rounded-xl bg-neutral-50 p-6 sm:flex-row lg:sticky lg:top-20 lg:mt-6 lg:w-[340px] lg:shrink-0 lg:flex-col">
+          <Button href="/register" className="w-full">
+            Register Now
+          </Button>
+          <Button href="/contact" variant="secondary" className="w-full">
+            Ask a Question
+          </Button>
+        </aside>
+      </GridSection>
+    </GridPageLayout>
   );
 }

@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { MainSiteLayout } from "../components/MainSiteLayout";
-import { GridWrapper } from "../components/GridWrapper";
+import { GridPageLayout } from "../components/GridPageLayout";
+import { GridSection } from "../components/ui/grid-section";
+import { PageHero } from "../components/ui/page-hero";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { BLOG_POSTS_QUERY } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
@@ -23,7 +24,10 @@ export default async function BlogPage() {
       title: string;
       slug: string;
       excerpt?: string;
-      mainImage?: { asset?: { _id: string; url: string; metadata?: { lqip?: string } }; alt?: string };
+      mainImage?: {
+        asset?: { _id: string; url: string; metadata?: { lqip?: string } };
+        alt?: string;
+      };
       author?: { name: string };
       publishedAt?: string;
       tags?: string[];
@@ -41,106 +45,104 @@ export default async function BlogPage() {
       "@type": "BlogPosting" as const,
       headline: post.title,
       url: `${siteMetadata.siteUrl}/blog/${post.slug}`,
-      ...(post.excerpt && {description: post.excerpt}),
-      ...(post.publishedAt && {datePublished: post.publishedAt}),
+      ...(post.excerpt && { description: post.excerpt }),
+      ...(post.publishedAt && { datePublished: post.publishedAt }),
       ...(post.author?.name && {
-        author: {"@type": "Person" as const, name: post.author.name},
+        author: { "@type": "Person" as const, name: post.author.name },
       }),
     })),
   };
 
   return (
-    <MainSiteLayout>
+    <GridPageLayout>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <section className="mt-6 space-y-10 md:mt-0 md:space-y-16 pb-0">
-        <section className="relative py-12 md:py-16">
-          <div className="relative text-balance">
-            <h1 className="mx-auto max-w-2xl text-center text-5xl font-bold leading-tight tracking-tighter text-[#084750] md:text-7xl md:leading-[78px]">
-              Blog
-            </h1>
-            <div className="mt-4 text-center">
-              <p className="text-text-secondary text-base md:text-lg max-w-3xl mx-auto">
-                Updates, stories, and insights from the Godawari Hacks community.
-              </p>
-            </div>
-          </div>
-        </section>
+      <PageHero
+        title="Blog"
+        description={
+          <p>
+            Updates, stories, and insights from the Godawari Hacks community.
+          </p>
+        }
+      />
 
-        <section className="relative">
-          <GridWrapper>
-            {posts.length === 0 ? (
-              <div className="text-center py-16">
-                <p className="text-text-secondary text-lg">
-                  No blog posts yet. Check back soon!
-                </p>
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
-                {posts.map((post) => (
-                  <Link
-                    key={post._id}
-                    href={`/blog/${post.slug}`}
-                    className="group block rounded-square border border-border-primary overflow-hidden hover:shadow-lg transition-shadow"
-                  >
-                    {post.mainImage?.asset && (
-                      <div className="relative w-full h-48 overflow-hidden">
-                        <Image
-                          src={urlFor(post.mainImage).width(600).height(400).url()}
-                          alt={post.mainImage.alt || post.title}
-                          fill
-                          className="object-cover group-hover:scale-105 transition-transform duration-300"
-                          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                          {...(post.mainImage.asset.metadata?.lqip ? { placeholder: "blur", blurDataURL: post.mainImage.asset.metadata.lqip } : {})}
-                        />
-                      </div>
+      <GridSection className="bg-neutral-50" innerClassName="bg-white">
+        {posts.length === 0 ? (
+          <p className="px-5 py-24 text-center text-lg text-neutral-500">
+            No blog posts yet. Check back soon!
+          </p>
+        ) : (
+          <div className="grid grid-cols-1 gap-4 p-5 md:grid-cols-2 lg:grid-cols-3">
+            {posts.map((post) => (
+              <Link
+                key={post._id}
+                href={`/blog/${post.slug}`}
+                className="group flex flex-col overflow-hidden rounded-xl border border-neutral-200 bg-white transition-shadow hover:shadow-md"
+              >
+                {post.mainImage?.asset && (
+                  <div className="relative aspect-[3/2] overflow-hidden border-b border-neutral-200 bg-neutral-100">
+                    <Image
+                      src={urlFor(post.mainImage).width(600).height(400).url()}
+                      alt={post.mainImage.alt || post.title}
+                      fill
+                      className="object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 340px"
+                      {...(post.mainImage.asset.metadata?.lqip
+                        ? {
+                            placeholder: "blur",
+                            blurDataURL: post.mainImage.asset.metadata.lqip,
+                          }
+                        : {})}
+                    />
+                  </div>
+                )}
+                <div className="flex flex-1 flex-col gap-2 p-5">
+                  <div className="flex items-center gap-2 text-xs text-neutral-500">
+                    {post.author?.name && <span>{post.author.name}</span>}
+                    {post.publishedAt && (
+                      <>
+                        <span>·</span>
+                        <time dateTime={post.publishedAt}>
+                          {new Date(post.publishedAt).toLocaleDateString(
+                            "en-US",
+                            {
+                              year: "numeric",
+                              month: "long",
+                              day: "numeric",
+                            },
+                          )}
+                        </time>
+                      </>
                     )}
-                    <div className="p-4 space-y-2">
-                      <h2 className="text-xl font-semibold text-text-primary group-hover:text-[#084750] transition-colors">
-                        {post.title}
-                      </h2>
-                      {post.excerpt && (
-                        <p className="text-text-secondary text-sm line-clamp-2">
-                          {post.excerpt}
-                        </p>
-                      )}
-                      <div className="flex items-center gap-2 text-xs text-text-tertiary">
-                        {post.author?.name && <span>{post.author.name}</span>}
-                        {post.publishedAt && (
-                          <>
-                            <span>·</span>
-                            <time dateTime={post.publishedAt}>
-                              {new Date(post.publishedAt).toLocaleDateString("en-US", {
-                                year: "numeric",
-                                month: "long",
-                                day: "numeric",
-                              })}
-                            </time>
-                          </>
-                        )}
-                      </div>
-                      {post.tags && post.tags.length > 0 && (
-                        <div className="flex gap-1 flex-wrap">
-                          {post.tags.map((tag) => (
-                            <span
-                              key={tag}
-                              className="text-xs bg-gray-100 dark:bg-neutral-800 text-text-secondary px-2 py-0.5 rounded"
-                            >
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-                      )}
+                  </div>
+                  <h2 className="text-pretty font-display text-lg font-medium text-neutral-900">
+                    {post.title}
+                  </h2>
+                  {post.excerpt && (
+                    <p className="line-clamp-2 text-sm text-neutral-500">
+                      {post.excerpt}
+                    </p>
+                  )}
+                  {post.tags && post.tags.length > 0 && (
+                    <div className="mt-auto flex flex-wrap gap-1.5 pt-2">
+                      {post.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="rounded-full border border-neutral-200 px-2 py-0.5 text-xs text-neutral-600"
+                        >
+                          {tag}
+                        </span>
+                      ))}
                     </div>
-                  </Link>
-                ))}
-              </div>
-            )}
-          </GridWrapper>
-        </section>
-      </section>
-    </MainSiteLayout>
+                  )}
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
+      </GridSection>
+    </GridPageLayout>
   );
 }

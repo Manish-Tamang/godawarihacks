@@ -49,7 +49,7 @@ export function ArchiveGallery({ photos }: { photos: ArchivePhoto[] }) {
               type="button"
               onClick={() => setOpenIndex(index)}
               aria-label={`View photo: ${photo.alt}`}
-              className="group relative block w-full cursor-zoom-in overflow-hidden break-inside-avoid focus:outline-none focus-visible:ring-2 focus-visible:ring-[#084750] focus-visible:ring-offset-2"
+              className="group relative block w-full cursor-zoom-in break-inside-avoid overflow-hidden rounded-xl border border-neutral-200 bg-neutral-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 focus-visible:ring-offset-2"
             >
               <Image
                 src={asset.url}
@@ -63,15 +63,7 @@ export function ArchiveGallery({ photos }: { photos: ArchivePhoto[] }) {
               />
               <span className="pointer-events-none absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/10" />
               {photo.caption && (
-                <span
-                  className="pointer-events-none absolute bottom-1.5 right-2 z-20 font-mono tabular-nums"
-                  style={{
-                    fontSize: "10px",
-                    color: "rgb(255, 138, 61)",
-                    textShadow: "rgba(255, 110, 40, 0.45) 0px 0px 6px",
-                    letterSpacing: "0.04em",
-                  }}
-                >
+                <span className="pointer-events-none absolute bottom-2 left-2 z-20 max-w-[calc(100%-1rem)] truncate rounded-md border border-black/5 bg-white/90 px-1.5 py-0.5 font-mono text-[10px] font-medium text-neutral-700 backdrop-blur-sm">
                   {photo.caption}
                 </span>
               )}
@@ -146,7 +138,13 @@ function Lightbox({
         aria-label="Close"
         className="absolute right-4 top-4 z-10 rounded-full p-2 text-white/70 transition-colors hover:bg-white/10 hover:text-white"
       >
-        <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="1.8">
+        <svg
+          viewBox="0 0 24 24"
+          className="h-6 w-6"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.8"
+        >
           <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
         </svg>
       </button>
@@ -210,7 +208,13 @@ function NavButton({
         side === "left" ? "left-2 md:left-6" : "right-2 md:right-6"
       }`}
     >
-      <svg viewBox="0 0 24 24" className="h-7 w-7" fill="none" stroke="currentColor" strokeWidth="1.6">
+      <svg
+        viewBox="0 0 24 24"
+        className="h-7 w-7"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.6"
+      >
         <path
           d={side === "left" ? "M15 5l-7 7 7 7" : "M9 5l7 7-7 7"}
           strokeLinecap="round"
