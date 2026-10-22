@@ -2,43 +2,38 @@ import type { Config } from "tailwindcss";
 import colors from "tailwindcss/colors";
 
 export default {
-  darkMode: "class",
   content: ["./app/**/*.{ts,tsx}", "./content/**/*.mdx", "./public/**/*.svg"],
   theme: {
     extend: {
-      boxShadow: {
-        "code-shadow":
-          "0 0 0 1px rgba(14, 22, 34, 0.1), 0 2px 4px 0 rgba(0, 0, 0, 0.06)",
-      },
       fontFamily: {
-        sans: "var(--font-geist-sans), system-ui, sans-serif",
+        sans: "var(--font-inter), system-ui, sans-serif",
+        display: "var(--font-satoshi), system-ui, sans-serif",
         mono: ["var(--font-geist-mono)"],
-        helvetica: "var(--font-helvetica)",
       },
       colors: {
-        "bg-primary": "#F7F7F8",
-        "bg-secondary": "#FFFFFF",
-        "border-primary": "#D6DADE",
-        "dark-primary": "#3C3C3F",
-        "purple-primary": "#6C47FF",
-        "purple-secondary": "#E6E2F9",
-        "text-primary": colors.slate[900],
-        "text-secondary": "#5E5F6E",
-        "text-tertiary": "#A5AEB8",
+        // Hairline used for the page grid: section rules and cell dividers.
+        "grid-border": colors.neutral[200],
       },
-      typography: {
-        quoteless: {
-          css: {
-            "blockquote p:first-of-type::before": { content: "none" },
-            "blockquote p:first-of-type::after": { content: "none" },
-          },
+      // Width of the framed content column every section sits in.
+      maxWidth: {
+        "grid-width": "1080px",
+      },
+      width: {
+        "grid-width": "1080px",
+      },
+      keyframes: {
+        "slide-up-fade": {
+          "0%": { opacity: "0", transform: "translateY(var(--offset, 2px))" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
         },
-        h1: {
-          colors: "text-secondary",
+        "fade-in": {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
         },
       },
       animation: {
-        "spin-slow": "spin 14s linear infinite",
+        "slide-up-fade": "slide-up-fade 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
+        "fade-in": "fade-in 0.2s ease-out forwards",
       },
     },
   },
