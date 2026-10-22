@@ -1,8 +1,11 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { GridWrapper } from "./GridWrapper";
 import Image from "next/image";
+import { GridSection } from "./ui/grid-section";
+import { SectionHeading } from "./ui/section-heading";
+import { Button } from "./ui/button";
+import { GridPattern } from "./ui/patterns";
 import { PortableTextContent } from "./PortableTextContent";
 import type { RichTextValue } from "@/sanity/lib/portable-text";
 
@@ -35,11 +38,14 @@ function DraggablePortraits() {
   } | null>(null);
   const [active, setActive] = useState<number | null>(null);
   const [positions, setPositions] = useState([
-    { x: 16, y: 12 },
-    { x: 150, y: 24 },
+    { x: 40, y: 32 },
+    { x: 180, y: 48 },
   ]);
 
-  function onPointerDown(index: number, event: React.PointerEvent<HTMLButtonElement>) {
+  function onPointerDown(
+    index: number,
+    event: React.PointerEvent<HTMLButtonElement>,
+  ) {
     const box = boxRef.current;
     if (!box) return;
     const elRect = event.currentTarget.getBoundingClientRect();
@@ -67,7 +73,9 @@ function DraggablePortraits() {
       Math.max(0, event.clientY - bounds.top - current.offsetY),
       bounds.height - current.height,
     );
-    setPositions((prev) => prev.map((pos, i) => (i === current.index ? { x, y } : pos)));
+    setPositions((prev) =>
+      prev.map((pos, i) => (i === current.index ? { x, y } : pos)),
+    );
   }
 
   function onPointerUp() {
@@ -78,11 +86,12 @@ function DraggablePortraits() {
   return (
     <div
       ref={boxRef}
-      className="relative h-[420px] touch-none md:h-full md:min-h-[460px]"
+      className="relative h-[420px] touch-none overflow-hidden md:h-full md:min-h-[460px]"
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
       onPointerCancel={onPointerUp}
     >
+      <GridPattern className="text-neutral-200 [mask-image:radial-gradient(black,transparent_85%)]" />
       {portraits.map((photo, index) => (
         <button
           key={photo.src}
@@ -102,7 +111,7 @@ function DraggablePortraits() {
             width={photo.width}
             height={photo.height}
             draggable={false}
-            className="pointer-events-none h-[300px] w-auto select-none md:h-[380px]"
+            className="pointer-events-none h-[300px] w-auto select-none drop-shadow-md md:h-[380px]"
           />
         </button>
       ))}
@@ -112,34 +121,33 @@ function DraggablePortraits() {
 
 export function Commitment({ title, description }: CommitmentProps) {
   return (
-    <GridWrapper className="before:hidden">
-      <div className="relative -mt-16 grid grid-cols-1 md:grid-cols-[60%_40%]">
-        <div className="absolute bottom-0 left-[60%] top-0 hidden w-px bg-border-primary/50 md:block"></div>
-        <div className="ml-8 flex flex-col items-start justify-center space-y-6 py-8 pr-8 md:pr-12">
-          <h2 className="text-left text-4xl font-bold text-text-primary md:text-5xl">
-            {title || "Our commitment"}
-          </h2>
-          <div className="text-left text-lg leading-relaxed text-[#084750] md:text-xl">
-            {description ? (
-              <PortableTextContent value={description} />
-            ) : (
-              <p>
-                Our mission is to host the best ever highschool hackathon in Koshi Province, Nepal. With the help of our sponsors, we will be able to provide a platform for the students to showcase their skills and to learn from each other.
-              </p>
-            )}
-          </div>
-          <a
-            href="#sponsors"
-            className="inline-flex items-center gap-2 text-base font-medium text-text-primary transition-colors hover:text-[#084750]/80"
-          >
-            View Our Sponsors
-            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </a>
-        </div>
+    <GridSection
+      className="bg-neutral-50"
+      innerClassName="grid grid-cols-1 md:grid-cols-2"
+    >
+      <SectionHeading
+        className="justify-center px-4 py-14 sm:px-10"
+        title={title || "Our commitment"}
+        description={
+          description ? (
+            <PortableTextContent value={description} />
+          ) : (
+            <p>
+              Our mission is to host the best ever highschool hackathon in Koshi
+              Province, Nepal. With the help of our sponsors, we will be able to
+              provide a platform for the students to showcase their skills and
+              to learn from each other.
+            </p>
+          )
+        }
+      >
+        <Button href="#sponsors" variant="secondary">
+          View Our Sponsors
+        </Button>
+      </SectionHeading>
+      <div className="border-grid-border max-md:border-t md:border-l">
         <DraggablePortraits />
       </div>
-    </GridWrapper>
+    </GridSection>
   );
 }

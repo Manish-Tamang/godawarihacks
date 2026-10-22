@@ -21,35 +21,30 @@ import { cx } from "../lib/utils";
  */
 
 const BUTTON_VARIANTS: Record<string, string> = {
-  primary:
-    "bg-[#084750] text-white hover:bg-[#084750]/90 border border-[#084750]",
+  primary: "border border-brand bg-brand text-white hover:bg-brand-light",
   secondary:
-    "bg-[#084750]/10 text-[#084750] hover:bg-[#084750]/20 border border-transparent dark:bg-[#084750]/25 dark:text-white",
+    "border border-transparent bg-neutral-100 text-neutral-900 hover:bg-neutral-200",
   outline:
-    "border border-border-primary text-text-primary hover:border-[#084750] hover:text-[#084750] dark:border-neutral-700",
-  link: "text-[#084750] underline underline-offset-4 hover:text-[#084750]/80",
+    "border border-neutral-200 bg-white text-neutral-900 hover:border-neutral-400",
+  link: "text-brand underline decoration-brand/30 underline-offset-4 hover:decoration-brand",
 };
 
 const CALLOUT_TONES: Record<string, { wrapper: string; title: string }> = {
   info: {
-    wrapper:
-      "border-[#084750]/30 bg-[#084750]/5 dark:border-[#084750]/50 dark:bg-[#084750]/15",
-    title: "text-[#084750] dark:text-teal-200",
+    wrapper: "border-blue-200 bg-blue-50",
+    title: "text-blue-900",
   },
   tip: {
-    wrapper:
-      "border-amber-300/60 bg-amber-50 dark:border-amber-500/40 dark:bg-amber-500/10",
-    title: "text-amber-800 dark:text-amber-200",
+    wrapper: "border-green-200 bg-green-50",
+    title: "text-green-900",
   },
   warning: {
-    wrapper:
-      "border-red-300/60 bg-red-50 dark:border-red-500/40 dark:bg-red-500/10",
-    title: "text-red-800 dark:text-red-200",
+    wrapper: "border-red-200 bg-red-50",
+    title: "text-red-900",
   },
   success: {
-    wrapper:
-      "border-emerald-300/60 bg-emerald-50 dark:border-emerald-500/40 dark:bg-emerald-500/10",
-    title: "text-emerald-800 dark:text-emerald-200",
+    wrapper: "border-emerald-200 bg-emerald-50",
+    title: "text-emerald-900",
   },
 };
 
@@ -92,22 +87,22 @@ const components: PortableTextComponents = {
       <p className="mb-4 leading-relaxed last:mb-0">{children}</p>
     ),
     blockquote: ({ children }) => (
-      <blockquote className="my-4 border-l-4 border-[#084750] pl-4 italic text-text-secondary">
+      <blockquote className="my-4 border-l-2 border-neutral-300 pl-4 italic text-neutral-600">
         {children}
       </blockquote>
     ),
     h2: ({ children }) => (
-      <h2 className="mb-3 mt-6 text-2xl font-bold text-text-primary first:mt-0">
+      <h2 className="mb-3 mt-8 font-display text-2xl font-medium text-neutral-900 first:mt-0">
         {children}
       </h2>
     ),
     h3: ({ children }) => (
-      <h3 className="mb-2 mt-5 text-xl font-semibold text-text-primary first:mt-0">
+      <h3 className="mb-2 mt-6 font-display text-xl font-medium text-neutral-900 first:mt-0">
         {children}
       </h3>
     ),
     h4: ({ children }) => (
-      <h4 className="mb-2 mt-4 text-lg font-semibold text-text-primary first:mt-0">
+      <h4 className="mb-2 mt-5 text-lg font-medium text-neutral-900 first:mt-0">
         {children}
       </h4>
     ),
@@ -136,12 +131,12 @@ const components: PortableTextComponents = {
       <s className="line-through">{children}</s>
     ),
     highlight: ({ children }) => (
-      <mark className="rounded bg-[#084750]/15 px-1 text-inherit dark:bg-[#084750]/35">
+      <mark className="rounded bg-yellow-100 px-1 text-inherit">
         {children}
       </mark>
     ),
     code: ({ children }) => (
-      <code className="rounded bg-black/5 px-1 py-0.5 font-mono text-[0.9em] dark:bg-white/10">
+      <code className="rounded-md border border-neutral-200 bg-neutral-50 px-1 py-0.5 font-mono text-[0.9em]">
         {children}
       </code>
     ),
@@ -153,7 +148,7 @@ const components: PortableTextComponents = {
       return (
         <a
           href={href}
-          className="text-[#084750] underline underline-offset-2 transition-colors hover:text-[#084750]/80"
+          className="font-medium text-brand underline decoration-brand/30 underline-offset-4 transition-colors hover:decoration-brand"
           {...(newTab ? { target: "_blank", rel: "noopener noreferrer" } : {})}
         >
           {children}
@@ -172,11 +167,11 @@ const components: PortableTextComponents = {
             alt={typeof value.alt === "string" ? value.alt : ""}
             width={1600}
             height={900}
-            className="h-auto w-full rounded-square"
+            className="h-auto w-full rounded-xl border border-neutral-200"
             sizes="(max-width: 768px) 100vw, 768px"
           />
           {typeof value.caption === "string" && value.caption ? (
-            <figcaption className="mt-2 text-center text-sm text-text-tertiary">
+            <figcaption className="mt-2 text-center text-sm text-neutral-500">
               {value.caption}
             </figcaption>
           ) : null}
@@ -210,7 +205,7 @@ const components: PortableTextComponents = {
               if (!button.label || !href) return null;
 
               const className = cx(
-                "inline-flex items-center justify-center px-5 py-2.5 text-sm font-medium transition-colors rounded-square",
+                "inline-flex h-10 items-center justify-center rounded-lg px-5 text-sm font-medium transition-all",
                 BUTTON_VARIANTS[button.variant ?? "primary"] ??
                   BUTTON_VARIANTS.primary,
               );
@@ -248,18 +243,13 @@ const components: PortableTextComponents = {
     callout: ({ value }) => {
       const tone = CALLOUT_TONES[value?.tone ?? "info"] ?? CALLOUT_TONES.info;
       return (
-        <aside
-          className={cx(
-            "my-6 border-l-4 px-4 py-3 rounded-square",
-            tone.wrapper,
-          )}
-        >
+        <aside className={cx("my-6 rounded-xl border px-4 py-3", tone.wrapper)}>
           {typeof value?.title === "string" && value.title ? (
             <p className={cx("mb-1 font-semibold", tone.title)}>
               {value.title}
             </p>
           ) : null}
-          <div className="text-sm leading-relaxed text-text-secondary md:text-base">
+          <div className="text-sm leading-relaxed text-neutral-700 md:text-base">
             <PortableTextContent
               value={value?.body as RichTextValue | undefined}
             />
@@ -290,7 +280,7 @@ const components: PortableTextComponents = {
                     <th
                       key={index}
                       scope="col"
-                      className="border border-border-primary bg-[#084750]/5 px-3 py-2 font-semibold text-text-primary dark:border-neutral-700 dark:bg-white/5"
+                      className="border border-neutral-200 bg-neutral-50 px-3 py-2 font-medium text-neutral-900"
                     >
                       {cell}
                     </th>
@@ -304,7 +294,7 @@ const components: PortableTextComponents = {
                   {(row.cells ?? []).map((cell, cellIndex) => (
                     <td
                       key={cellIndex}
-                      className="border border-border-primary px-3 py-2 align-top text-text-secondary dark:border-neutral-700"
+                      className="border border-neutral-200 px-3 py-2 align-top text-neutral-600"
                     >
                       {cell}
                     </td>
@@ -314,7 +304,7 @@ const components: PortableTextComponents = {
             </tbody>
           </table>
           {typeof value?.caption === "string" && value.caption ? (
-            <figcaption className="mt-2 text-sm text-text-tertiary">
+            <figcaption className="mt-2 text-sm text-neutral-500">
               {value.caption}
             </figcaption>
           ) : null}
@@ -331,14 +321,14 @@ const components: PortableTextComponents = {
           : "");
 
       return (
-        <figure className="my-6 overflow-hidden rounded-square border border-border-primary dark:border-neutral-700">
+        <figure className="my-6 overflow-hidden rounded-xl border border-neutral-200">
           {label && (
-            <figcaption className="border-b border-border-primary bg-black/[0.03] px-3 py-1.5 font-mono text-xs text-text-tertiary dark:border-neutral-700 dark:bg-white/5">
+            <figcaption className="border-b border-neutral-200 bg-neutral-50 px-3 py-1.5 font-mono text-xs text-neutral-500">
               {label}
             </figcaption>
           )}
-          <pre className="overflow-x-auto bg-black/[0.02] p-4 dark:bg-white/[0.03]">
-            <code className="font-mono text-[0.85em] leading-relaxed text-text-primary">
+          <pre className="overflow-x-auto bg-white p-4">
+            <code className="font-mono text-[0.85em] leading-relaxed text-neutral-900">
               {value.code}
             </code>
           </pre>
@@ -347,13 +337,12 @@ const components: PortableTextComponents = {
     },
 
     videoEmbed: ({ value }) => {
-      const src =
-        typeof value?.url === "string" ? toEmbedUrl(value.url) : null;
+      const src = typeof value?.url === "string" ? toEmbedUrl(value.url) : null;
       if (!src) return null;
 
       return (
         <figure className="my-6">
-          <div className="relative aspect-video w-full overflow-hidden rounded-square border border-border-primary dark:border-neutral-700">
+          <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-neutral-200">
             <iframe
               src={src}
               title={typeof value.title === "string" ? value.title : "Video"}
@@ -364,7 +353,7 @@ const components: PortableTextComponents = {
             />
           </div>
           {typeof value.caption === "string" && value.caption ? (
-            <figcaption className="mt-2 text-center text-sm text-text-tertiary">
+            <figcaption className="mt-2 text-center text-sm text-neutral-500">
               {value.caption}
             </figcaption>
           ) : null}
@@ -379,12 +368,12 @@ const components: PortableTextComponents = {
         .join(", ");
 
       return (
-        <figure className="my-8 border-y border-border-primary py-6 dark:border-neutral-700">
-          <blockquote className="text-xl font-medium leading-snug text-text-primary md:text-2xl">
+        <figure className="my-8 rounded-xl border border-neutral-200 bg-white px-6 py-6">
+          <blockquote className="text-pretty bg-gradient-to-b from-black/60 to-black bg-clip-text text-xl leading-snug text-transparent md:text-2xl">
             &ldquo;{value.quote}&rdquo;
           </blockquote>
           {attribution && (
-            <figcaption className="mt-3 text-sm text-text-tertiary">
+            <figcaption className="mt-3 text-sm text-neutral-500">
               — {attribution}
             </figcaption>
           )}
@@ -396,12 +385,12 @@ const components: PortableTextComponents = {
       value?.variant === "dots" ? (
         <div
           aria-hidden
-          className="my-10 text-center font-mono text-lg tracking-[0.6em] text-text-tertiary"
+          className="my-10 text-center font-mono text-lg tracking-[0.6em] text-neutral-400"
         >
           •••
         </div>
       ) : (
-        <hr className="my-10 border-border-primary dark:border-neutral-700" />
+        <hr className="my-10 border-neutral-200" />
       ),
   },
 };

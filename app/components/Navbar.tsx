@@ -1,11 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { CloseButton, Dialog, DialogPanel } from "@headlessui/react";
 import { useEffect, useState } from "react";
-import Image from "next/image";
-import { cx } from "../lib/utils";
+import { cn } from "../lib/utils";
+import { Button } from "./ui/button";
+import { CloseIcon, MenuIcon } from "./icons/ui-icons";
 
 type NavigationLink = {
   name: string;
@@ -19,83 +21,101 @@ const navigationLinks: readonly NavigationLink[] = [
   { name: "Team", link: "#team" },
   { name: "About", link: "/about" },
   { name: "Blog", link: "/blog" },
-  { name: "Contact", link: "/contact" },
 ] as const;
 
+// Shown as the call-to-action button rather than in the link row.
+const contactLink: NavigationLink = { name: "Contact", link: "/contact" };
+
 const Navbar: React.FC = () => {
+  const scrolled = useScrolled();
+  // See-through at the top of the page; frosted once content scrolls under.
+  const transparent = !scrolled;
+
   return (
-    <header role="banner">
-      {/* <DatesBanner /> */}
-      <DesktopNav />
-      <MobileNav />
+    <header role="banner" className="sticky inset-x-0 top-0 z-30 w-full">
+      <div
+        className={cn(
+          "absolute inset-0 border-b transition-all",
+          transparent
+            ? "border-transparent"
+            : "border-neutral-100 bg-white/75 backdrop-blur-lg",
+        )}
+      />
+      <div className="relative mx-auto w-full max-w-screen-lg px-3 lg:px-4 xl:px-0">
+        <div className="flex h-14 items-center justify-between">
+          <div className="grow basis-0">
+            <NavLogo />
+          </div>
+          <DesktopNav />
+          <div className="hidden grow basis-0 justify-end lg:flex">
+            <Button href={contactLink.link} size="sm">
+              {contactLink.name}
+            </Button>
+          </div>
+          <MobileNav />
+        </div>
+      </div>
     </header>
   );
 };
 
-function DatesBanner() {
+function useScrolled() {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 0);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  return scrolled;
+}
+
+/**
+ * Section links (`#schedule`) scroll smoothly on the homepage and navigate
+ * to the homepage section from anywhere else.
+ */
+function NavLink({
+  name,
+  link,
+  className,
+  onNavigate,
+}: NavigationLink & { className: string; onNavigate?: () => void }) {
+  const path = usePathname();
+  const isSection = link.startsWith("#");
+
   return (
-    <div className="w-full bg-gradient-to-r from-[#084750] to-[#0a5a63] py-3 px-4 text-center text-white">
-      <p className="text-sm md:text-base font-semibold">
-        📅 Dates have been postponed to <span className="font-bold">Jan 18-19</span> from <span className="line-through">Dec 26-27</span>
-      </p>
-    </div>
+    <Link
+      href={isSection ? `/${link}` : link}
+      prefetch={!isSection}
+      data-active={path === link}
+      aria-current={path === link ? "page" : undefined}
+      onClick={(e) => {
+        onNavigate?.();
+        if (!isSection || path !== "/") return;
+        e.preventDefault();
+        document
+          .querySelector(link)
+          ?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }}
+      className={className}
+    >
+      {isSection ? `~/${name}` : name}
+    </Link>
   );
 }
 
 function DesktopNav() {
-  const path = usePathname();
-  const isHome = path === "/" || path === "/about";
-
-  const determineActiveClass = (link: string): string => {
-    return path === link ? "text-[#084750]" : "text-gray-500";
-  };
-
   return (
-    <nav
-      aria-label="Desktop navigation"
-      className={cx(
-        "hidden h-16 w-full items-center justify-between px-4 md:flex",
-        isHome
-          ? "absolute inset-x-0 top-0 z-30 border-b border-transparent bg-transparent"
-          : "border-b border-border-primary/50 bg-bg-primary dark:border-neutral-700/50 dark:bg-neutral-900",
-      )}
-    >
-      <div className="w-[104px]">
-        {/* <Link href="/" aria-label="Home" className="text-xl font-bold text-[#084750] whitespace-nowrap flex items-center gap-2">
-          <Image src="/logo-godawari-hacks-nobg.png" alt="Godawari Hackss Logo" className="rounded-full h-10 w-10" width={150} height={150} />
-          Hacks
-        </Link> */}
-      </div>
-      <ul className={cx("flex place-items-center space-x-4 rounded-full border border-border-primary px-5 py-2 text-sm text-gray-500", isHome && "bg-bg-primary/80 backdrop-blur-sm dark:bg-neutral-900/80")}>
+    <nav aria-label="Desktop navigation" className="hidden lg:block">
+      <ul className="flex">
         {navigationLinks.map((link) => (
           <li key={link.name}>
-            {link.link.startsWith("#") ? (
-              <a
-                href={link.link}
-                onClick={(e) => {
-                  e.preventDefault();
-                  const element = document.querySelector(link.link);
-                  if (element) {
-                    element.scrollIntoView({ behavior: "smooth", block: "start" });
-                  }
-                }}
-                className={`${determineActiveClass(
-                  link.link,
-                )} font-medium hover:text-text-primary cursor-pointer`}
-              >
-                ~/{link.name}
-              </a>
-            ) : (
-              <Link
-                href={link.link}
-                prefetch={true}
-                className={`${determineActiveClass(
-                  link.link,
-                )} font-medium hover:text-text-primary`}
-              >
-                {link.name}
-              </Link>
-            )}
+            <NavLink
+              {...link}
+              className="flex h-8 items-center rounded-lg px-3 text-sm font-medium text-neutral-700 transition-colors hover:bg-brand/5 hover:text-brand data-[active=true]:bg-brand/5 data-[active=true]:text-brand"
+            />
           </li>
         ))}
       </ul>
@@ -104,134 +124,82 @@ function DesktopNav() {
 }
 
 function MobileNav() {
+  // Menu links close it themselves via `onNavigate`.
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const path = usePathname();
-  const isHome = path === "/" || path === "/about";
-
-  useEffect(() => {
-    setIsOpen(false);
-  }, [path]);
 
   return (
     <nav
       aria-label="Mobile navigation"
-      className={cx(
-        "flex h-16 items-center justify-between gap-2.5 px-3 md:hidden",
-        isHome
-          ? "absolute inset-x-0 top-0 z-30 border-b border-transparent bg-transparent"
-          : "border-b border-border-primary/50 bg-bg-primary dark:border-neutral-700/50 dark:bg-neutral-900",
-      )}
+      className="flex items-center gap-2 lg:hidden"
     >
-      <NavLogo onClickCallback={setIsOpen} />
-
-      <CircleBtn
-        onClickCallback={() => setIsOpen(!isOpen)}
+      <Button
+        href={contactLink.link}
+        size="sm"
+        className="h-8 px-3 text-[0.8125rem]"
+      >
+        {contactLink.name}
+      </Button>
+      <button
+        type="button"
+        onClick={() => setIsOpen(true)}
         aria-expanded={isOpen}
         aria-controls="mobile-menu"
         aria-label="Toggle menu"
-        className={isHome ? "bg-bg-primary/80 backdrop-blur-sm dark:bg-neutral-900/80" : ""}
-      />
+        className="rounded-full p-2 transition-colors duration-200 hover:bg-neutral-200 active:bg-neutral-300"
+      >
+        <MenuIcon className="size-5 text-neutral-600" />
+      </button>
 
       <Dialog
         open={isOpen}
         onClose={() => setIsOpen(false)}
-        className="fixed inset-0 z-50 bg-bg-primary py-1 focus:outline-none md:hidden"
+        className="fixed inset-0 z-50 bg-white focus:outline-none lg:hidden"
       >
         <DialogPanel id="mobile-menu" className="size-full overflow-y-auto">
           <div className="flex h-14 items-center justify-between px-3">
-            <NavLogo onClickCallback={setIsOpen} />
-            <CloseButton className="rounded-full border border-border-primary p-2">
-              <svg viewBox="0 0 16 16" fill="currentColor" className="h-5 w-5">
-                <path
-                  fill="#3C3C3F"
-                  d="M5.28 4.22a.75.75 0 0 0-1.06 1.06L6.94 8l-2.72 2.72a.75.75 0 1 0 1.06 1.06L8 9.06l2.72 2.72a.75.75 0 1 0 1.06-1.06L9.06 8l2.72-2.72a.75.75 0 0 0-1.06-1.06L8 6.94 5.28 4.22Z"
-                ></path>
-              </svg>
+            <NavLogo onClick={() => setIsOpen(false)} />
+            <CloseButton
+              aria-label="Close menu"
+              className="rounded-full p-2 transition-colors hover:bg-neutral-200"
+            >
+              <CloseIcon className="size-5 text-neutral-600" />
             </CloseButton>
           </div>
-          <div className="grid grid-cols-1 gap-1 px-1 pb-1 sm:px-3 sm:pb-3">
-            {navigationLinks.map(({ name, link }) => (
-              link.startsWith("#") ? (
-                <a
-                  href={link}
-                  key={link}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setIsOpen(false);
-                    const element = document.querySelector(link);
-                    if (element) {
-                      element.scrollIntoView({ behavior: "smooth", block: "start" });
-                    }
-                  }}
-                  className={`rounded-lg px-3 py-2 text-xl/9 font-medium ${path === link ? "text-text-primary" : "text-text-secondary"
-                    } data-active:bg-gray-950/5`}
-                >
-                  ~/{name}
-                </a>
-              ) : (
-                <Link
-                  href={link}
-                  key={link}
-                  className={`rounded-lg px-3 py-2 text-xl/9 font-medium ${path === link ? "text-text-primary" : "text-text-secondary"
-                    } data-active:bg-gray-950/5`}
-                  aria-current={path === link ? "page" : undefined}
-                >
-                  {name}
-                </Link>
-              )
+          <ul className="grid divide-y divide-neutral-200 px-5">
+            {[...navigationLinks, contactLink].map((link) => (
+              <li key={link.name} className="py-3">
+                <NavLink
+                  {...link}
+                  onNavigate={() => setIsOpen(false)}
+                  className="flex w-full font-semibold text-neutral-900"
+                />
+              </li>
             ))}
-          </div>
+          </ul>
         </DialogPanel>
       </Dialog>
     </nav>
   );
 }
 
-interface NavLogoProps {
-  onClickCallback: (value: boolean) => void;
-}
-
-const NavLogo: React.FC<NavLogoProps> = ({ onClickCallback }) => {
+function NavLogo({ onClick }: { onClick?: () => void }) {
   return (
-    <Link href="/" onClick={() => onClickCallback(false)} aria-label="Home" className="text-xl font-bold text-[#084750]">
+    <Link
+      href="/"
+      onClick={onClick}
+      aria-label="Home"
+      className="flex w-fit items-center gap-2 py-2 pr-2 font-display text-lg font-semibold text-brand"
+    >
+      <Image
+        src="/logo-godawari-hacks-nobg.png"
+        alt=""
+        width={150}
+        height={150}
+        className="size-7 rounded-full"
+      />
       Godawari Hacks
     </Link>
   );
-};
-
-interface CircleBtnProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  onClickCallback: () => void;
-  "aria-expanded": boolean;
-  "aria-controls": string;
-  "aria-label": string;
 }
-
-const CircleBtn = ({
-  onClickCallback,
-  className = "",
-  ...props
-}: CircleBtnProps): React.JSX.Element => {
-  return (
-    <button
-      className={`rounded-full border border-border-primary p-2 ${className}`}
-      onClick={onClickCallback}
-      {...props}
-    >
-      <svg
-        width="20"
-        height="20"
-        viewBox="0 0 20 20"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        aria-hidden="true"
-      >
-        <path
-          d="M0 4.99599C0 4.77599 0.105357 4.56501 0.292893 4.40945C0.48043 4.2539 0.734784 4.1665 1 4.1665H19C19.2652 4.1665 19.5196 4.2539 19.7071 4.40945C19.8946 4.56501 20 4.77599 20 4.99599C20 5.21598 19.8946 5.42696 19.7071 5.58252C19.5196 5.73808 19.2652 5.82547 19 5.82547H1C0.734784 5.82547 0.48043 5.73808 0.292893 5.58252C0.105357 5.42696 0 5.21598 0 4.99599ZM5 9.99942C5 9.77943 5.10536 9.56845 5.29289 9.41289C5.48043 9.25733 5.73478 9.16994 6 9.16994H19C19.2652 9.16994 19.5196 9.25733 19.7071 9.41289C19.8946 9.56845 20 9.77943 20 9.99942C20 10.2194 19.8946 10.4304 19.7071 10.586C19.5196 10.7415 19.2652 10.8289 19 10.8289H6C5.73478 10.8289 5.48043 10.7415 5.29289 10.586C5.10536 10.4304 5 10.2194 5 9.99942ZM11.8333 14.1742C11.5681 14.1742 11.3138 14.2616 11.1262 14.4172C10.9387 14.5727 10.8333 14.7837 10.8333 15.0037C10.8333 15.2237 10.9387 15.4347 11.1262 15.5902C11.3138 15.7458 11.5681 15.8332 11.8333 15.8332H19C19.2652 15.8332 19.5196 15.7458 19.7071 15.5902C19.8946 15.4347 20 15.2237 20 15.0037C20 14.7837 19.8946 14.5727 19.7071 14.4172C19.5196 14.2616 19.2652 14.1742 19 14.1742H11.8333Z"
-          fill="currentColor"
-        />
-      </svg>
-    </button>
-  );
-};
 
 export default Navbar;

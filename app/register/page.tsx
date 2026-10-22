@@ -1,12 +1,22 @@
 "use client";
 
-import { GridWrapper } from "../components/GridWrapper";
-import { AnimatedText } from "../components/AnimatedText";
-import { MainSiteLayout } from "../components/MainSiteLayout";
 import Image from "next/image";
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import { FeedbackFish } from "@feedback-fish/react";
+import { GridPageLayout } from "../components/GridPageLayout";
+import { FeedbackButton } from "../components/FeedbackButton";
+import { GridSection } from "../components/ui/grid-section";
+import { PageHero } from "../components/ui/page-hero";
+import { FeatureGrid, FeatureItem } from "../components/ui/feature-grid";
+import { CheckList } from "../components/ui/check-list";
+import {
+  Field,
+  FormPanel,
+  fileInputClassName,
+  inputClassName,
+} from "../components/ui/form";
+import { buttonClassName } from "../components/ui/button";
+import { useTurnstile } from "../lib/use-turnstile";
 
 interface TeamMember {
   name: string;
@@ -27,81 +37,36 @@ export default function RegisterPage() {
   ]);
   const [paymentScreenshot, setPaymentScreenshot] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
-  const turnstileRef = useRef<HTMLDivElement>(null);
-  const turnstileWidgetIdRef = useRef<string | null>(null);
+  const {
+    containerRef: turnstileRef,
+    token: turnstileToken,
+    reset: resetTurnstile,
+  } = useTurnstile();
 
-  const HEADING_DELAY = 0.2;
-  const PARAGRAPH_DELAY = HEADING_DELAY + 0.1;
-
-  // Update members array when member count changes
-  useEffect(() => {
-    const newMembers: TeamMember[] = [];
-    for (let i = 0; i < memberCount; i++) {
-      if (members[i]) {
-        newMembers.push(members[i]);
-      } else {
-        newMembers.push({ name: "", email: "", phone: "", document: null, documentType: "" });
-      }
-    }
-    setMembers(newMembers);
-  }, [memberCount, members]);
-
-  // Load Cloudflare Turnstile script
-  useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js";
-    script.async = true;
-    script.defer = true;
-    document.body.appendChild(script);
-
-    script.onload = () => {
-      // Initialize Turnstile after script loads
-      if (turnstileRef.current && typeof window !== "undefined" && (window as any).turnstile) {
-        const siteKey = process.env.NEXT_PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY;
-        if (siteKey) {
-          const widgetId = (window as any).turnstile.render(turnstileRef.current, {
-            sitekey: siteKey,
-            theme: "light",
-            callback: (token: string) => {
-              setTurnstileToken(token);
-            },
-            "error-callback": () => {
-              setTurnstileToken(null);
-            },
-            "expired-callback": () => {
-              setTurnstileToken(null);
-            },
-          });
-          turnstileWidgetIdRef.current = widgetId;
-        }
-      }
-    };
-
-    return () => {
-      // Cleanup: remove script and reset turnstile
-      if (turnstileWidgetIdRef.current && typeof window !== "undefined" && (window as any).turnstile) {
-        (window as any).turnstile.remove(turnstileWidgetIdRef.current);
-      }
-      if (document.body.contains(script)) {
-        document.body.removeChild(script);
-      }
-    };
-  }, []);
-
-  const handleMemberChange = (index: number, field: keyof TeamMember, value: string | File) => {
+  // `members` always holds the maximum of 4 slots; only the first
+  // `memberCount` are shown and submitted.
+  const handleMemberChange = (
+    index: number,
+    field: keyof TeamMember,
+    value: string | File,
+  ) => {
     const updatedMembers = [...members];
     if (field === "document") {
       updatedMembers[index][field] = value as File;
     } else if (field === "documentType") {
-      updatedMembers[index][field] = value as "id" | "citizenship" | "birthcertificate" | "";
+      updatedMembers[index][field] = value as
+        "id" | "citizenship" | "birthcertificate" | "";
     } else {
       updatedMembers[index][field] = value as string;
     }
     setMembers(updatedMembers);
   };
 
-  const handleDocumentChange = (index: number, file: File | null, type: "id" | "citizenship" | "birthcertificate") => {
+  const handleDocumentChange = (
+    index: number,
+    file: File | null,
+    type: "id" | "citizenship" | "birthcertificate",
+  ) => {
     const updatedMembers = [...members];
     updatedMembers[index].document = file;
     updatedMembers[index].documentType = type;
@@ -183,404 +148,433 @@ export default function RegisterPage() {
       }
 
       setIsSubmitting(false);
-      toast.success("Registration successful! We've received your team registration. You'll receive a confirmation email shortly.", {
-        duration: 5000,
-      });
+      toast.success(
+        "Registration successful! We've received your team registration. You'll receive a confirmation email shortly.",
+        {
+          duration: 5000,
+        },
+      );
 
       // Reset form
       setTeamName("");
       setMemberCount(3);
       const emptyMembers: TeamMember[] = [];
       for (let i = 0; i < 4; i++) {
-        emptyMembers.push({ name: "", email: "", phone: "", document: null, documentType: "" });
+        emptyMembers.push({
+          name: "",
+          email: "",
+          phone: "",
+          document: null,
+          documentType: "",
+        });
       }
       setMembers(emptyMembers);
       setPaymentScreenshot(null);
-      setTurnstileToken(null);
-
-      // Reset Turnstile widget
-      if (turnstileWidgetIdRef.current && typeof window !== "undefined" && (window as any).turnstile) {
-        (window as any).turnstile.reset(turnstileWidgetIdRef.current);
-      }
+      resetTurnstile();
     } catch (error) {
       setIsSubmitting(false);
-      const errorMessage = error instanceof Error ? error.message : "Something went wrong. Please try again later.";
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "Something went wrong. Please try again later.";
       toast.error(errorMessage);
     }
   };
 
   return (
-    <MainSiteLayout>
+    <GridPageLayout>
       <Toaster position="top-center" />
+      <FeedbackButton />
 
-      {/* Feedback Button - Fixed Position */}
-      <FeedbackFish projectId={process.env.NEXT_PUBLIC_PROJECTID || "1eaa7bd2353b27"}>
-        <button
-          className="fixed bottom-6 right-6 z-50 px-6 py-3 bg-[#084750] text-white font-semibold rounded-full shadow-lg hover:bg-[#084750]/90 hover:shadow-xl transition-all duration-200 flex items-center gap-2 group"
-          aria-label="Report an issue or send feedback"
-        >
-          <svg
-            className="w-5 h-5 group-hover:rotate-12 transition-transform"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+      <PageHero
+        align="center"
+        icon={<UsersIcon className="size-10" />}
+        title="Register Your Team"
+        description={
+          <p>
+            Join Godawari Hacks! Register your team of 4 members and get ready
+            for an amazing coding experience.
+          </p>
+        }
+      />
+
+      <FormPanel>
+        <h2 className="font-display text-xl font-medium text-neutral-900">
+          Team Registration
+        </h2>
+        <p className="mt-4 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm leading-relaxed text-amber-900">
+          We take your documents seriously. Submitted IDs and sensitive files
+          are used only for verification, kept secure until the event, and then
+          deleted.
+        </p>
+
+        <form onSubmit={handleSubmit} className="mt-8 space-y-8">
+          <Field label="Team Name *" htmlFor="teamName">
+            <input
+              type="text"
+              id="teamName"
+              required
+              value={teamName}
+              onChange={(e) => setTeamName(e.target.value)}
+              className={inputClassName}
+              placeholder="Enter your team name"
             />
-          </svg>
-          <span className="hidden sm:inline">Report Issue</span>
-        </button>
-      </FeedbackFish>
+          </Field>
 
-      <section className="mt-6 space-y-10 md:mt-0 md:space-y-16 pb-0">
-        {/* Hero Section */}
-        <section className="relative py-12 md:py-16">
-          <div
-            className="absolute inset-0 opacity-[0.03] -z-10"
-            style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='grid' width='60' height='60' patternUnits='userSpaceOnUse'%3E%3Cpath d='M 60 0 L 0 0 0 60' fill='none' stroke='%23007cff' stroke-width='1'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23grid)'/%3E%3C/svg%3E")`,
-            }}
-          ></div>
-          <div className="relative text-balance">
-            <AnimatedText
-              as="h1"
-              delay={HEADING_DELAY}
-              className="mx-auto max-w-2xl text-center text-6xl font-bold leading-tight tracking-tighter text-[#084750] md:text-8xl md:leading-[78px]"
+          <Field
+            label="Number of Team Members *"
+            htmlFor="memberCount"
+            hint="Select how many members will be in your team (1-4 members)"
+          >
+            <select
+              id="memberCount"
+              value={memberCount}
+              onChange={(e) => setMemberCount(Number(e.target.value))}
+              className={inputClassName}
             >
-              Register Your Team
-            </AnimatedText>
-            <div className="mt-4 text-center md:mt-8">
-              <AnimatedText
-                as="p"
-                delay={PARAGRAPH_DELAY}
-                className="leading-8 text-text-secondary text-base md:text-lg max-w-3xl mx-auto"
-              >
-                Join Godawari Hacks! Register your team of 4 members and get ready for an amazing coding experience.
-              </AnimatedText>
-            </div>
-          </div>
-        </section>
+              <option value={1}>1 Member</option>
+              <option value={2}>2 Members</option>
+              <option value={3}>3 Members</option>
+              <option value={4}>4 Members</option>
+            </select>
+          </Field>
 
-        {/* Registration Form Section */}
-        <section className="relative space-y-10 md:space-y-16">
-          <GridWrapper>
-            <div className="space-y-6 py-8 md:py-12">
-              <h2 className="text-[#084750] ml-4 text-balance text-left text-3xl font-medium leading-10 tracking-tight md:text-4xl">
-                Team Registration
-              </h2>
-              <div className="mx-4 rounded-square border border-amber-300 bg-amber-50 text-amber-900 px-4 py-3 text-sm leading-relaxed md:text-base md:px-5 md:py-4">
-                We take your documents seriously. Submitted IDs and sensitive files are used only for verification, kept secure until the event, and then deleted.
-              </div>
-              <div className="px-4">
-                <form onSubmit={handleSubmit} className="max-w-4xl space-y-8">
-                  <div className="space-y-2">
-                    <label htmlFor="teamName" className="block text-sm font-medium text-text-primary">
-                      Team Name *
-                    </label>
+          <div className="space-y-4">
+            <h3 className="font-medium text-neutral-900">
+              Team Members ({memberCount} selected)
+            </h3>
+
+            {members.slice(0, memberCount).map((member, index) => (
+              <div
+                key={index}
+                className="space-y-4 rounded-xl border border-neutral-200 p-5"
+              >
+                <h4 className="flex items-center gap-2 text-sm font-medium text-neutral-900">
+                  <span className="flex size-6 items-center justify-center rounded-full border border-neutral-300 font-mono text-xs text-neutral-600">
+                    {index + 1}
+                  </span>
+                  Member {index + 1}
+                </h4>
+
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                  <Field label="Full Name *" htmlFor={`member${index}_name`}>
                     <input
                       type="text"
-                      id="teamName"
+                      id={`member${index}_name`}
                       required
-                      value={teamName}
-                      onChange={(e) => setTeamName(e.target.value)}
-                      className="w-full px-4 py-3 border border-border-primary rounded-square bg-bg-primary text-text-primary focus:outline-none focus:ring-2 focus:ring-[#084750] focus:border-transparent transition-colors"
-                      placeholder="Enter your team name"
+                      value={member.name}
+                      onChange={(e) =>
+                        handleMemberChange(index, "name", e.target.value)
+                      }
+                      className={inputClassName}
+                      placeholder="Full name"
                     />
-                  </div>
+                  </Field>
 
-                  <div className="space-y-2">
-                    <label htmlFor="memberCount" className="block text-sm font-medium text-text-primary">
-                      Number of Team Members *
-                    </label>
-                    <select
-                      id="memberCount"
-                      value={memberCount}
-                      onChange={(e) => setMemberCount(Number(e.target.value))}
-                      className="w-full px-4 py-3 border border-border-primary rounded-square bg-bg-primary text-text-primary focus:outline-none focus:ring-2 focus:ring-[#084750] focus:border-transparent transition-colors"
-                    >
-                      <option value={1}>1 Member</option>
-                      <option value={2}>2 Members</option>
-                      <option value={3}>3 Members</option>
-                      <option value={4}>4 Members</option>
-                    </select>
-                    <p className="text-sm text-text-secondary mt-1">
-                      Select how many members will be in your team (1-4 members)
-                    </p>
-                  </div>
+                  <Field label="Email *" htmlFor={`member${index}_email`}>
+                    <input
+                      type="email"
+                      id={`member${index}_email`}
+                      required
+                      value={member.email}
+                      onChange={(e) =>
+                        handleMemberChange(index, "email", e.target.value)
+                      }
+                      className={inputClassName}
+                      placeholder="email@example.com"
+                    />
+                  </Field>
 
-                  <div className="space-y-8">
-                    <h3 className="text-xl font-semibold text-text-primary">
-                      Team Members ({memberCount} selected)
-                    </h3>
-
-                    {members.slice(0, memberCount).map((member, index) => (
-                      <div key={index} className="border border-border-primary/50 rounded-square p-6 space-y-4">
-                        <h4 className="text-lg font-semibold text-text-primary">Member {index + 1}</h4>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <div className="space-y-2">
-                            <label htmlFor={`member${index}_name`} className="block text-sm font-medium text-text-primary">
-                              Full Name *
-                            </label>
-                            <input
-                              type="text"
-                              id={`member${index}_name`}
-                              required
-                              value={member.name}
-                              onChange={(e) => handleMemberChange(index, "name", e.target.value)}
-                              className="w-full px-4 py-3 border border-border-primary rounded-square bg-bg-primary text-text-primary focus:outline-none focus:ring-2 focus:ring-[#084750] focus:border-transparent transition-colors"
-                              placeholder="Full name"
-                            />
-                          </div>
-
-                          <div className="space-y-2">
-                            <label htmlFor={`member${index}_email`} className="block text-sm font-medium text-text-primary">
-                              Email *
-                            </label>
-                            <input
-                              type="email"
-                              id={`member${index}_email`}
-                              required
-                              value={member.email}
-                              onChange={(e) => handleMemberChange(index, "email", e.target.value)}
-                              className="w-full px-4 py-3 border border-border-primary rounded-square bg-bg-primary text-text-primary focus:outline-none focus:ring-2 focus:ring-[#084750] focus:border-transparent transition-colors"
-                              placeholder="email@example.com"
-                            />
-                          </div>
-
-                          <div className="space-y-2">
-                            <label htmlFor={`member${index}_phone`} className="block text-sm font-medium text-text-primary">
-                              Phone Number *
-                            </label>
-                            <input
-                              type="tel"
-                              id={`member${index}_phone`}
-                              required
-                              value={member.phone}
-                              onChange={(e) => handleMemberChange(index, "phone", e.target.value)}
-                              className="w-full px-4 py-3 border border-border-primary rounded-square bg-bg-primary text-text-primary focus:outline-none focus:ring-2 focus:ring-[#084750] focus:border-transparent transition-colors"
-                              placeholder="+977 98XXXXXXXX"
-                            />
-                          </div>
-
-                          <div className="space-y-2">
-                            <label className="block text-sm font-medium text-text-primary">
-                              Document Type *
-                            </label>
-                            <select
-                              required
-                              value={member.documentType}
-                              onChange={(e) => {
-                                const type = e.target.value as "id" | "citizenship" | "birthcertificate" | "";
-                                handleMemberChange(index, "documentType", type);
-                              }}
-                              className="w-full px-4 py-3 border border-border-primary rounded-square bg-bg-primary text-text-primary focus:outline-none focus:ring-2 focus:ring-[#084750] focus:border-transparent transition-colors"
-                            >
-                              <option value="">Select document type</option>
-                              <option value="id">ID Card</option>
-                              <option value="citizenship">Citizenship</option>
-                              <option value="birthcertificate">Birth Certificate</option>
-                            </select>
-                          </div>
-                        </div>
-
-                        <div className="space-y-2">
-                          <label htmlFor={`member${index}_document`} className="block text-sm font-medium text-text-primary">
-                            Upload Document * (PDF, JPG, PNG - Max 5MB)
-                          </label>
-                          <div className="flex items-center gap-4">
-                            <input
-                              type="file"
-                              id={`member${index}_document`}
-                              required
-                              accept=".pdf,.jpg,.jpeg,.png"
-                              onChange={(e) => {
-                                const file = e.target.files?.[0] || null;
-                                if (file) {
-                                  if (file.size > 5 * 1024 * 1024) {
-                                    alert("File size must be less than 5MB");
-                                    return;
-                                  }
-                                  handleDocumentChange(index, file, member.documentType as "id" | "citizenship" | "birthcertificate");
-                                }
-                              }}
-                              className="w-full px-4 py-3 border border-border-primary rounded-square bg-bg-primary text-text-primary focus:outline-none focus:ring-2 focus:ring-[#084750] focus:border-transparent transition-colors file:mr-4 file:py-2 file:px-4 file:rounded-square file:border-0 file:text-sm file:font-semibold file:bg-[#084750] file:text-white hover:file:bg-[#084750]/80"
-                            />
-                          </div>
-                          {member.document && (
-                            <p className="text-sm text-text-secondary mt-2">
-                              Selected: {member.document.name} ({(member.document.size / 1024).toFixed(2)} KB)
-                            </p>
-                          )}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Payment Section */}
-                  <div className="space-y-6 border border-[#084750]/30 rounded-square p-6 bg-gradient-to-br from-[#084750]/5 to-transparent">
-                    <div className="flex flex-col md:flex-row gap-6 items-start md:items-center">
-                      {/* QR Code */}
-                      <div className="flex-shrink-0 flex flex-col items-center">
-                        <h3 className="text-lg font-semibold text-text-primary mb-3">Scan to Pay</h3>
-                        <div className="bg-white p-4 rounded-lg border-2 border-[#084750]/20 shadow-md">
-                          <Image
-                            src="/ganesh-qr.jpg"
-                            alt="Payment QR Code"
-                            width={200}
-                            height={200}
-                            className="rounded-md"
-                          />
-                        </div>
-                        <p className="text-xs text-text-secondary mt-3 text-center">
-                          NPR 2500 per team
-                        </p>
-                      </div>
-
-                      {/* Payment Instructions */}
-                      <div className="flex-1 space-y-4">
-                        <div>
-                          <h3 className="text-lg font-semibold text-text-primary mb-2">Payment Instructions</h3>
-                          <p className="text-sm text-text-secondary mb-3">
-                            Scan the QR code with your phone to make the payment of NPR 2500 per team.
-                          </p>
-                        </div>
-                        <div className="space-y-2">
-                          <div className="flex gap-3">
-                            <span className="flex-shrink-0 w-6 h-6 rounded-full bg-[#084750] text-white flex items-center justify-center text-xs font-bold">1</span>
-                            <p className="text-sm text-text-secondary">Scan the QR code using Esewa, Fonepay or any Other Banking App.(Make sure to send Fee to Ganesh Sahau)</p>
-                          </div>
-                          <div className="flex gap-3">
-                            <span className="flex-shrink-0 w-6 h-6 rounded-full bg-[#084750] text-white flex items-center justify-center text-xs font-bold">2</span>
-                            <p className="text-sm text-text-secondary">Enter the amount NPR 2500 for your team</p>
-                          </div>
-                          <div className="flex gap-3">
-                            <span className="flex-shrink-0 w-6 h-6 rounded-full bg-[#084750] text-white flex items-center justify-center text-xs font-bold">3</span>
-                            <p className="text-sm text-text-secondary">Complete the payment and take a screenshot of the receipt</p>
-                          </div>
-                          <div className="flex gap-3">
-                            <span className="flex-shrink-0 w-6 h-6 rounded-full bg-[#084750] text-white flex items-center justify-center text-xs font-bold">4</span>
-                            <p className="text-sm text-text-secondary">Upload the payment receipt screenshot below</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Payment Screenshot Upload */}
-                  <div className="space-y-2 border border-border-primary/50 rounded-square p-6">
-                    <h3 className="text-lg font-semibold text-text-primary">Payment Proof</h3>
-                    <p className="text-sm text-text-secondary mb-4">
-                      Upload a screenshot or photo of your payment receipt (NPR 2500 per team)
-                    </p>
-                    <label htmlFor="paymentScreenshot" className="block text-sm font-medium text-text-primary">
-                      Payment Screenshot * (JPG, PNG - Max 5MB)
-                    </label>
-                    <div className="flex items-center gap-4">
-                      <input
-                        type="file"
-                        id="paymentScreenshot"
-                        required
-                        accept="image/jpeg,image/jpg,image/png"
-                        onChange={(e) => {
-                          const file = e.target.files?.[0] || null;
-                          if (file) {
-                            if (file.size > 5 * 1024 * 1024) {
-                              alert("File size must be less than 5MB");
-                              e.target.value = "";
-                              return;
-                            }
-                            setPaymentScreenshot(file);
-                          }
-                        }}
-                        className="w-full px-4 py-3 border border-border-primary rounded-square bg-bg-primary text-text-primary focus:outline-none focus:ring-2 focus:ring-[#084750] focus:border-transparent transition-colors file:mr-4 file:py-2 file:px-4 file:rounded-square file:border-0 file:text-sm file:font-semibold file:bg-[#084750] file:text-white hover:file:bg-[#084750]/80"
-                      />
-                    </div>
-                    {paymentScreenshot && (
-                      <p className="text-sm text-text-secondary mt-2">
-                        Selected: {paymentScreenshot.name} ({(paymentScreenshot.size / 1024).toFixed(2)} KB)
-                      </p>
-                    )}
-                    <p className="text-xs text-text-secondary mt-2">
-                      Please ensure the payment screenshot shows the transaction details clearly, including amount and reference number.
-                    </p>
-                  </div>
-
-                  <div className="space-y-4 p-4 bg-blue-50/50 rounded-square border border-blue-200">
-                    <div className="flex items-start gap-3">
-                      <input
-                        type="checkbox"
-                        id="terms"
-                        required
-                        className="mt-1 w-4 h-4 text-[#084750] border-border-primary rounded focus:ring-[#084750]"
-                      />
-                      <label htmlFor="terms" className="text-sm text-text-secondary">
-                        I agree to the terms and conditions of Godawari Hacks. I confirm that all information provided is accurate and I have the right to participate in this hackathon.
-                      </label>
-                    </div>
-                    <div className="flex justify-center pt-2">
-                      <div ref={turnstileRef} id="cf-turnstile"></div>
-                    </div>
-                  </div>
-
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full md:w-auto px-8 py-4 bg-[#084750] text-white font-semibold rounded-square hover:bg-[#084750]/80 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  <Field
+                    label="Phone Number *"
+                    htmlFor={`member${index}_phone`}
                   >
-                    {isSubmitting ? "Submitting..." : "Register Team"}
-                  </button>
-                </form>
+                    <input
+                      type="tel"
+                      id={`member${index}_phone`}
+                      required
+                      value={member.phone}
+                      onChange={(e) =>
+                        handleMemberChange(index, "phone", e.target.value)
+                      }
+                      className={inputClassName}
+                      placeholder="+977 98XXXXXXXX"
+                    />
+                  </Field>
+
+                  <Field
+                    label="Document Type *"
+                    htmlFor={`member${index}_documentType`}
+                  >
+                    <select
+                      id={`member${index}_documentType`}
+                      required
+                      value={member.documentType}
+                      onChange={(e) => {
+                        const type = e.target.value as
+                          "id" | "citizenship" | "birthcertificate" | "";
+                        handleMemberChange(index, "documentType", type);
+                      }}
+                      className={inputClassName}
+                    >
+                      <option value="">Select document type</option>
+                      <option value="id">ID Card</option>
+                      <option value="citizenship">Citizenship</option>
+                      <option value="birthcertificate">
+                        Birth Certificate
+                      </option>
+                    </select>
+                  </Field>
+                </div>
+
+                <Field
+                  label="Upload Document * (PDF, JPG, PNG - Max 5MB)"
+                  htmlFor={`member${index}_document`}
+                  hint={
+                    member.document &&
+                    `Selected: ${member.document.name} (${(member.document.size / 1024).toFixed(2)} KB)`
+                  }
+                >
+                  <input
+                    type="file"
+                    id={`member${index}_document`}
+                    required
+                    accept=".pdf,.jpg,.jpeg,.png"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0] || null;
+                      if (file) {
+                        if (file.size > 5 * 1024 * 1024) {
+                          alert("File size must be less than 5MB");
+                          return;
+                        }
+                        handleDocumentChange(
+                          index,
+                          file,
+                          member.documentType as
+                            "id" | "citizenship" | "birthcertificate",
+                        );
+                      }
+                    }}
+                    className={fileInputClassName}
+                  />
+                </Field>
               </div>
-            </div>
-          </GridWrapper>
-        </section>
-        {/* Information Section */}
-        <section className="relative space-y-10 md:space-y-16">
-          <GridWrapper className="before:hidden">
-            <div className="space-y-6 py-8 md:py-12">
-              <h2 className="text-[#084750] ml-4 text-balance text-left text-3xl font-medium leading-10 tracking-tight md:text-4xl">
-                Registration Guidelines
-              </h2>
-              <div className="space-y-4 px-4 max-w-4xl">
-                <div className="space-y-2">
-                  <h3 className="text-lg font-semibold text-text-primary">Team Requirements</h3>
-                  <ul className="space-y-1 text-text-secondary list-disc list-inside">
-                    <li>Teams can have 1 to 4 members (flexible team size)</li>
-                    <li>All team members must provide valid identification</li>
-                    <li>Each member must upload a valid document (ID Card, Citizenship, or Birth Certificate)</li>
-                    <li>Solo participants are welcome!</li>
-                  </ul>
-                </div>
-                <div className="space-y-2">
-                  <h3 className="text-lg font-semibold text-text-primary">Document Requirements</h3>
-                  <ul className="space-y-1 text-text-secondary list-disc list-inside">
-                    <li>Accepted formats: PDF, JPG, JPEG, PNG</li>
-                    <li>Maximum file size: 5MB per document</li>
-                    <li>Documents must be clear and readable</li>
-                    <li>Documents must be valid and not expired</li>
-                  </ul>
-                </div>
-                <div className="space-y-2">
-                  <h3 className="text-lg font-semibold text-text-primary">Important Notes</h3>
-                  <ul className="space-y-1 text-text-secondary list-disc list-inside">
-                    <li>Registration fee is NPR 2500 per team</li>
-                    <li>You will receive a confirmation email after successful registration</li>
-                    <li>Please ensure all information is accurate before submitting</li>
-                    <li>Contact us if you have any questions: <a href="mailto:hack@godawari.edu.np" className="text-[#084750] hover:text-[#084750]/80 underline">hack@godawari.edu.np</a></li>
-                  </ul>
-                </div>
+            ))}
+          </div>
+
+          {/* Payment */}
+          <div className="flex flex-col items-start gap-6 rounded-xl border border-neutral-200 bg-neutral-50 p-5 md:flex-row md:items-center">
+            <div className="flex shrink-0 flex-col items-center">
+              <h3 className="mb-3 text-sm font-medium text-neutral-900">
+                Scan to Pay
+              </h3>
+              <div className="rounded-xl border border-neutral-200 bg-white p-3 shadow-sm">
+                <Image
+                  src="/ganesh-qr.jpg"
+                  alt="Payment QR Code"
+                  width={200}
+                  height={200}
+                  className="rounded-md"
+                />
               </div>
+              <p className="mt-3 text-center font-mono text-xs text-neutral-500">
+                NPR 2500 per team
+              </p>
             </div>
-          </GridWrapper>
-        </section>
-      </section>
-    </MainSiteLayout>
+
+            <div className="flex-1 space-y-4">
+              <div>
+                <h3 className="font-medium text-neutral-900">
+                  Payment Instructions
+                </h3>
+                <p className="mt-1 text-sm text-neutral-500">
+                  Scan the QR code with your phone to make the payment of NPR
+                  2500 per team.
+                </p>
+              </div>
+              <ol className="space-y-3">
+                {PAYMENT_STEPS.map((step, index) => (
+                  <li key={step} className="flex gap-3">
+                    <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-brand font-mono text-xs text-white">
+                      {index + 1}
+                    </span>
+                    <p className="text-sm text-neutral-600">{step}</p>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </div>
+
+          {/* Payment proof */}
+          <div className="space-y-4 rounded-xl border border-neutral-200 p-5">
+            <div>
+              <h3 className="font-medium text-neutral-900">Payment Proof</h3>
+              <p className="mt-1 text-sm text-neutral-500">
+                Upload a screenshot or photo of your payment receipt (NPR 2500
+                per team)
+              </p>
+            </div>
+            <Field
+              label="Payment Screenshot * (JPG, PNG - Max 5MB)"
+              htmlFor="paymentScreenshot"
+              hint={
+                <>
+                  {paymentScreenshot && (
+                    <span className="block">
+                      Selected: {paymentScreenshot.name} (
+                      {(paymentScreenshot.size / 1024).toFixed(2)} KB)
+                    </span>
+                  )}
+                  Please ensure the payment screenshot shows the transaction
+                  details clearly, including amount and reference number.
+                </>
+              }
+            >
+              <input
+                type="file"
+                id="paymentScreenshot"
+                required
+                accept="image/jpeg,image/jpg,image/png"
+                onChange={(e) => {
+                  const file = e.target.files?.[0] || null;
+                  if (file) {
+                    if (file.size > 5 * 1024 * 1024) {
+                      alert("File size must be less than 5MB");
+                      e.target.value = "";
+                      return;
+                    }
+                    setPaymentScreenshot(file);
+                  }
+                }}
+                className={fileInputClassName}
+              />
+            </Field>
+          </div>
+
+          <div className="space-y-5">
+            <div className="flex items-start gap-3">
+              <input
+                type="checkbox"
+                id="terms"
+                required
+                className="mt-0.5 size-4 rounded border-neutral-300 accent-brand"
+              />
+              <label htmlFor="terms" className="text-sm text-neutral-600">
+                I agree to the terms and conditions of Godawari Hacks. I confirm
+                that all information provided is accurate and I have the right
+                to participate in this hackathon.
+              </label>
+            </div>
+            <div ref={turnstileRef} id="cf-turnstile" />
+          </div>
+
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className={`${buttonClassName()} disabled:cursor-not-allowed disabled:border-neutral-200 disabled:bg-neutral-100 disabled:text-neutral-500 disabled:hover:ring-0`}
+          >
+            {isSubmitting ? "Submitting..." : "Register Team"}
+          </button>
+        </form>
+      </FormPanel>
+
+      <GridSection innerClassName="px-5 py-16">
+        <h2 className="font-display text-3xl font-medium text-neutral-900">
+          Registration Guidelines
+        </h2>
+        <FeatureGrid className="mt-10">
+          {GUIDELINES.map(({ title, items }) => (
+            <FeatureItem key={title} title={title}>
+              <CheckList items={items} />
+            </FeatureItem>
+          ))}
+        </FeatureGrid>
+      </GridSection>
+    </GridPageLayout>
   );
 }
 
+const PAYMENT_STEPS = [
+  "Scan the QR code using Esewa, Fonepay or any Other Banking App.(Make sure to send Fee to Ganesh Sahau)",
+  "Enter the amount NPR 2500 for your team",
+  "Complete the payment and take a screenshot of the receipt",
+  "Upload the payment receipt screenshot below",
+];
+
+const GUIDELINES = [
+  {
+    title: "Team Requirements",
+    items: [
+      {
+        _key: "t1",
+        text: "Teams can have 1 to 4 members (flexible team size)",
+      },
+      {
+        _key: "t2",
+        text: "All team members must provide valid identification",
+      },
+      {
+        _key: "t3",
+        text: "Each member must upload a valid document (ID Card, Citizenship, or Birth Certificate)",
+      },
+      { _key: "t4", text: "Solo participants are welcome!" },
+    ],
+  },
+  {
+    title: "Document Requirements",
+    items: [
+      { _key: "d1", text: "Accepted formats: PDF, JPG, JPEG, PNG" },
+      { _key: "d2", text: "Maximum file size: 5MB per document" },
+      { _key: "d3", text: "Documents must be clear and readable" },
+      { _key: "d4", text: "Documents must be valid and not expired" },
+    ],
+  },
+  {
+    title: "Important Notes",
+    items: [
+      { _key: "n1", text: "Registration fee is NPR 2500 per team" },
+      {
+        _key: "n2",
+        text: "You will receive a confirmation email after successful registration",
+      },
+      {
+        _key: "n3",
+        text: "Please ensure all information is accurate before submitting",
+      },
+      {
+        _key: "n4",
+        text: (
+          <>
+            Contact us if you have any questions:{" "}
+            <a
+              href="mailto:hack@godawari.edu.np"
+              className="font-medium text-brand underline decoration-brand/30 underline-offset-4 hover:decoration-brand"
+            >
+              hack@godawari.edu.np
+            </a>
+          </>
+        ),
+      },
+    ],
+  },
+];
+
+function UsersIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      className={className}
+    >
+      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+      <circle cx="9" cy="7" r="4" />
+      <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+    </svg>
+  );
+}

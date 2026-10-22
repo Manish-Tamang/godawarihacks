@@ -2,7 +2,8 @@
 
 import { useEffect, useRef } from "react";
 import Script from "next/script";
-import { GridWrapper } from "./GridWrapper";
+import { GridSection } from "./ui/grid-section";
+import { SectionHeading } from "./ui/section-heading";
 
 const STYLE_ID = "gh-instagram-feed-style";
 
@@ -14,7 +15,7 @@ const FEED_STYLE = `
   .es-card-media,
   .es-media-container,
   .es-media-image {
-    border-radius: 4px !important;
+    border-radius: 12px !important;
   }
   .es-card-container {
     overflow: hidden !important;
@@ -68,24 +69,30 @@ export function InstagramFeed() {
   }, []);
 
   return (
-    <div className="space-y-4 -mt-8">
-      <div className="space-y-3 px-4 md:px-6">
-        <h2 className="text-balance text-left text-3xl font-medium leading-10 tracking-tight text-[#084750] md:text-4xl">
-          Follow us on Instagram
-        </h2>
-        <p className="max-w-2xl text-left leading-relaxed text-text-secondary">
-          Photos, announcements, and updates from the hackathon as they happen.
-        </p>
+    <GridSection id="instagram" innerClassName="pt-10 sm:pt-20">
+      <SectionHeading
+        className="px-4 sm:px-10"
+        title="Follow us on Instagram"
+        description={
+          <p>
+            Photos, announcements, and updates from the hackathon as they
+            happen.
+          </p>
+        }
+      />
+      <div
+        ref={rootRef}
+        className="mt-10 border-t border-grid-border bg-neutral-50 px-4 py-8 sm:mt-16 sm:px-10"
+      >
+        <Script
+          src="https://elfsightcdn.com/platform.js"
+          strategy="afterInteractive"
+        />
+        <div
+          className="elfsight-app-1308c973-0548-4c23-b06b-0f8f4021b808 min-h-[280px]"
+          data-elfsight-app-lazy=""
+        />
       </div>
-      <GridWrapper>
-        <div ref={rootRef} className="px-4 py-6 md:px-6 md:py-8">
-          <Script src="https://elfsightcdn.com/platform.js" strategy="afterInteractive" />
-          <div
-            className="elfsight-app-1308c973-0548-4c23-b06b-0f8f4021b808 min-h-[280px]"
-            data-elfsight-app-lazy=""
-          />
-        </div>
-      </GridWrapper>
-    </div>
+    </GridSection>
   );
 }

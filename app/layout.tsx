@@ -1,10 +1,19 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { GeistMono } from "geist/font/mono";
-import { GeistSans } from "geist/font/sans";
+import { Inter } from "next/font/google";
+import localFont from "next/font/local";
 import { Analytics } from "@vercel/analytics/next";
 import type { Organization, WithContext } from "schema-dts";
 import { siteMetadata } from "@/app/data/siteMetadata";
+
+// Inter for body copy, Satoshi for headings (`font-display`).
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const satoshi = localFont({
+  src: "./fonts/Satoshi-Variable.woff2",
+  variable: "--font-satoshi",
+  weight: "300 900",
+});
 
 // Site-wide entity. Lets search engines tie the site, its logo and its social
 // profiles to one organisation rather than treating each page as unrelated.
@@ -99,12 +108,14 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`bg-bg-primary dark:bg-neutral-900 ${GeistMono.variable} ${GeistSans.variable}`}
+      className={`bg-white ${GeistMono.variable} ${inter.variable} ${satoshi.variable}`}
     >
-      <body className="flex min-h-screen flex-col font-sans bg-bg-primary dark:bg-neutral-900 transition-colors overflow-x-hidden">
+      <body className="flex min-h-screen flex-col overflow-x-hidden bg-white font-sans text-neutral-900 antialiased">
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationJsonLd),
+          }}
         />
         {children}
         <Analytics />

@@ -8,10 +8,11 @@ import {
   UsersIcon,
   ImageIcon,
   ClipboardIcon,
+  InfoOutlineIcon,
 } from '@sanity/icons'
 import {SEASONS} from './lib/seasons'
 
-const SINGLETONS = ['siteSettings', 'homePage', 'rulesPage']
+const SINGLETONS = ['siteSettings', 'homePage', 'rulesPage', 'aboutPage']
 const HIDDEN_TYPES = ['blogPost', 'teamRegistration', 'archivePhoto']
 
 const REGISTRATION_STATUS_VIEWS = [
@@ -142,6 +143,7 @@ export const structure: StructureResolver = (S) =>
             .items([singleton(S, 'homePage', 'Homepage', ComposeIcon)]),
         ),
 
+      singleton(S, 'aboutPage', 'About', InfoOutlineIcon),
       singleton(S, 'rulesPage', 'Rules', ClipboardIcon),
 
       S.divider(),

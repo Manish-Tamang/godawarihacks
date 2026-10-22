@@ -5,6 +5,7 @@ import {seoType} from './objects/seo'
 import {simpleRichTextType, richTextType} from './objects/richText'
 import {blogContentType} from './objects/blogContent'
 import {registrationMemberType} from './objects/registrationMember'
+import {foundingMemberType} from './objects/foundingMember'
 
 // Objects — blocks embeddable inside blogContent.
 import {ctaButtonType} from './objects/blocks/ctaButton'
@@ -30,6 +31,7 @@ import {aboutSectionType} from './objects/home/aboutSection'
 import {siteSettingsType} from './singletons/siteSettings'
 import {homePageType} from './singletons/homePage'
 import {rulesPageType} from './singletons/rulesPage'
+import {aboutPageType} from './singletons/aboutPage'
 
 // Documents — many instances, editable in the Studio.
 import {teamMemberType} from './documents/teamMember'
@@ -49,6 +51,7 @@ export const schema: {types: SchemaTypeDefinition[]} = {
     richTextType,
     blogContentType,
     registrationMemberType,
+    foundingMemberType,
 
     // Blog content blocks
     ctaButtonType,
@@ -75,6 +78,7 @@ export const schema: {types: SchemaTypeDefinition[]} = {
     siteSettingsType,
     homePageType,
     rulesPageType,
+    aboutPageType,
 
     // Documents
     teamMemberType,

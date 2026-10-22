@@ -1,194 +1,119 @@
-"use client";
-
-import { motion } from "framer-motion";
 import Image from "next/image";
-import { useRef } from "react";
-import { GridWrapper } from "./GridWrapper";
-import { generateBlurDataURL } from "../lib/utils";
-import { Timeline } from "./Timeline";
 import { urlFor } from "@/sanity/lib/image";
+import { GridSection } from "./ui/grid-section";
+import { SectionHeading } from "./ui/section-heading";
+import { CalendarIcon, MapPinIcon } from "./icons/ui-icons";
+import { generateBlurDataURL } from "../lib/utils";
+import { cn } from "../lib/utils";
 import { PortableTextContent } from "./PortableTextContent";
 import type { RichTextValue } from "@/sanity/lib/portable-text";
 
 interface ScheduleEventData {
-    _id: string;
-    day: string;
-    time: string;
-    title: string;
-    description?: RichTextValue;
-    location?: string;
-    image?: { asset?: { _id: string; url: string; metadata?: { lqip?: string } }; alt?: string } | null;
+  _id: string;
+  day: string;
+  time: string;
+  title: string;
+  description?: RichTextValue;
+  location?: string;
+  image?: {
+    asset?: { _id: string; url: string; metadata?: { lqip?: string } };
+    alt?: string;
+  } | null;
 }
 
 const blurDataURL = generateBlurDataURL();
 
 export function Schedule({ events }: { events?: ScheduleEventData[] }) {
-    const containerRef = useRef<HTMLDivElement>(null);
-    const schedule = events ?? [];
+  const schedule = events ?? [];
 
-    return (
-        <div className="space-y-4 -mt-8 overflow-hidden">
-            <h2 className="max-w-lg ml-4 -mb-2 text-balance text-left text-3xl font-medium leading-10 tracking-tight text-[#084750] md:text-4xl">
-                Schedule
-            </h2>
-            <p className="text-left text-text-secondary max-w-2xl mb-8 ml-4">
-                Here&apos;s what to expect during the 24-hour hackathon. Mark your calendars!
+  return (
+    <GridSection
+      id="schedule"
+      innerClassName="grid grid-cols-1 md:grid-cols-[2fr_3fr]"
+    >
+      <div className="px-4 py-14 md:px-10">
+        <SectionHeading
+          className="md:sticky md:top-28"
+          title="Schedule"
+          description={
+            <p>
+              Here&apos;s what to expect during the 24-hour hackathon. Mark your
+              calendars!
             </p>
-            <GridWrapper>
-                <div className="relative max-w-6xl mx-auto px-2 md:px-4 py-4">
-                    <div ref={containerRef} className="relative">
-                        <div className="space-y-8 md:space-y-8">
-                            {schedule.map((event, index) => {
-                                const isEven = index % 2 === 0;
-                                const imageSrc = event.image?.asset ? urlFor(event.image).width(800).height(600).url() : blurDataURL;
-                                const imageBlur = event.image?.asset?.metadata?.lqip || blurDataURL;
-                                return (
-                                    <motion.div
-                                        key={event._id}
-                                        initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{
-                                            duration: 0.5,
-                                            ease: "easeOut",
-                                            delay: index * 0.1,
-                                        }}
-                                        className="relative"
-                                    >
-                                        <div className="md:hidden space-y-3 bg-bg-primary dark:bg-neutral-900 rounded-square border border-border-primary p-4">
-                                            <div className="flex items-center gap-2 text-sm mb-2">
-                                                <span className="font-medium text-[#084750]">{event.day}</span>
-                                                <span className="text-text-tertiary">•</span>
-                                                <span className="text-text-tertiary">{event.time}</span>
-                                            </div>
-                                            {event.image?.asset && (
-                                                <div className="relative w-full h-48 rounded-square overflow-hidden mb-3">
-                                                    <Image
-                                                        src={imageSrc}
-                                                        alt={event.image.alt || event.title}
-                                                        fill
-                                                        placeholder="blur"
-                                                        blurDataURL={imageBlur}
-                                                        loading="lazy"
-                                                        className="object-cover"
-                                                        sizes="100vw"
-                                                    />
-                                                </div>
-                                            )}
-                                            <h3 className="text-xl font-semibold text-text-primary">
-                                                {event.title}
-                                            </h3>
-                                            {event.description && (
-                                                <div className="text-text-secondary leading-relaxed text-sm">
-                                                    <PortableTextContent value={event.description} />
-                                                </div>
-                                            )}
-                                            {event.location && (
-                                                <p className="text-sm text-text-tertiary flex items-center gap-2">
-                                                    <span>📍</span>
-                                                    <span>{event.location}</span>
-                                                </p>
-                                            )}
-                                        </div>
+          }
+        />
+      </div>
+      <ol className="border-grid-border max-md:border-t md:border-l">
+        {schedule.map((event, index) => (
+          <ScheduleItem
+            key={event._id}
+            event={event}
+            isFirst={index === 0}
+            isLast={index === schedule.length - 1}
+          />
+        ))}
+      </ol>
+    </GridSection>
+  );
+}
 
-                                        <div className="hidden md:flex flex-row gap-4 items-center relative">
-                                            <div
-                                                className={`flex-1 ${isEven ? "pr-4 text-right" : "pl-4 text-left"} max-w-[calc(50%-1rem)]`}
-                                            >
-                                                {isEven ? (
-                                                    event.image?.asset ? (
-                                                        <div className="relative w-full h-96 rounded-square overflow-hidden">
-                                                            <Image
-                                                                src={imageSrc}
-                                                                alt={event.image.alt || event.title}
-                                                                fill
-                                                                placeholder="blur"
-                                                                blurDataURL={imageBlur}
-                                                                loading="lazy"
-                                                                className="object-cover transition-transform duration-300 hover:scale-105"
-                                                                sizes="calc(50% - 1rem)"
-                                                            />
-                                                        </div>
-                                                    ) : (
-                                                        <div className="w-full h-96 rounded-square bg-gray-100 dark:bg-neutral-800 flex items-center justify-center">
-                                                            <span className="text-text-tertiary">No image</span>
-                                                        </div>
-                                                    )
-                                                ) : (
-                                                    <div className="space-y-3">
-                                                        <div className="flex items-center gap-3 justify-start">
-                                                            <span className="text-sm font-medium text-[#084750]">{event.day}</span>
-                                                            <span className="text-sm text-text-tertiary">•</span>
-                                                            <span className="text-sm text-text-tertiary">{event.time}</span>
-                                                        </div>
-                                                        <h3 className="text-2xl font-semibold text-text-primary">{event.title}</h3>
-                                                        {event.description && (
-                                                            <div className="text-text-secondary leading-relaxed"><PortableTextContent value={event.description} /></div>
-                                                        )}
-                                                        {event.location && (
-                                                            <p className="text-sm text-text-tertiary flex items-center gap-2">
-                                                                <span>📍</span>
-                                                                <span>{event.location}</span>
-                                                            </p>
-                                                        )}
-                                                    </div>
-                                                )}
-                                            </div>
-
-                                            <div className="flex items-center justify-center w-8 h-8 flex-shrink-0 z-10"></div>
-
-                                            <div
-                                                className={`flex-1 ${isEven ? "pl-4 text-left" : "pr-4 text-right"} max-w-[calc(50%-1rem)]`}
-                                            >
-                                                {isEven ? (
-                                                    <div className="space-y-3">
-                                                        <div className="flex items-center gap-3 justify-start">
-                                                            <span className="text-sm font-medium text-[#084750]">{event.day}</span>
-                                                            <span className="text-sm text-text-tertiary">•</span>
-                                                            <span className="text-sm text-text-tertiary">{event.time}</span>
-                                                        </div>
-                                                        <h3 className="text-2xl font-semibold text-text-primary">{event.title}</h3>
-                                                        {event.description && (
-                                                            <div className="text-text-secondary leading-relaxed"><PortableTextContent value={event.description} /></div>
-                                                        )}
-                                                        {event.location && (
-                                                            <p className="text-sm text-text-tertiary flex items-center gap-2">
-                                                                <span>📍</span>
-                                                                <span>{event.location}</span>
-                                                            </p>
-                                                        )}
-                                                    </div>
-                                                ) : (
-                                                    event.image?.asset ? (
-                                                        <div className="relative w-full h-96 rounded-square overflow-hidden">
-                                                            <Image
-                                                                src={imageSrc}
-                                                                alt={event.image.alt || event.title}
-                                                                fill
-                                                                placeholder="blur"
-                                                                blurDataURL={imageBlur}
-                                                                loading="lazy"
-                                                                className="object-cover transition-transform duration-300 hover:scale-105"
-                                                                sizes="calc(50% - 1rem)"
-                                                            />
-                                                        </div>
-                                                    ) : (
-                                                        <div className="w-full h-96 rounded-square bg-gray-100 dark:bg-neutral-800 flex items-center justify-center">
-                                                            <span className="text-text-tertiary">No image</span>
-                                                        </div>
-                                                    )
-                                                )}
-                                            </div>
-                                        </div>
-                                    </motion.div>
-                                );
-                            })}
-                        </div>
-                        <div className="hidden md:block absolute top-0 h-[5200px] left-1/2 -translate-x-1/2 w-8 pointer-events-none">
-                            <Timeline logoUrl="/sushma-logo.jpg" />
-                        </div>
-                    </div>
-                </div>
-            </GridWrapper>
+function ScheduleItem({
+  event,
+  isFirst,
+  isLast,
+}: {
+  event: ScheduleEventData;
+  isFirst: boolean;
+  isLast: boolean;
+}) {
+  return (
+    <li className="relative grid grid-cols-[min-content_minmax(0,1fr)] px-2">
+      <div className="relative px-4 py-8 md:px-8 md:py-10">
+        {/* Rail joining the date markers; it starts and stops at the outer ones. */}
+        <div
+          className={cn(
+            "absolute left-1/2 -translate-x-px border-l border-neutral-200",
+            isFirst ? "top-14 md:top-16" : "top-0",
+            isLast ? "h-14 md:h-16" : "bottom-0",
+            isFirst && isLast && "hidden",
+          )}
+        />
+        <div className="relative flex size-12 items-center justify-center rounded-full border border-neutral-300 bg-white">
+          <CalendarIcon className="size-4 text-neutral-600" strokeWidth={1.5} />
         </div>
-    );
+      </div>
+      <div className="py-8 pr-4 md:py-10 md:pr-8">
+        <h3 className="pt-1 text-base font-medium text-neutral-900 md:text-lg">
+          {event.title}
+        </h3>
+        <p className="mt-1 text-sm text-neutral-500">
+          {event.day} <span className="text-neutral-300">•</span> {event.time}
+        </p>
+        {event.description && (
+          <div className="mt-3 text-sm leading-relaxed text-neutral-500">
+            <PortableTextContent value={event.description} />
+          </div>
+        )}
+        {event.location && (
+          <p className="mt-3 flex items-center gap-1.5 text-sm text-neutral-500">
+            <MapPinIcon className="size-3.5 shrink-0" />
+            {event.location}
+          </p>
+        )}
+        {event.image?.asset && (
+          <div className="relative mt-4 aspect-video overflow-hidden rounded-xl border border-neutral-200">
+            <Image
+              src={urlFor(event.image).width(800).height(450).url()}
+              alt={event.image.alt || event.title}
+              fill
+              placeholder="blur"
+              blurDataURL={event.image.asset.metadata?.lqip || blurDataURL}
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, 560px"
+            />
+          </div>
+        )}
+      </div>
+    </li>
+  );
 }
