@@ -73,7 +73,7 @@ export function Venue({ venue }: { venue?: VenueData | null }) {
                 href={venue.mapUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group !mt-3.5 block text-sm font-medium text-blue-600"
+                className="group !mt-3.5 block text-sm font-medium text-brand"
               >
                 Click here to open in Google Maps
                 <ChevronRightIcon className="ml-0.5 inline size-4 align-[-3px] transition-transform group-hover:translate-x-1" />

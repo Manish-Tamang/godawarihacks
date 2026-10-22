@@ -9,7 +9,7 @@ export function FeedbackButton() {
       projectId={process.env.NEXT_PUBLIC_PROJECTID || "1eaa7bd2353b27"}
     >
       <button
-        className="group fixed bottom-6 right-6 z-50 flex items-center gap-2 rounded-full border border-black bg-black px-5 py-2.5 text-sm font-medium text-white shadow-lg transition-all hover:bg-neutral-800 hover:ring-4 hover:ring-neutral-200"
+        className="group fixed bottom-6 right-6 z-50 flex items-center gap-2 rounded-full border border-brand bg-brand px-5 py-2.5 text-sm font-medium text-white shadow-lg transition-all hover:bg-brand-light hover:ring-4 hover:ring-brand/15"
         aria-label="Report an issue or send feedback"
       >
         <svg

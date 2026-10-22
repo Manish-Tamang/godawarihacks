@@ -49,7 +49,7 @@ export function ArchiveGallery({ photos }: { photos: ArchivePhoto[] }) {
               type="button"
               onClick={() => setOpenIndex(index)}
               aria-label={`View photo: ${photo.alt}`}
-              className="group relative block w-full cursor-zoom-in break-inside-avoid overflow-hidden rounded-xl border border-neutral-200 bg-neutral-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 focus-visible:ring-offset-2"
+              className="group relative block w-full cursor-zoom-in break-inside-avoid overflow-hidden rounded-xl border border-neutral-200 bg-neutral-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
             >
               <Image
                 src={asset.url}

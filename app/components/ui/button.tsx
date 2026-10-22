@@ -4,11 +4,11 @@ import { cn } from "../../lib/utils";
 
 const VARIANTS = {
   primary:
-    "border-black bg-black text-white shadow-sm hover:bg-neutral-800 hover:ring-4 hover:ring-neutral-200",
+    "border-brand bg-brand text-white shadow-sm hover:bg-brand-light hover:ring-4 hover:ring-brand/15",
   secondary:
     "border-neutral-200 bg-white text-neutral-900 shadow-sm hover:border-neutral-400 hover:ring-4 hover:ring-neutral-200",
   // For dark backgrounds.
-  inverted: "border-neutral-200 bg-white text-neutral-900 ring-white/20 hover:ring",
+  inverted: "border-white bg-white text-brand ring-white/20 hover:ring",
   glass:
     "border-transparent bg-white/20 text-white ring-white/10 backdrop-blur-sm hover:ring",
 } as const;

@@ -21,12 +21,12 @@ import { cx } from "../lib/utils";
  */
 
 const BUTTON_VARIANTS: Record<string, string> = {
-  primary: "border border-black bg-black text-white hover:bg-neutral-800",
+  primary: "border border-brand bg-brand text-white hover:bg-brand-light",
   secondary:
     "border border-transparent bg-neutral-100 text-neutral-900 hover:bg-neutral-200",
   outline:
     "border border-neutral-200 bg-white text-neutral-900 hover:border-neutral-400",
-  link: "text-neutral-900 underline decoration-neutral-300 underline-offset-4 hover:decoration-neutral-900",
+  link: "text-brand underline decoration-brand/30 underline-offset-4 hover:decoration-brand",
 };
 
 const CALLOUT_TONES: Record<string, { wrapper: string; title: string }> = {
@@ -148,7 +148,7 @@ const components: PortableTextComponents = {
       return (
         <a
           href={href}
-          className="font-medium text-neutral-900 underline decoration-neutral-300 underline-offset-4 transition-colors hover:decoration-neutral-900"
+          className="font-medium text-brand underline decoration-brand/30 underline-offset-4 transition-colors hover:decoration-brand"
           {...(newTab ? { target: "_blank", rel: "noopener noreferrer" } : {})}
         >
           {children}

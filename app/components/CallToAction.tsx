@@ -11,7 +11,7 @@ export function CallToAction() {
       <GridSection className="border-b-0" innerClassName="h-12" />
       <section
         id="contact"
-        className="relative scroll-mt-14 bg-neutral-900 px-4"
+        className="relative scroll-mt-14 bg-brand-dark px-4"
       >
         <div className="pointer-events-none absolute inset-0 overflow-hidden opacity-30 mix-blend-overlay">
           <div className="absolute -inset-[40px] bg-[conic-gradient(from_-81deg,#3A8BFD_-72deg,#855AFC_33deg,#F00_70deg,#EAB308_136deg,#5CFF80_214deg,#00FFF9_259deg,#3A8BFD_288deg,#855AFC_393deg)] blur-[30px]" />

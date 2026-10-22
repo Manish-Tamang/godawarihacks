@@ -68,7 +68,7 @@ export function Hero({
             <EncryptedText
               text={title || "Godawari <Hacks/>"}
               encryptedClassName="text-neutral-400"
-              revealedClassName="text-neutral-900"
+              revealedClassName="text-brand"
               revealDelayMs={50}
             />
           </h1>

@@ -11,6 +11,12 @@ export default {
         mono: ["var(--font-geist-mono)"],
       },
       colors: {
+        // Godawari Hacks teal: buttons, links, focus rings, the dark band.
+        brand: {
+          DEFAULT: "#084750",
+          light: "#0a5a63",
+          dark: "#063a40",
+        },
         // Hairline used for the page grid: section rules and cell dividers.
         "grid-border": colors.neutral[200],
       },

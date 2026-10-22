@@ -395,7 +395,7 @@ export default function RegisterPage() {
               <ol className="space-y-3">
                 {PAYMENT_STEPS.map((step, index) => (
                   <li key={step} className="flex gap-3">
-                    <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-black font-mono text-xs text-white">
+                    <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-brand font-mono text-xs text-white">
                       {index + 1}
                     </span>
                     <p className="text-sm text-neutral-600">{step}</p>
@@ -457,7 +457,7 @@ export default function RegisterPage() {
                 type="checkbox"
                 id="terms"
                 required
-                className="mt-0.5 size-4 rounded border-neutral-300 accent-black"
+                className="mt-0.5 size-4 rounded border-neutral-300 accent-brand"
               />
               <label htmlFor="terms" className="text-sm text-neutral-600">
                 I agree to the terms and conditions of Godawari Hacks. I confirm
@@ -548,7 +548,7 @@ const GUIDELINES = [
             Contact us if you have any questions:{" "}
             <a
               href="mailto:hack@godawari.edu.np"
-              className="font-medium text-neutral-900 underline decoration-neutral-300 underline-offset-4 hover:decoration-neutral-900"
+              className="font-medium text-brand underline decoration-brand/30 underline-offset-4 hover:decoration-brand"
             >
               hack@godawari.edu.np
             </a>

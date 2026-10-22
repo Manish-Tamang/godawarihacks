@@ -4,11 +4,11 @@ import { GridPattern } from "./patterns";
 
 /** Shared look for text inputs, selects and textareas. */
 export const inputClassName =
-  "block w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm text-neutral-900 placeholder-neutral-400 transition-colors focus:border-neutral-500 focus:outline-none focus:ring-1 focus:ring-neutral-500";
+  "block w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm text-neutral-900 placeholder-neutral-400 transition-colors focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand";
 
 export const fileInputClassName = cn(
   inputClassName,
-  "py-1.5 file:mr-3 file:rounded-md file:border-0 file:bg-neutral-900 file:px-3 file:py-1.5 file:text-xs file:font-medium file:text-white hover:file:bg-neutral-900-light",
+  "py-1.5 file:mr-3 file:rounded-md file:border-0 file:bg-brand file:px-3 file:py-1.5 file:text-xs file:font-medium file:text-white hover:file:bg-brand-light",
 );
 
 /** Label above a control, with an optional hint underneath. */

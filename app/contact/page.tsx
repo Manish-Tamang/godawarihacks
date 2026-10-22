@@ -70,7 +70,7 @@ const FAQS = [
         Feel free to ask any inquiry! Contact us at{" "}
         <a
           href={`mailto:${CONTACT_EMAIL}`}
-          className="font-medium text-neutral-900 underline decoration-neutral-300 underline-offset-4 hover:decoration-neutral-900"
+          className="font-medium text-brand underline decoration-brand/30 underline-offset-4 hover:decoration-brand"
         >
           {CONTACT_EMAIL}
         </a>
@@ -81,7 +81,7 @@ const FAQS = [
 ];
 
 const LINK =
-  "font-medium text-neutral-900 underline decoration-neutral-300 underline-offset-4 transition-colors hover:decoration-neutral-900";
+  "font-medium text-brand underline decoration-brand/30 underline-offset-4 transition-colors hover:decoration-brand";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState(EMPTY_FORM);

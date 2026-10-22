@@ -65,7 +65,7 @@ export default function Footer() {
           <div className="flex flex-col gap-6">
             <Link
               href="/"
-              className="flex w-fit items-center gap-2 font-display text-xl font-semibold text-neutral-800"
+              className="flex w-fit items-center gap-2 font-display text-xl font-semibold text-brand"
             >
               <Image
                 src="/logo-godawari-hacks-nobg.png"

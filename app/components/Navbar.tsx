@@ -114,7 +114,7 @@ function DesktopNav() {
           <li key={link.name}>
             <NavLink
               {...link}
-              className="flex h-8 items-center rounded-lg px-3 text-sm font-medium text-neutral-700 transition-colors hover:bg-neutral-900/5 hover:text-neutral-900 data-[active=true]:bg-neutral-900/5"
+              className="flex h-8 items-center rounded-lg px-3 text-sm font-medium text-neutral-700 transition-colors hover:bg-brand/5 hover:text-brand data-[active=true]:bg-brand/5 data-[active=true]:text-brand"
             />
           </li>
         ))}
@@ -188,7 +188,7 @@ function NavLogo({ onClick }: { onClick?: () => void }) {
       href="/"
       onClick={onClick}
       aria-label="Home"
-      className="flex w-fit items-center gap-2 py-2 pr-2 font-display text-lg font-semibold text-neutral-900"
+      className="flex w-fit items-center gap-2 py-2 pr-2 font-display text-lg font-semibold text-brand"
     >
       <Image
         src="/logo-godawari-hacks-nobg.png"

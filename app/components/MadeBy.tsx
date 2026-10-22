@@ -17,7 +17,7 @@ export function MadeBy() {
               href="https://manishtamang.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="font-medium text-neutral-900 underline decoration-neutral-300 underline-offset-4 transition-colors hover:decoration-neutral-900"
+              className="font-medium text-brand underline decoration-brand/30 underline-offset-4 transition-colors hover:decoration-brand"
             >
               golecodes
             </a>
