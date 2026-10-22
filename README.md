@@ -1,6 +1,8 @@
 # Godawari Hacks
 
-![Godawari Hacks Preview](./public/image.png)
+<p align="center">
+  <img src="./public/preview.webp" alt="Godawari Hacks website preview" width="860">
+</p>
 
 The website and registration portal for **Godawari Hacks**, a 24-hour highschool
 hackathon at Sushma Godawari College, Itahari, Nepal.
