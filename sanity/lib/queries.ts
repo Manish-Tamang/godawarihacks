@@ -205,14 +205,14 @@ export const HOME_PAGE_QUERY = defineQuery(
       count(sponsors) > 0 => sponsors[]{
         "_id": _key,
         name,
-        logo{asset->{_id, url, metadata{lqip}}, alt},
+        logo{asset->{_id, url, metadata{lqip, dimensions}}, alt},
         url,
         tier
       },
       *[_type == "sponsor"] | order(order asc){
         _id,
         name,
-        logo{asset->{_id, url, metadata{lqip}}, alt},
+        logo{asset->{_id, url, metadata{lqip, dimensions}}, alt},
         url,
         tier
       }

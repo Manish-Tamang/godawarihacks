@@ -9,7 +9,14 @@ import { ArrowUpRightIcon } from "./icons/ui-icons";
 interface SponsorData {
   _id: string;
   name: string;
-  logo?: { asset?: { _id: string; url: string }; alt?: string } | null;
+  logo?: {
+    asset?: {
+      _id: string;
+      url: string;
+      metadata?: { dimensions?: { width: number; height: number } };
+    };
+    alt?: string;
+  } | null;
   url?: string;
   tier?: string;
 }
@@ -88,10 +95,12 @@ function SponsorCell({
 }) {
   const logo = sponsor.logo?.asset ? (
     <Image
-      src={urlFor(sponsor.logo).width(800).height(400).url()}
+      // Width only, so the logo keeps its own proportions instead of being
+      // cropped to a fixed box.
+      src={urlFor(sponsor.logo).width(800).fit("max").auto("format").url()}
       alt={sponsor.logo.alt || sponsor.name}
-      width={800}
-      height={400}
+      width={sponsor.logo.asset.metadata?.dimensions?.width ?? 800}
+      height={sponsor.logo.asset.metadata?.dimensions?.height ?? 400}
       className={`w-auto object-contain ${image}`}
     />
   ) : (
