@@ -1,5 +1,6 @@
 import Image from "next/image";
-import { GridWrapper } from "./GridWrapper";
+import { GridSection } from "./ui/grid-section";
+import { SectionHeading } from "./ui/section-heading";
 import { generateBlurDataURL } from "../lib/utils";
 import { urlFor } from "@/sanity/lib/image";
 
@@ -18,11 +19,27 @@ const flexPattern = [
 
 const rowOne = [
   { src: "/hackathon/sushm-1.jpg", alt: "Hackathon hall", flex: "flex-[0.72]" },
-  { src: "/hackathon/sushma-2.jpg", alt: "Students presenting", flex: "flex-[1.15]" },
-  { src: "/hackathon/team-godawari.jpg", alt: "Team Godawari", flex: "flex-[1.55]" },
-  { src: "/hackathon/sushma-3.jpg", alt: "Teams collaborating", flex: "flex-[0.82]" },
+  {
+    src: "/hackathon/sushma-2.jpg",
+    alt: "Students presenting",
+    flex: "flex-[1.15]",
+  },
+  {
+    src: "/hackathon/team-godawari.jpg",
+    alt: "Team Godawari",
+    flex: "flex-[1.55]",
+  },
+  {
+    src: "/hackathon/sushma-3.jpg",
+    alt: "Teams collaborating",
+    flex: "flex-[0.82]",
+  },
   { src: "/hackathon/sushma-4.jpg", alt: "Group photo", flex: "flex-[1.35]" },
-  { src: "/hackathon/team-sushma.jpg", alt: "Team Sushma", flex: "flex-[0.95]" },
+  {
+    src: "/hackathon/team-sushma.jpg",
+    alt: "Team Sushma",
+    flex: "flex-[0.95]",
+  },
   { src: "/arrival.jpg", alt: "Arrival", flex: "flex-[1.25]" },
   { src: "/hall.jpg", alt: "Venue hall", flex: "flex-[0.68]" },
 ];
@@ -35,7 +52,11 @@ const rowTwo = [
   { src: "/snacks.jpg", alt: "Snacks", flex: "flex-[1.6]" },
   { src: "/swatika.jpg", alt: "Presentation", flex: "flex-[0.78]" },
   { src: "/sushma-leaders.jpg", alt: "Organizers", flex: "flex-[1.15]" },
-  { src: "/hackathon/sushma-6.jpg", alt: "Closing moments", flex: "flex-[0.9]" },
+  {
+    src: "/hackathon/sushma-6.jpg",
+    alt: "Closing moments",
+    flex: "flex-[0.9]",
+  },
 ];
 
 type GalleryPhoto = {
@@ -79,7 +100,7 @@ function PhotoRow({
       {photos.map((photo) => (
         <div
           key={photo.key}
-          className={`relative h-[92px] min-w-0 overflow-hidden rounded-[4px] sm:h-[120px] md:h-[148px] ${photo.flex}`}
+          className={`relative h-[92px] min-w-0 overflow-hidden rounded-lg border border-neutral-200 bg-neutral-100 sm:h-[120px] md:h-[148px] ${photo.flex}`}
         >
           <Image
             src={photo.src}
@@ -102,7 +123,12 @@ function galleryRows(photos: GalleryPhoto[]): [RowPhoto[], RowPhoto[]] | null {
     return [
       {
         key: photo._key,
-        src: urlFor(photo).width(900).height(560).fit("crop").auto("format").url(),
+        src: urlFor(photo)
+          .width(900)
+          .height(560)
+          .fit("crop")
+          .auto("format")
+          .url(),
         alt: photo.alt || photo.caption || "Hackathon photo",
         blur: photo.asset.metadata?.lqip,
       },
@@ -121,7 +147,11 @@ function galleryRows(photos: GalleryPhoto[]): [RowPhoto[], RowPhoto[]] | null {
   return [toRow(ready.slice(0, mid), 0), toRow(ready.slice(mid), 3)];
 }
 
-export function HackathonDiaries({ gallery }: { gallery?: PhotoGallery | null }) {
+export function HackathonDiaries({
+  gallery,
+}: {
+  gallery?: PhotoGallery | null;
+}) {
   const fromGallery = galleryRows(gallery?.photos ?? []);
   const first = fromGallery
     ? fromGallery[0]
@@ -131,19 +161,20 @@ export function HackathonDiaries({ gallery }: { gallery?: PhotoGallery | null })
     : rowTwo.map((photo) => ({ ...photo, key: photo.src }));
 
   return (
-    <div className="space-y-4 -mt-8">
-      <div className="space-y-3 px-4 md:px-6">
-        <h2 className="text-balance text-left text-3xl font-medium leading-10 tracking-tight text-[#084750] md:text-4xl">
-          {gallery?.title || "From the last hackathon"}
-        </h2>
-        <p className="max-w-2xl text-left leading-relaxed text-text-secondary">
-          {gallery?.description ||
-            "A look at the hall, the teams, and the 24 hours they spent building together."}
-        </p>
-      </div>
-      <GridWrapper>
+    <GridSection id="diaries" innerClassName="pt-10 sm:pt-20">
+      <SectionHeading
+        className="px-4 sm:px-10"
+        title={gallery?.title || "From the last hackathon"}
+        description={
+          <p>
+            {gallery?.description ||
+              "A look at the hall, the teams, and the 24 hours they spent building together."}
+          </p>
+        }
+      />
+      <div className="mt-10 overflow-hidden border-t border-grid-border bg-neutral-50 sm:mt-16">
         <div
-          className="flex flex-col gap-2 py-6 md:gap-2.5 md:py-8"
+          className="flex flex-col gap-2 py-8 md:gap-2.5 md:py-12"
           style={{
             maskImage:
               "linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%)",
@@ -154,7 +185,7 @@ export function HackathonDiaries({ gallery }: { gallery?: PhotoGallery | null })
           <PhotoRow photos={first} className="-mr-10" />
           <PhotoRow photos={second} className="-ml-8" />
         </div>
-      </GridWrapper>
-    </div>
+      </div>
+    </GridSection>
   );
 }

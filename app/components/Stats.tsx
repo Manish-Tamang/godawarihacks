@@ -1,7 +1,4 @@
-"use client";
-
-import { motion } from "framer-motion";
-import { GridWrapper } from "./GridWrapper";
+import { GridSection } from "./ui/grid-section";
 
 interface StatItem {
   _key: string;
@@ -9,7 +6,7 @@ interface StatItem {
   label: string;
 }
 
-export function Stats({ delay = 0, stats }: { delay?: number; stats?: StatItem[] }) {
+export function Stats({ stats }: { stats?: StatItem[] }) {
   const items = stats ?? [
     { _key: "1", number: "10", label: "Plus Teams" },
     { _key: "2", number: "24", label: "Hours of Grind" },
@@ -17,55 +14,21 @@ export function Stats({ delay = 0, stats }: { delay?: number; stats?: StatItem[]
   ];
 
   return (
-    <GridWrapper>
-      <div className="-mt-16 grid grid-cols-1 md:grid-cols-3">
+    <GridSection>
+      <dl className="grid grid-cols-1 gap-3 p-5 sm:grid-cols-3">
         {items.map((stat, index) => (
-          <motion.div
+          <div
             key={stat._key}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{
-              duration: 0.6,
-              ease: "easeOut",
-              delay: delay + 0.2 + index * 0.1,
-            }}
-            className={`
-              text-center -mt-8 py-4 relative flex flex-col items-center justify-center min-h-[180px] md:min-h-[200px]
-              ${index !== 0 ? "border-l border-border-primary" : ""}
-            `}
+            className="flex h-28 animate-slide-up-fade flex-col-reverse items-center justify-center gap-1 rounded-xl bg-neutral-100 [--offset:10px] [animation-duration:1s] [animation-fill-mode:both] motion-reduce:animate-fade-in"
+            style={{ animationDelay: `${600 + index * 100}ms` }}
           >
-            <div className="relative flex items-center justify-center min-h-[120px] md:min-h-[140px] w-full">
-              <div
-                className="text-7xl user-select-none md:text-8xl font-bold leading-none absolute inset-0 flex items-center justify-center"
-                style={{
-                  WebkitTextStroke: "2px #084750",
-                  WebkitTextFillColor: "transparent",
-                  color: "transparent",
-                  fontFamily: "var(--font-geist-sans), system-ui, sans-serif",
-                  letterSpacing: "-0.02em",
-                  maskImage: "linear-gradient(to bottom, black 0%, black 30%, rgba(0, 0, 0, 0.8) 40%, rgba(0, 0, 0, 0.5) 50%, rgba(0, 0, 0, 0.2) 60%, transparent 75%)",
-                  WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 30%, rgba(0, 0, 0, 0.8) 40%, rgba(0, 0, 0, 0.5) 50%, rgba(0, 0, 0, 0.2) 60%, transparent 75%)",
-                  userSelect: "none",
-                }}
-              >
-                {stat.number}
-              </div>
-              <div
-                className="relative text-2xl md:text-3xl font-bold leading-none text-[#084750] z-10"
-                style={{
-                  fontFamily: "var(--font-geist-sans), system-ui, sans-serif",
-                  letterSpacing: "-0.02em"
-                }}
-              >
-                {stat.number}
-              </div>
-            </div>
-            <div className="text-base -mt-[50px] md:-mt-[52px] md:text-lg font-medium text-[#084750]">
-              {stat.label}
-            </div>
-          </motion.div>
+            <dt className="text-sm text-neutral-500">{stat.label}</dt>
+            <dd className="font-display text-4xl font-medium tabular-nums text-neutral-900">
+              {stat.number}
+            </dd>
+          </div>
         ))}
-      </div>
-    </GridWrapper>
+      </dl>
+    </GridSection>
   );
 }

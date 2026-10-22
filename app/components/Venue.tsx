@@ -1,87 +1,87 @@
-"use client";
-
-import { GridWrapper } from "./GridWrapper";
 import Image from "next/image";
 import { urlFor } from "@/sanity/lib/image";
+import { GridSection } from "./ui/grid-section";
+import { SectionHeading } from "./ui/section-heading";
+import { FeatureGrid, FeatureItem } from "./ui/feature-grid";
+import {
+  BuildingIcon,
+  CalendarIcon,
+  ChevronRightIcon,
+  MapPinIcon,
+} from "./icons/ui-icons";
 
 interface VenueData {
-    name: string;
-    address?: string;
-    city?: string;
-    dates?: string;
-    plusCode?: string;
-    landmark?: string;
-    mapUrl?: string;
-    image?: { asset?: { _id: string; url: string; metadata?: { lqip?: string } }; alt?: string } | null;
+  name: string;
+  address?: string;
+  city?: string;
+  dates?: string;
+  plusCode?: string;
+  landmark?: string;
+  mapUrl?: string;
+  image?: {
+    asset?: { _id: string; url: string; metadata?: { lqip?: string } };
+    alt?: string;
+  } | null;
 }
 
 export function Venue({ venue }: { venue?: VenueData | null }) {
-    const imageSrc = venue?.image?.asset ? urlFor(venue.image).width(1400).height(800).url() : "/hall.jpg";
+  const imageSrc = venue?.image?.asset
+    ? urlFor(venue.image).width(1400).height(800).url()
+    : "/hall.jpg";
 
-    return (
-        <GridWrapper className="before:hidden">
-            <div className="relative py-8 -mt-16">
-                <div className="relative w-full h-[600px] md:h-[700px] rounded-square overflow-hidden">
-                    <Image
-                        src={imageSrc}
-                        alt={venue?.image?.alt || "Conference Venue"}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-800/70 via-40% to-transparent"></div>
-                    <div className="relative z-10 h-full flex flex-col justify-end p-8 md:p-12">
-                        <div className="space-y-8">
-                            <div>
-                                <h2 className="text-4xl md:text-5xl font-bold text-gray-200">
-                                    Hackathon Venue
-                                </h2>
-                                <p className="text-sm md:text-base text-gray-400 max-w-2xl">
-                                    Everything you need to know to make it to the Hackathon.
-                                </p>
-                            </div>
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
-                                <div className="space-y-3">
-                                    <h3 className="text-base font-semibold text-gray-300 uppercase tracking-wide">
-                                        Venue
-                                    </h3>
-                                    <div className="space-y-1 text-gray-200">
-                                        <p className="font-bold text-md">{venue?.name || "Sushma Godawari College, Hall"}</p>
-                                        <p className="font-bold text-md">{venue?.address || "Itahari-6, Sunsari"}</p>
-                                    </div>
-                                </div>
-                                <div className="space-y-3">
-                                    <h3 className="text-base font-semibold text-gray-300 uppercase tracking-wide">
-                                        Dates
-                                    </h3>
-                                    <p className="text-gray-200 text-lg">
-                                        {venue?.dates || "18th - 19th January 2026"}
-                                    </p>
-                                </div>
-                                <div className="space-y-3">
-                                    <h3 className="text-base font-semibold text-gray-300 uppercase tracking-wide">
-                                        Location
-                                    </h3>
-                                    <div className="space-y-1 text-gray-200">
-                                        <p className="text-lg">{venue?.plusCode || "M73G+JXP, Mahendra Hwy, Itahari 56705"}</p>
-                                        <p className="text-lg">{venue?.landmark || "Near Itahari Stadium"}</p>
-                                        {venue?.mapUrl && (
-                                            <a
-                                                href={venue.mapUrl}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="text-blue-400 underline hover:text-blue-300 transition-colors inline-block mt-2"
-                                            >
-                                                Click here to open in Google Maps
-                                            </a>
-                                        )}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+  return (
+    <GridSection id="venue" innerClassName="pt-10 sm:pt-20">
+      <SectionHeading
+        className="px-4 sm:px-10"
+        title="Hackathon Venue"
+        description={
+          <p>Everything you need to know to make it to the Hackathon.</p>
+        }
+      />
+
+      <div className="mt-10 border-t border-grid-border bg-neutral-50 px-4 sm:mt-20 sm:px-8">
+        <div className="mx-auto max-w-[940px] pt-8 sm:pt-12">
+          <div className="rounded-2xl border border-neutral-200 bg-white/50 p-2 shadow-sm">
+            <div className="relative aspect-[4/3] overflow-hidden rounded-xl border border-neutral-200 sm:aspect-[16/8]">
+              <Image
+                src={imageSrc}
+                alt={venue?.image?.alt || "Conference Venue"}
+                fill
+                className="object-cover"
+                sizes="(max-width: 940px) 100vw, 940px"
+              />
             </div>
-        </GridWrapper>
-    );
+          </div>
+        </div>
+
+        <FeatureGrid className="mx-auto max-w-[800px] py-10">
+          <FeatureItem icon={<BuildingIcon className="size-4" />} title="Venue">
+            <p>{venue?.name || "Sushma Godawari College, Hall"}</p>
+            <p>{venue?.address || "Itahari-6, Sunsari"}</p>
+          </FeatureItem>
+          <FeatureItem icon={<CalendarIcon className="size-4" />} title="Dates">
+            <p>{venue?.dates || "18th - 19th January 2026"}</p>
+          </FeatureItem>
+          <FeatureItem
+            icon={<MapPinIcon className="size-4" />}
+            title="Location"
+          >
+            <p>{venue?.plusCode || "M73G+JXP, Mahendra Hwy, Itahari 56705"}</p>
+            <p>{venue?.landmark || "Near Itahari Stadium"}</p>
+            {venue?.mapUrl && (
+              <a
+                href={venue.mapUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group !mt-3.5 block text-sm font-medium text-blue-600"
+              >
+                Click here to open in Google Maps
+                <ChevronRightIcon className="ml-0.5 inline size-4 align-[-3px] transition-transform group-hover:translate-x-1" />
+              </a>
+            )}
+          </FeatureItem>
+        </FeatureGrid>
+      </div>
+    </GridSection>
+  );
 }
