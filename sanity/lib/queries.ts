@@ -16,6 +16,40 @@ export const SITE_SETTINGS_QUERY = defineQuery(
   }`,
 )
 
+// The about page's own document, plus the homepage About values and
+// expectations it falls back to while its own lists are empty.
+export const ABOUT_PAGE_QUERY = defineQuery(
+  `{
+    "about": *[_id == "aboutPage"][0]{
+      title,
+      subtitle,
+      heroImage{asset->{_id, url, metadata{lqip, dimensions}}, alt},
+      missionTitle,
+      mission,
+      valuesTitle,
+      values[]{_key, title, description},
+      expectationsTitle,
+      expectations[]{_key, text},
+      bannerTitle,
+      bannerDescription,
+      bannerImage{asset->{_id, url, metadata{lqip, dimensions}}, alt},
+      foundingTeamTitle,
+      foundingTeamDescription,
+      foundingTeam[defined(name)]{
+        "_id": _key,
+        name,
+        role,
+        image{asset->{_id, url, metadata{lqip, dimensions}}, alt}
+      },
+      seo
+    },
+    "homeAbout": *[_id == "homePage"][0].about{
+      values[]{_key, title, description},
+      expectations[]{_key, text}
+    }
+  }`,
+)
+
 export const RULES_PAGE_QUERY = defineQuery(
   `*[_id == "rulesPage"][0]{
     title,
