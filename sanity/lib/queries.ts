@@ -24,6 +24,8 @@ export const ABOUT_PAGE_QUERY = defineQuery(
       title,
       subtitle,
       heroImage{asset->{_id, url, metadata{lqip, dimensions}}, alt},
+      heroImageSecondary{asset->{_id, url, metadata{lqip, dimensions}}, alt},
+      heroImageTertiary{asset->{_id, url, metadata{lqip, dimensions}}, alt},
       missionTitle,
       mission,
       valuesTitle,

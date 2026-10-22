@@ -35,7 +35,11 @@ export const aboutPageType = defineType({
       initialValue:
         'A student organized hackathon that brings together passionate students to build, learn, and innovate together.',
     }),
-    imageWithAlt('heroImage', 'Hero Background', {group: hero}),
+    // Three-photo collage under the heading: one large on the left, two
+    // stacked on the right. Empty slots fall back to photos in /public.
+    imageWithAlt('heroImage', 'Hero Image (large, left)', {group: hero}),
+    imageWithAlt('heroImageSecondary', 'Hero Image (top right)', {group: hero}),
+    imageWithAlt('heroImageTertiary', 'Hero Image (bottom right)', {group: hero}),
 
     // ── Content ────────────────────────────────────────────
     defineField({
