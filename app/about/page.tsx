@@ -254,6 +254,23 @@ export default async function AboutPage() {
         </SplitHeading>
       </GridSection>
 
+      {foundingTeam.length > 0 && (
+        <GridSection id="team">
+          <Team
+            layout="split"
+            title={
+              about?.foundingTeamTitle ||
+              "Meet our founding team of Godawari Hacks"
+            }
+            description={
+              about?.foundingTeamDescription ||
+              "The students who brought Godawari Hacks to life through community, creativity, and collaboration."
+            }
+            members={foundingTeam}
+          />
+        </GridSection>
+      )}
+
       {/* Grey band with dashed rails, like dub's "Life at Dub". */}
       <section className="relative w-full overflow-hidden bg-neutral-50 px-4">
         <div
@@ -278,23 +295,6 @@ export default async function AboutPage() {
           />
         </div>
       </section>
-
-      {foundingTeam.length > 0 && (
-        <GridSection id="team">
-          <Team
-            layout="split"
-            title={
-              about?.foundingTeamTitle ||
-              "Meet our founding team of Godawari Hacks"
-            }
-            description={
-              about?.foundingTeamDescription ||
-              "The students who brought Godawari Hacks to life through community, creativity, and collaboration."
-            }
-            members={foundingTeam}
-          />
-        </GridSection>
-      )}
     </GridPageLayout>
   );
 }
