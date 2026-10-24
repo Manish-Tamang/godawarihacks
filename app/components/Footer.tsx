@@ -1,11 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
-import { MailIcon } from "./icons/ui-icons";
+import { ArrowUpRightIcon, MailIcon } from "./icons/ui-icons";
 import { FacebookIcon, GithubIcon, InstagramIcon } from "./icons/social-icons";
 
 const CONTACT_EMAIL = "hack@godawari.edu.np";
 
-type FooterLink = { name: string; href: string };
+type FooterLink = { name: string; href: string; external?: boolean };
 
 const LINK_COLUMNS: { heading: string; links: readonly FooterLink[] }[] = [
   {
@@ -31,6 +31,12 @@ const LINK_COLUMNS: { heading: string; links: readonly FooterLink[] }[] = [
       { name: "Blog", href: "/blog" },
       { name: "Diaries", href: "/archive" },
       { name: "Team", href: "/#team" },
+      {
+        name: "Godawari Hacks 25/26",
+        // Snapshot of the 2025/26 edition's site on the Wayback Machine.
+        href: "https://web.archive.org/web/20260309055556/https://hack.godawari.edu.np/#team",
+        external: true,
+      },
     ],
   },
 ];
@@ -113,14 +119,26 @@ export default function Footer() {
                   {heading}
                 </h2>
                 <ul className="mt-2.5 flex flex-col gap-3.5">
-                  {links.map(({ name, href }) => (
+                  {links.map(({ name, href, external }) => (
                     <li key={name}>
-                      <Link
-                        href={href}
-                        className="text-sm text-neutral-500 transition-colors duration-75 hover:text-neutral-700"
-                      >
-                        {name}
-                      </Link>
+                      {external ? (
+                        <a
+                          href={href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="group flex items-center gap-1 text-sm text-neutral-500 transition-colors duration-75 hover:text-neutral-700"
+                        >
+                          {name}
+                          <ArrowUpRightIcon className="size-3 shrink-0 transition-transform group-hover:-translate-y-px group-hover:translate-x-px" />
+                        </a>
+                      ) : (
+                        <Link
+                          href={href}
+                          className="text-sm text-neutral-500 transition-colors duration-75 hover:text-neutral-700"
+                        >
+                          {name}
+                        </Link>
+                      )}
                     </li>
                   ))}
                 </ul>
