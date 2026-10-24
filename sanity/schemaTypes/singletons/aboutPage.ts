@@ -6,6 +6,7 @@ const hero = 'hero'
 const content = 'content'
 const banner = 'banner'
 const team = 'team'
+const press = 'press'
 
 export const aboutPageType = defineType({
   name: 'aboutPage',
@@ -17,6 +18,7 @@ export const aboutPageType = defineType({
     {name: content, title: 'Content'},
     {name: banner, title: 'Banner'},
     {name: team, title: 'Founding Team'},
+    {name: press, title: 'Featured In'},
     {name: 'seo', title: 'SEO'},
   ],
   fields: [
@@ -126,6 +128,23 @@ export const aboutPageType = defineType({
       type: 'array',
       group: team,
       of: [defineArrayMember({type: 'foundingMember'})],
+    }),
+
+    // ── Featured in ────────────────────────────────────────
+    defineField({
+      name: 'featuredTitle',
+      title: 'Featured In Title',
+      type: 'string',
+      group: press,
+      initialValue: 'We are featured in',
+    }),
+    defineField({
+      name: 'featuredIn',
+      title: 'Press Mentions',
+      type: 'array',
+      group: press,
+      description: 'News coverage of the hackathon. The section is hidden while this is empty',
+      of: [defineArrayMember({type: 'pressMention'})],
     }),
 
     defineField({

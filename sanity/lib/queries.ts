@@ -43,6 +43,15 @@ export const ABOUT_PAGE_QUERY = defineQuery(
         role,
         image{asset->{_id, url, metadata{lqip, dimensions}}, alt}
       },
+      featuredTitle,
+      featuredIn[defined(url)]{
+        _key,
+        outlet,
+        title,
+        url,
+        publishedAt,
+        image{asset->{_id, url, metadata{lqip, dimensions}}, alt}
+      },
       seo
     },
     "homeAbout": *[_id == "homePage"][0].about{
