@@ -3,6 +3,7 @@ import { GridSection } from "../components/ui/grid-section";
 import { SplitHeading } from "../components/ui/split-heading";
 import { CheckList } from "../components/ui/check-list";
 import { Team } from "../components/Team";
+import { FeaturedIn, type PressMention } from "../components/FeaturedIn";
 import { cn } from "../lib/utils";
 import Image from "next/image";
 import type { Metadata } from "next";
@@ -53,6 +54,8 @@ type AboutPageData = {
     foundingTeamTitle?: string;
     foundingTeamDescription?: string;
     foundingTeam?: FoundingMember[];
+    featuredTitle?: string;
+    featuredIn?: PressMention[];
     seo?: { title?: string; description?: string; noIndex?: boolean };
   } | null;
   homeAbout?: {
@@ -106,6 +109,7 @@ export default async function AboutPage() {
       ? data.homeAbout.expectations
       : DEFAULT_EXPECTATIONS;
   const foundingTeam = about?.foundingTeam ?? [];
+  const press = about?.featuredIn ?? [];
 
   const [heroMain, heroTop, heroBottom] = [
     photoFrom(about?.heroImage, "/hackathon/bg.jpg", 1400),
@@ -241,6 +245,8 @@ export default async function AboutPage() {
           </div>
         </SplitHeading>
       </GridSection>
+
+      <FeaturedIn title={about?.featuredTitle} items={press} />
 
       <GridSection id="expect" innerClassName="px-5 pb-16 pt-16">
         <SplitHeading title={about?.expectationsTitle || "What to Expect"}>
