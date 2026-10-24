@@ -7,6 +7,7 @@ const content = 'content'
 const banner = 'banner'
 const team = 'team'
 const press = 'press'
+const thanks = 'thanks'
 
 export const aboutPageType = defineType({
   name: 'aboutPage',
@@ -18,6 +19,7 @@ export const aboutPageType = defineType({
     {name: content, title: 'Content'},
     {name: banner, title: 'Banner'},
     {name: team, title: 'Founding Team'},
+    {name: thanks, title: 'Special Thanks'},
     {name: press, title: 'Featured In'},
     {name: 'seo', title: 'SEO'},
   ],
@@ -128,6 +130,31 @@ export const aboutPageType = defineType({
       type: 'array',
       group: team,
       of: [defineArrayMember({type: 'foundingMember'})],
+    }),
+
+    // ── Special thanks ─────────────────────────────────────
+    defineField({
+      name: 'specialThanksTitle',
+      title: 'Special Thanks Title',
+      type: 'string',
+      group: thanks,
+      initialValue: 'Special Thanks to',
+    }),
+    defineField({
+      name: 'specialThanksDescription',
+      title: 'Special Thanks Description',
+      type: 'text',
+      rows: 2,
+      group: thanks,
+      description: 'Optional',
+    }),
+    defineField({
+      name: 'specialThanks',
+      title: 'Special Thanks',
+      type: 'array',
+      group: thanks,
+      description: 'People to thank, shown as cards after the founding team',
+      of: [defineArrayMember({type: 'foundingMember', title: 'Person'})],
     }),
 
     // ── Featured in ────────────────────────────────────────

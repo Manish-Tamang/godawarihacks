@@ -43,6 +43,14 @@ export const ABOUT_PAGE_QUERY = defineQuery(
         role,
         image{asset->{_id, url, metadata{lqip, dimensions}}, alt}
       },
+      specialThanksTitle,
+      specialThanksDescription,
+      specialThanks[defined(name)]{
+        "_id": _key,
+        name,
+        role,
+        image{asset->{_id, url, metadata{lqip, dimensions}}, alt}
+      },
       featuredTitle,
       featuredIn[defined(url)]{
         _key,

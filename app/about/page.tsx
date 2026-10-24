@@ -54,6 +54,9 @@ type AboutPageData = {
     foundingTeamTitle?: string;
     foundingTeamDescription?: string;
     foundingTeam?: FoundingMember[];
+    specialThanksTitle?: string;
+    specialThanksDescription?: string;
+    specialThanks?: FoundingMember[];
     featuredTitle?: string;
     featuredIn?: PressMention[];
     seo?: { title?: string; description?: string; noIndex?: boolean };
@@ -109,6 +112,7 @@ export default async function AboutPage() {
       ? data.homeAbout.expectations
       : DEFAULT_EXPECTATIONS;
   const foundingTeam = about?.foundingTeam ?? [];
+  const specialThanks = about?.specialThanks ?? [];
   const press = about?.featuredIn ?? [];
 
   const [heroMain, heroTop, heroBottom] = [
@@ -267,6 +271,17 @@ export default async function AboutPage() {
               "The students who brought Godawari Hacks to life through community, creativity, and collaboration."
             }
             members={foundingTeam}
+          />
+        </GridSection>
+      )}
+
+      {specialThanks.length > 0 && (
+        <GridSection id="thanks">
+          <Team
+            layout="split"
+            title={about?.specialThanksTitle || "Special Thanks to"}
+            description={about?.specialThanksDescription || ""}
+            members={specialThanks}
           />
         </GridSection>
       )}
