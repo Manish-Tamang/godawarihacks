@@ -42,7 +42,7 @@ export function Team({
     return (
       <div className="px-5 pb-14 pt-24">
         <SplitHeading title={title}>
-          <p>{description}</p>
+          {description ? <p>{description}</p> : null}
         </SplitHeading>
         {team.length > 0 && (
           <div className="mt-14 grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-6 lg:grid-cols-4 lg:gap-12">

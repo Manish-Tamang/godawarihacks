@@ -6,6 +6,7 @@ import {simpleRichTextType, richTextType} from './objects/richText'
 import {blogContentType} from './objects/blogContent'
 import {registrationMemberType} from './objects/registrationMember'
 import {foundingMemberType} from './objects/foundingMember'
+import {pressMentionType} from './objects/pressMention'
 
 // Objects — blocks embeddable inside blogContent.
 import {ctaButtonType} from './objects/blocks/ctaButton'
@@ -52,6 +53,7 @@ export const schema: {types: SchemaTypeDefinition[]} = {
     blogContentType,
     registrationMemberType,
     foundingMemberType,
+    pressMentionType,
 
     // Blog content blocks
     ctaButtonType,

@@ -247,7 +247,11 @@ export default async function Home() {
       <Sponsors sponsors={sponsors} />
       {/* Team is shared with /about, so the band lives here rather than inside it. */}
       <GridSection id="team" innerClassName="pt-20">
-        <Team members={teamMembers} />
+        <Team
+          title="Meet the team"
+          description="The students building Godawari Hacks 26/27, from planning and partnerships to logistics and tech, working to make this edition our biggest one yet."
+          members={teamMembers}
+        />
       </GridSection>
       <InstagramFeed />
       <CallToAction />

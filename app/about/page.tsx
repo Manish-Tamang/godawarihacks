@@ -3,6 +3,7 @@ import { GridSection } from "../components/ui/grid-section";
 import { SplitHeading } from "../components/ui/split-heading";
 import { CheckList } from "../components/ui/check-list";
 import { Team } from "../components/Team";
+import { FeaturedIn, type PressMention } from "../components/FeaturedIn";
 import { cn } from "../lib/utils";
 import Image from "next/image";
 import type { Metadata } from "next";
@@ -53,6 +54,11 @@ type AboutPageData = {
     foundingTeamTitle?: string;
     foundingTeamDescription?: string;
     foundingTeam?: FoundingMember[];
+    specialThanksTitle?: string;
+    specialThanksDescription?: string;
+    specialThanks?: FoundingMember[];
+    featuredTitle?: string;
+    featuredIn?: PressMention[];
     seo?: { title?: string; description?: string; noIndex?: boolean };
   } | null;
   homeAbout?: {
@@ -106,6 +112,8 @@ export default async function AboutPage() {
       ? data.homeAbout.expectations
       : DEFAULT_EXPECTATIONS;
   const foundingTeam = about?.foundingTeam ?? [];
+  const specialThanks = about?.specialThanks ?? [];
+  const press = about?.featuredIn ?? [];
 
   const [heroMain, heroTop, heroBottom] = [
     photoFrom(about?.heroImage, "/hackathon/bg.jpg", 1400),
@@ -242,11 +250,41 @@ export default async function AboutPage() {
         </SplitHeading>
       </GridSection>
 
+      <FeaturedIn title={about?.featuredTitle} items={press} />
+
       <GridSection id="expect" innerClassName="px-5 pb-16 pt-16">
         <SplitHeading title={about?.expectationsTitle || "What to Expect"}>
           <CheckList items={expectations} />
         </SplitHeading>
       </GridSection>
+
+      {foundingTeam.length > 0 && (
+        <GridSection id="team">
+          <Team
+            layout="split"
+            title={
+              about?.foundingTeamTitle ||
+              "Meet our founding team of Godawari Hacks"
+            }
+            description={
+              about?.foundingTeamDescription ||
+              "The students who brought Godawari Hacks to life through community, creativity, and collaboration."
+            }
+            members={foundingTeam}
+          />
+        </GridSection>
+      )}
+
+      {specialThanks.length > 0 && (
+        <GridSection id="thanks">
+          <Team
+            layout="split"
+            title={about?.specialThanksTitle || "Special Thanks to"}
+            description={about?.specialThanksDescription || ""}
+            members={specialThanks}
+          />
+        </GridSection>
+      )}
 
       {/* Grey band with dashed rails, like dub's "Life at Dub". */}
       <section className="relative w-full overflow-hidden bg-neutral-50 px-4">
@@ -272,23 +310,6 @@ export default async function AboutPage() {
           />
         </div>
       </section>
-
-      {foundingTeam.length > 0 && (
-        <GridSection id="team">
-          <Team
-            layout="split"
-            title={
-              about?.foundingTeamTitle ||
-              "Meet our founding team of Godawari Hacks"
-            }
-            description={
-              about?.foundingTeamDescription ||
-              "The students who brought Godawari Hacks to life through community, creativity, and collaboration."
-            }
-            members={foundingTeam}
-          />
-        </GridSection>
-      )}
     </GridPageLayout>
   );
 }
